@@ -21,6 +21,8 @@
 		F9966AFB15F4AA2C0038C9E0 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9966AE015F4AA2C0038C9E0 /* CoreData.framework */; };
 		F9966B0315F4AA2C0038C9E0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F9966B0115F4AA2C0038C9E0 /* InfoPlist.strings */; };
 		F9966B0615F4AA2C0038C9E0 /* iStoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F9966B0515F4AA2C0038C9E0 /* iStoryTests.m */; };
+		F9966B1515F4AFFA0038C9E0 /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9966B1315F4AFFA0038C9E0 /* StartViewController.m */; };
+		F9966B1615F4AFFA0038C9E0 /* StartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F9966B1415F4AFFA0038C9E0 /* StartViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +54,9 @@
 		F9966B0215F4AA2C0038C9E0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F9966B0415F4AA2C0038C9E0 /* iStoryTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iStoryTests.h; sourceTree = "<group>"; };
 		F9966B0515F4AA2C0038C9E0 /* iStoryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iStoryTests.m; sourceTree = "<group>"; };
+		F9966B1215F4AFFA0038C9E0 /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartViewController.h; sourceTree = "<group>"; };
+		F9966B1315F4AFFA0038C9E0 /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartViewController.m; sourceTree = "<group>"; };
+		F9966B1415F4AFFA0038C9E0 /* StartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StartViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +170,7 @@
 		F9966B1015F4AB300038C9E0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F9966B1415F4AFFA0038C9E0 /* StartViewController.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -172,6 +178,8 @@
 		F9966B1115F4AB370038C9E0 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				F9966B1215F4AFFA0038C9E0 /* StartViewController.h */,
+				F9966B1315F4AFFA0038C9E0 /* StartViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -248,6 +256,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F9966AE715F4AA2C0038C9E0 /* InfoPlist.strings in Resources */,
+				F9966B1615F4AFFA0038C9E0 /* StartViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,6 +294,7 @@
 				F9966AE915F4AA2C0038C9E0 /* main.m in Sources */,
 				F9966AED15F4AA2C0038C9E0 /* AppDelegate.m in Sources */,
 				F9966AF015F4AA2C0038C9E0 /* iStory.xcdatamodeld in Sources */,
+				F9966B1515F4AFFA0038C9E0 /* StartViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
