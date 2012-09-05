@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F991CCDC15F74CAA001EB6DB /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = F991CCDB15F74CAA001EB6DB /* Node.m */; };
+		F991CCE015F74CC3001EB6DB /* Link.m in Sources */ = {isa = PBXBuildFile; fileRef = F991CCDF15F74CC3001EB6DB /* Link.m */; };
+		F991CCE415F756D2001EB6DB /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = F991CCE315F756D2001EB6DB /* Route.m */; };
+		F991CCE715F756E4001EB6DB /* Story.m in Sources */ = {isa = PBXBuildFile; fileRef = F991CCE615F756E4001EB6DB /* Story.m */; };
 		F9966ADB15F4AA2C0038C9E0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9966ADA15F4AA2C0038C9E0 /* UIKit.framework */; };
 		F9966ADD15F4AA2C0038C9E0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9966ADC15F4AA2C0038C9E0 /* Foundation.framework */; };
 		F9966ADF15F4AA2C0038C9E0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9966ADE15F4AA2C0038C9E0 /* CoreGraphics.framework */; };
@@ -38,6 +42,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F991CCDA15F74CAA001EB6DB /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
+		F991CCDB15F74CAA001EB6DB /* Node.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Node.m; sourceTree = "<group>"; };
+		F991CCDE15F74CC3001EB6DB /* Link.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Link.h; sourceTree = "<group>"; };
+		F991CCDF15F74CC3001EB6DB /* Link.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Link.m; sourceTree = "<group>"; };
+		F991CCE215F756D2001EB6DB /* Route.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Route.h; sourceTree = "<group>"; };
+		F991CCE315F756D2001EB6DB /* Route.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Route.m; sourceTree = "<group>"; };
+		F991CCE515F756E4001EB6DB /* Story.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Story.h; sourceTree = "<group>"; };
+		F991CCE615F756E4001EB6DB /* Story.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Story.m; sourceTree = "<group>"; };
 		F9966AD615F4AA2C0038C9E0 /* iStory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iStory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9966ADA15F4AA2C0038C9E0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F9966ADC15F4AA2C0038C9E0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -90,6 +102,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F991CCE115F74CE6001EB6DB /* Library */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
 		F9966ACB15F4AA2C0038C9E0 = {
 			isa = PBXGroup;
 			children = (
@@ -124,6 +143,7 @@
 		F9966AE215F4AA2C0038C9E0 /* iStory */ = {
 			isa = PBXGroup;
 			children = (
+				F991CCE115F74CE6001EB6DB /* Library */,
 				F9966B1115F4AB370038C9E0 /* Controller */,
 				F9966B0F15F4AB160038C9E0 /* Model */,
 				F9966B1015F4AB300038C9E0 /* View */,
@@ -168,6 +188,14 @@
 		F9966B0F15F4AB160038C9E0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				F991CCDA15F74CAA001EB6DB /* Node.h */,
+				F991CCDB15F74CAA001EB6DB /* Node.m */,
+				F991CCDE15F74CC3001EB6DB /* Link.h */,
+				F991CCDF15F74CC3001EB6DB /* Link.m */,
+				F991CCE215F756D2001EB6DB /* Route.h */,
+				F991CCE315F756D2001EB6DB /* Route.m */,
+				F991CCE515F756E4001EB6DB /* Story.h */,
+				F991CCE615F756E4001EB6DB /* Story.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -305,6 +333,10 @@
 				F9966AF015F4AA2C0038C9E0 /* iStory.xcdatamodeld in Sources */,
 				F9966B1515F4AFFA0038C9E0 /* StartViewController.m in Sources */,
 				F9966B1C15F4E2EB0038C9E0 /* StoryViewController.m in Sources */,
+				F991CCDC15F74CAA001EB6DB /* Node.m in Sources */,
+				F991CCE015F74CC3001EB6DB /* Link.m in Sources */,
+				F991CCE415F756D2001EB6DB /* Route.m in Sources */,
+				F991CCE715F756E4001EB6DB /* Story.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -472,6 +504,7 @@
 				F9966B0B15F4AA2C0038C9E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F9966B0C15F4AA2C0038C9E0 /* Build configuration list for PBXNativeTarget "iStoryTests" */ = {
 			isa = XCConfigurationList;
@@ -480,6 +513,7 @@
 				F9966B0E15F4AA2C0038C9E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
