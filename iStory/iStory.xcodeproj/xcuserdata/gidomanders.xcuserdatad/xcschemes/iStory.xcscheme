@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F9966AD515F4AA2C0038C9E0"
+               BlueprintIdentifier = "F91BC42F15F8BEC000381DFF"
                BuildableName = "iStory.app"
                BlueprintName = "iStory"
                ReferencedContainer = "container:iStory.xcodeproj">
@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F9966AF515F4AA2C0038C9E0"
+               BlueprintIdentifier = "F91BC45015F8BEC000381DFF"
                BuildableName = "iStoryTests.octest"
                BlueprintName = "iStoryTests"
                ReferencedContainer = "container:iStory.xcodeproj">
@@ -42,7 +42,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "F9966AD515F4AA2C0038C9E0"
+            BlueprintIdentifier = "F91BC42F15F8BEC000381DFF"
             BuildableName = "iStory.app"
             BlueprintName = "iStory"
             ReferencedContainer = "container:iStory.xcodeproj">
@@ -61,7 +61,7 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "F9966AD515F4AA2C0038C9E0"
+            BlueprintIdentifier = "F91BC42F15F8BEC000381DFF"
             BuildableName = "iStory.app"
             BlueprintName = "iStory"
             ReferencedContainer = "container:iStory.xcodeproj">
@@ -79,7 +79,7 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "F9966AD515F4AA2C0038C9E0"
+            BlueprintIdentifier = "F91BC42F15F8BEC000381DFF"
             BuildableName = "iStory.app"
             BlueprintName = "iStory"
             ReferencedContainer = "container:iStory.xcodeproj">
