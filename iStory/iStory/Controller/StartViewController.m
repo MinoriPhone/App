@@ -8,6 +8,7 @@
 
 #import "StartViewController.h"
 #import "StoryViewController.h"
+#import "Story.h"
 #import "XMLParser.h"
 
 @implementation StartViewController
@@ -27,6 +28,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    stories = [[NSArray alloc] initWithObjects:[[Story alloc] initWithName:@"Leuk verhaal"], [[Story alloc] initWithName:@"Eng verhaal"], nil];
 }
 
 - (void)viewDidUnload
@@ -48,7 +51,7 @@
     
     BOOL success = [nsXmlParser parse];
     if (success) {
-        NSLog(@"No errors - story count : %i", [parser.stories count]);
+        NSLog(@"No errors - story count : %i", parser.stories.count);
     } else {
         NSLog(@"Error parsing document!");
     }
@@ -61,7 +64,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    return stories.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -73,7 +76,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     
-    cell.textLabel.text = @"Verhaal";
+    cell.textLabel.text = [[stories objectAtIndex:indexPath.row] name];
     
     return cell;
 }

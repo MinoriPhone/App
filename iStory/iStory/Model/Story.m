@@ -10,4 +10,13 @@
 
 @implementation Story
 
+@synthesize name, routes;
+
+- (id)initWithName:(NSString *)newName
+{
+    self = [super init];
+    self.name = newName;
+    return self;
+}
+
 @end

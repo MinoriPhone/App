@@ -10,4 +10,9 @@
 
 @interface Story : NSObject
 
+@property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSMutableArray *routes;
+
+- (id)initWithName:(NSString *)newName;
+
 @end

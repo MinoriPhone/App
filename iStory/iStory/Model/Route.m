@@ -10,4 +10,6 @@
 
 @implementation Route
 
+@synthesize name, start;
+
 @end

@@ -6,8 +6,11 @@
 //  Copyright (c) 2012 HSS. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@class Link;
 
 @interface Route : NSObject
+
+@property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) Link *start;
 
 @end

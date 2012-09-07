@@ -6,8 +6,12 @@
 //  Copyright (c) 2012 HSS. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@class Node;
 
 @interface Link : NSObject
+
+@property (nonatomic, retain) Node *from;
+@property (nonatomic, retain) Node *to;
+@property (nonatomic, retain) NSMutableArray *next;
 
 @end

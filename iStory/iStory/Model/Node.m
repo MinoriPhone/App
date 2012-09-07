@@ -10,4 +10,6 @@
 
 @implementation Node
 
+@synthesize longitude, latitude;
+
 @end

@@ -6,8 +6,9 @@
 //  Copyright (c) 2012 HSS. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 @interface Node : NSObject
+
+@property (nonatomic, retain) NSNumber *longitude;
+@property (nonatomic, retain) NSNumber *latitude;
 
 @end

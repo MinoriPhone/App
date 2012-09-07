@@ -10,4 +10,6 @@
 
 @implementation Link
 
+@synthesize from, to, next;
+
 @end
