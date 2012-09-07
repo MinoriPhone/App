@@ -24,6 +24,7 @@
 		F98FE00915F9EB880057B4F1 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = F98FE00315F9EB880057B4F1 /* Node.m */; };
 		F98FE00A15F9EB880057B4F1 /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = F98FE00515F9EB880057B4F1 /* Route.m */; };
 		F98FE00B15F9EB880057B4F1 /* Story.m in Sources */ = {isa = PBXBuildFile; fileRef = F98FE00715F9EB880057B4F1 /* Story.m */; };
+		F98FE01415F9F21C0057B4F1 /* XMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F98FE01315F9F21C0057B4F1 /* XMLParser.m */; };
 		F9DE431615F8BFFD007CEA71 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9DE431515F8BFFD007CEA71 /* MediaPlayer.framework */; };
 		F9DE431815F8C132007CEA71 /* Wildlife.wmv in Resources */ = {isa = PBXBuildFile; fileRef = F9DE431715F8C132007CEA71 /* Wildlife.wmv */; };
 		F9DE431A15F8D2E8007CEA71 /* movie.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = F9DE431915F8D2E8007CEA71 /* movie.mp4 */; };
@@ -68,6 +69,8 @@
 		F98FE00515F9EB880057B4F1 /* Route.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Route.m; sourceTree = "<group>"; };
 		F98FE00615F9EB880057B4F1 /* Story.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Story.h; sourceTree = "<group>"; };
 		F98FE00715F9EB880057B4F1 /* Story.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Story.m; sourceTree = "<group>"; };
+		F98FE01215F9F21C0057B4F1 /* XMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLParser.h; sourceTree = "<group>"; };
+		F98FE01315F9F21C0057B4F1 /* XMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLParser.m; sourceTree = "<group>"; };
 		F9DE431515F8BFFD007CEA71 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		F9DE431715F8C132007CEA71 /* Wildlife.wmv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Wildlife.wmv; sourceTree = "<group>"; };
 		F9DE431915F8D2E8007CEA71 /* movie.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = movie.mp4; sourceTree = "<group>"; };
@@ -134,6 +137,7 @@
 		F91BC43A15F8BEC000381DFF /* iStory */ = {
 			isa = PBXGroup;
 			children = (
+				F98FE01115F9F1F00057B4F1 /* Library */,
 				F91BC46B15F8BEEB00381DFF /* Controller */,
 				F91BC46A15F8BEE600381DFF /* View */,
 				F91BC46915F8BEDC00381DFF /* Model */,
@@ -208,6 +212,15 @@
 				F91BC44A15F8BEC000381DFF /* StoryViewController.m */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		F98FE01115F9F1F00057B4F1 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				F98FE01215F9F21C0057B4F1 /* XMLParser.h */,
+				F98FE01315F9F21C0057B4F1 /* XMLParser.m */,
+			);
+			path = Library;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -327,6 +340,7 @@
 				F98FE00915F9EB880057B4F1 /* Node.m in Sources */,
 				F98FE00A15F9EB880057B4F1 /* Route.m in Sources */,
 				F98FE00B15F9EB880057B4F1 /* Story.m in Sources */,
+				F98FE01415F9F21C0057B4F1 /* XMLParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

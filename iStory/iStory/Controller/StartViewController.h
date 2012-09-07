@@ -6,6 +6,12 @@
 //  Copyright (c) 2012 HSS. All rights reserved.
 //
 
-@interface StartViewController : UITableViewController
+@interface StartViewController : UITableViewController {
+    NSArray *stories;
+}
+
+@property (nonatomic, retain) NSArray *stories;
+
+- (void)parse:(NSData *)data;
 
 @end

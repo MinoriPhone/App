@@ -8,8 +8,11 @@
 
 #import "StartViewController.h"
 #import "StoryViewController.h"
+#import "XMLParser.h"
 
 @implementation StartViewController
+
+@synthesize stories;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,6 +40,20 @@
 	return YES;
 }
 
+- (void)parse:(NSData *)data
+{
+    NSXMLParser *nsXmlParser = [[NSXMLParser alloc] initWithData:data];
+    XMLParser *parser = [[XMLParser alloc] initXMLParser];
+    [nsXmlParser setDelegate:parser];
+    
+    BOOL success = [nsXmlParser parse];
+    if (success) {
+        NSLog(@"No errors - story count : %i", [parser.stories count]);
+    } else {
+        NSLog(@"Error parsing document!");
+    }
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -58,7 +75,7 @@
     
     cell.textLabel.text = @"Verhaal";
     
-    return cell;   
+    return cell;
 }
 
 @end
