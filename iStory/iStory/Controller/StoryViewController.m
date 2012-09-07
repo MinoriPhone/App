@@ -44,7 +44,7 @@
     
     moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL fileURLWithPath:path]];
     moviePlayer.view.frame = CGRectMake(0, 0, 1024, 704);
-    moviePlayer.shouldAutoplay = YES;
+    moviePlayer.shouldAutoplay = NO;
     moviePlayer.repeatMode = MPMovieRepeatModeOne;
     moviePlayer.fullscreen = YES;
     moviePlayer.movieSourceType = MPMovieSourceTypeFile;

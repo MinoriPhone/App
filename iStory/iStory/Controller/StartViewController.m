@@ -54,8 +54,9 @@
     
     if(cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        cell.textLabel.text = @"Verhaal";
     }
+    
+    cell.textLabel.text = @"Verhaal";
     
     return cell;   
 }
