@@ -27,7 +27,6 @@
 		F98FE00B15F9EB880057B4F1 /* Story.m in Sources */ = {isa = PBXBuildFile; fileRef = F98FE00715F9EB880057B4F1 /* Story.m */; };
 		F98FE01415F9F21C0057B4F1 /* XMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F98FE01315F9F21C0057B4F1 /* XMLParser.m */; };
 		F9DE431615F8BFFD007CEA71 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9DE431515F8BFFD007CEA71 /* MediaPlayer.framework */; };
-		F9DE431815F8C132007CEA71 /* Wildlife.wmv in Resources */ = {isa = PBXBuildFile; fileRef = F9DE431715F8C132007CEA71 /* Wildlife.wmv */; };
 		F9DE431A15F8D2E8007CEA71 /* movie.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = F9DE431915F8D2E8007CEA71 /* movie.mp4 */; };
 		F9DE431D15F8D66F007CEA71 /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9DE431C15F8D66F007CEA71 /* StartViewController.m */; };
 		FF16D97D15FDF19000C11DCB /* testroute.xml in Resources */ = {isa = PBXBuildFile; fileRef = FF16D97C15FDF19000C11DCB /* testroute.xml */; };
@@ -75,7 +74,6 @@
 		F98FE01215F9F21C0057B4F1 /* XMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLParser.h; sourceTree = "<group>"; };
 		F98FE01315F9F21C0057B4F1 /* XMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLParser.m; sourceTree = "<group>"; };
 		F9DE431515F8BFFD007CEA71 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		F9DE431715F8C132007CEA71 /* Wildlife.wmv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Wildlife.wmv; sourceTree = "<group>"; };
 		F9DE431915F8D2E8007CEA71 /* movie.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = movie.mp4; sourceTree = "<group>"; };
 		F9DE431B15F8D66F007CEA71 /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartViewController.h; sourceTree = "<group>"; };
 		F9DE431C15F8D66F007CEA71 /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartViewController.m; sourceTree = "<group>"; };
@@ -159,7 +157,6 @@
 			children = (
 				FF16D97C15FDF19000C11DCB /* testroute.xml */,
 				F9DE431915F8D2E8007CEA71 /* movie.mp4 */,
-				F9DE431715F8C132007CEA71 /* Wildlife.wmv */,
 				F91BC43C15F8BEC000381DFF /* iStory-Info.plist */,
 				F91BC43D15F8BEC000381DFF /* InfoPlist.strings */,
 				F91BC44015F8BEC000381DFF /* main.m */,
@@ -303,7 +300,6 @@
 			files = (
 				F91BC43F15F8BEC000381DFF /* InfoPlist.strings in Resources */,
 				F91BC44815F8BEC000381DFF /* MainStoryboard.storyboard in Resources */,
-				F9DE431815F8C132007CEA71 /* Wildlife.wmv in Resources */,
 				F9DE431A15F8D2E8007CEA71 /* movie.mp4 in Resources */,
 				FF16D97D15FDF19000C11DCB /* testroute.xml in Resources */,
 			);
