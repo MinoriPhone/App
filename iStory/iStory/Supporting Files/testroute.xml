@@ -27,5 +27,30 @@
 				</links>
 			</route.link>
 		</route>
+		<route>
+			<route.name>B</route.name>
+			<route.link>
+				<from>
+					<longitude>42.05224</longitude>
+					<latitude>4.47567</latitude>
+				</from>
+				<to>
+					<longitude>42.05206</longitude>
+					<latitude>4.48202</latitude>
+				</to>
+				<links>
+                    <link>
+                        <from>
+                            <longitude>52.05206</longitude>
+                            <latitude>4.48202</latitude>
+                        </from>
+                        <to>
+                            <longitude>52.05224</longitude>
+                            <latitude>4.47567</latitude>
+                        </to>
+                    </link>
+				</links>
+			</route.link>
+		</route>
 	</routes>
 </story>

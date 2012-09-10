@@ -8,20 +8,23 @@
 
 #import "StoryViewController.h"
 #import "Story.h"
+#import "Route.h"
+#import "Link.h"
+#import "Node.h"
 
 @implementation StoryViewController
 
-@synthesize moviePlayer, locationManager, story;
+@synthesize moviePlayer, locationManager, story, timer;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-//    [self playMovie:@"movie"];
     locationManager = [[CLLocationManager alloc] init];
     locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [locationManager startUpdatingLocation];
+    
     self.title = story.name;
 }
 
@@ -34,7 +37,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-//    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(checkLocation) userInfo:nil repeats:YES];
+    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(checkLocation) userInfo:nil repeats:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -68,21 +71,37 @@
     [moviePlayer play];
 }
 
-- (BOOL)inRange
+- (CLLocationDistance)calculateDistance:(Node *)node
 {
-//    CLLocation *location = [[CLLocation alloc] initWithLatitude:[node.latitude doubleValue] longitude:[node.longitude doubleValue]];
-//    
-//    CLLocationDistance distance = [location distanceFromLocation:locationManager.location];
-//    
-//    return distance <= [node.radius floatValue];
+    CLLocation *location = [[CLLocation alloc] initWithLatitude:[node.latitude doubleValue] longitude:[node.longitude doubleValue]];
+    
+    CLLocationDistance distance = [location distanceFromLocation:locationManager.location];
+    
+    return distance;
 }
 
 - (void)checkLocation
 {
-    if ([self inRange]) {
+    [timer invalidate];
+    CLLocationDistance nearbiest = 0;
+    Route *nearbiestRoute = nil;
+    for (Route *route in story.routes) {
+        CLLocationDistance distance = [self calculateDistance:route.start.to];
+        if (nearbiestRoute == nil || distance < nearbiest) {
+            nearbiestRoute = route;
+            nearbiest = distance;
+            NSLog(@"Locatie(%@, %@) dichterbij (afstand %f)", route.start.to.longitude, route.start.to.latitude, distance);
+        } else {
+            NSLog(@"Locatie(%@, %@) niet dichterbij (afstand %f)", route.start.to.longitude, route.start.to.latitude, distance);
+        }
+    }
+    if ([self calculateDistance:nearbiestRoute.start.to] < [nearbiestRoute.start.to.radius floatValue]) {
         [timer invalidate];
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"In range" message:@"You are now in range of a node" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-//        [alert show];
+        NSString *message = [NSString stringWithFormat:@"You (%f, %f) are now in range of route %@ (%@, %@)", locationManager.location.coordinate.longitude, locationManager.location.coordinate.latitude, nearbiestRoute.name, nearbiestRoute.start.to.longitude, nearbiestRoute.start.to.latitude];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"In range" message:message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
+    } else {
+        NSLog(@"Locatie(%@, %@) niet binnen bereik", nearbiestRoute.start.to.longitude, nearbiestRoute.start.to.latitude);
     }
 }
 

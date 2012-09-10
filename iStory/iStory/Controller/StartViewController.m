@@ -28,7 +28,9 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
     stories = [[NSMutableArray alloc] init];
+    
     [self parse:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"testroute" ofType:@"xml"]]];
 }
 

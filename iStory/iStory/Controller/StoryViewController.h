@@ -9,7 +9,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <CoreLocation/CoreLocation.h>
 
-@class Location, Story;
+@class Location, Story, Node;
 
 @interface StoryViewController : UIViewController {
     MPMoviePlayerController *moviePlayer;
@@ -24,7 +24,7 @@
 @property (nonatomic, retain) NSTimer *timer;
 
 - (void)playMovie:(NSString *)filename;
-- (BOOL)inRange;
+- (CLLocationDistance)calculateDistance:(Node *)node;
 - (void)checkLocation;
 
 @end
