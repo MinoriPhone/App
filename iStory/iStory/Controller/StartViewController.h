@@ -7,10 +7,10 @@
 //
 
 @interface StartViewController : UITableViewController {
-    NSArray *stories;
+    NSMutableArray *stories;
 }
 
-@property (nonatomic, retain) NSArray *stories;
+@property (nonatomic, retain) NSMutableArray *stories;
 
 - (void)parse:(NSData *)data;
 

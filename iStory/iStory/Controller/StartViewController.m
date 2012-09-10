@@ -28,8 +28,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
-    stories = [[NSArray alloc] initWithObjects:[[Story alloc] initWithName:@"Leuk verhaal"], [[Story alloc] initWithName:@"Eng verhaal"], nil];
+    stories = [[NSMutableArray alloc] init];
+    [self parse:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"testroute" ofType:@"xml"]]];
 }
 
 - (void)viewDidUnload
@@ -51,7 +51,7 @@
     
     BOOL success = [nsXmlParser parse];
     if (success) {
-        NSLog(@"No errors - story count : %i", parser.stories.count);
+        [stories addObject:parser.story];
     } else {
         NSLog(@"Error parsing document!");
     }

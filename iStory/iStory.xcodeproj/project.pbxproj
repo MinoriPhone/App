@@ -30,6 +30,7 @@
 		F9DE431815F8C132007CEA71 /* Wildlife.wmv in Resources */ = {isa = PBXBuildFile; fileRef = F9DE431715F8C132007CEA71 /* Wildlife.wmv */; };
 		F9DE431A15F8D2E8007CEA71 /* movie.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = F9DE431915F8D2E8007CEA71 /* movie.mp4 */; };
 		F9DE431D15F8D66F007CEA71 /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9DE431C15F8D66F007CEA71 /* StartViewController.m */; };
+		FF16D97D15FDF19000C11DCB /* testroute.xml in Resources */ = {isa = PBXBuildFile; fileRef = FF16D97C15FDF19000C11DCB /* testroute.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		F9DE431915F8D2E8007CEA71 /* movie.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = movie.mp4; sourceTree = "<group>"; };
 		F9DE431B15F8D66F007CEA71 /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartViewController.h; sourceTree = "<group>"; };
 		F9DE431C15F8D66F007CEA71 /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartViewController.m; sourceTree = "<group>"; };
+		FF16D97C15FDF19000C11DCB /* testroute.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = testroute.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +157,7 @@
 		F91BC43B15F8BEC000381DFF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				FF16D97C15FDF19000C11DCB /* testroute.xml */,
 				F9DE431915F8D2E8007CEA71 /* movie.mp4 */,
 				F9DE431715F8C132007CEA71 /* Wildlife.wmv */,
 				F91BC43C15F8BEC000381DFF /* iStory-Info.plist */,
@@ -302,6 +305,7 @@
 				F91BC44815F8BEC000381DFF /* MainStoryboard.storyboard in Resources */,
 				F9DE431815F8C132007CEA71 /* Wildlife.wmv in Resources */,
 				F9DE431A15F8D2E8007CEA71 /* movie.mp4 in Resources */,
+				FF16D97D15FDF19000C11DCB /* testroute.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
