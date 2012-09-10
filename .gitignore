@@ -2,3 +2,5 @@
 .DS_Store
 
 iStory.xcworkspace/xcuserdata/gidomanders.xcuserdatad/UserInterfaceState.xcuserstate
+
+*.xcuserstate
