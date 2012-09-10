@@ -9,18 +9,18 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <CoreLocation/CoreLocation.h>
 
-@class Location, Node;
+@class Location, Story;
 
 @interface StoryViewController : UIViewController {
     MPMoviePlayerController *moviePlayer;
     CLLocationManager *locationManager;
-    Node *node;
+    Story *story;
     NSTimer *timer;
 }
 
 @property (nonatomic, retain) MPMoviePlayerController *moviePlayer;
 @property (nonatomic, retain) CLLocationManager *locationManager;
-@property (nonatomic, retain) Node *node;
+@property (nonatomic, retain) Story *story;
 @property (nonatomic, retain) NSTimer *timer;
 
 - (void)playMovie:(NSString *)filename;

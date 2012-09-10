@@ -7,11 +7,11 @@
 //
 
 #import "StoryViewController.h"
-#import "Node.h"
+#import "Story.h"
 
 @implementation StoryViewController
 
-@synthesize moviePlayer, locationManager, node;
+@synthesize moviePlayer, locationManager, story;
 
 - (void)viewDidLoad
 {
@@ -22,6 +22,7 @@
     locationManager = [[CLLocationManager alloc] init];
     locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [locationManager startUpdatingLocation];
+    self.title = story.name;
 }
 
 - (void)viewDidUnload
@@ -69,11 +70,11 @@
 
 - (BOOL)inRange
 {
-    CLLocation *location = [[CLLocation alloc] initWithLatitude:[node.latitude doubleValue] longitude:[node.longitude doubleValue]];
-    
-    CLLocationDistance distance = [location distanceFromLocation:locationManager.location];
-    
-    return distance <= [node.radius floatValue];
+//    CLLocation *location = [[CLLocation alloc] initWithLatitude:[node.latitude doubleValue] longitude:[node.longitude doubleValue]];
+//    
+//    CLLocationDistance distance = [location distanceFromLocation:locationManager.location];
+//    
+//    return distance <= [node.radius floatValue];
 }
 
 - (void)checkLocation
