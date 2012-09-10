@@ -20,6 +20,7 @@
 		F91BC45515F8BEC000381DFF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F91BC43615F8BEC000381DFF /* Foundation.framework */; };
 		F91BC45D15F8BEC000381DFF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F91BC45B15F8BEC000381DFF /* InfoPlist.strings */; };
 		F91BC46015F8BEC000381DFF /* iStoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F91BC45F15F8BEC000381DFF /* iStoryTests.m */; };
+		F939E9E615FDF7470005D6B7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F939E9E515FDF7470005D6B7 /* CoreLocation.framework */; };
 		F98FE00815F9EB880057B4F1 /* Link.m in Sources */ = {isa = PBXBuildFile; fileRef = F98FE00115F9EB880057B4F1 /* Link.m */; };
 		F98FE00915F9EB880057B4F1 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = F98FE00315F9EB880057B4F1 /* Node.m */; };
 		F98FE00A15F9EB880057B4F1 /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = F98FE00515F9EB880057B4F1 /* Route.m */; };
@@ -61,6 +62,7 @@
 		F91BC45C15F8BEC000381DFF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F91BC45E15F8BEC000381DFF /* iStoryTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iStoryTests.h; sourceTree = "<group>"; };
 		F91BC45F15F8BEC000381DFF /* iStoryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iStoryTests.m; sourceTree = "<group>"; };
+		F939E9E515FDF7470005D6B7 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		F98FE00015F9EB880057B4F1 /* Link.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Link.h; sourceTree = "<group>"; };
 		F98FE00115F9EB880057B4F1 /* Link.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Link.m; sourceTree = "<group>"; };
 		F98FE00215F9EB880057B4F1 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F939E9E615FDF7470005D6B7 /* CoreLocation.framework in Frameworks */,
 				F9DE431615F8BFFD007CEA71 /* MediaPlayer.framework in Frameworks */,
 				F91BC43515F8BEC000381DFF /* UIKit.framework in Frameworks */,
 				F91BC43715F8BEC000381DFF /* Foundation.framework in Frameworks */,
@@ -125,6 +128,7 @@
 		F91BC43315F8BEC000381DFF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F939E9E515FDF7470005D6B7 /* CoreLocation.framework */,
 				F9DE431515F8BFFD007CEA71 /* MediaPlayer.framework */,
 				F91BC43415F8BEC000381DFF /* UIKit.framework */,
 				F91BC43615F8BEC000381DFF /* Foundation.framework */,

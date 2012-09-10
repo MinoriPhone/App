@@ -7,18 +7,21 @@
 //
 
 #import "StoryViewController.h"
-#import <MediaPlayer/MediaPlayer.h>
+#import "Node.h"
 
 @implementation StoryViewController
 
-@synthesize moviePlayer;
+@synthesize moviePlayer, locationManager, node;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    [self playMovie:@"movie"];
+//    [self playMovie:@"movie"];
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+    [locationManager startUpdatingLocation];
 }
 
 - (void)viewDidUnload
@@ -27,10 +30,21 @@
     // Release any retained subviews of the main view.
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+//    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(checkLocation) userInfo:nil repeats:YES];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [moviePlayer stop];
+    
+    if (moviePlayer != nil)
+        [moviePlayer stop];
+    if (locationManager != nil)
+        [locationManager stopUpdatingLocation];
+    [timer invalidate];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -51,6 +65,24 @@
     moviePlayer.scalingMode = MPMovieScalingModeNone;
     [self.view addSubview:moviePlayer.view];
     [moviePlayer play];
+}
+
+- (BOOL)inRange
+{
+    CLLocation *location = [[CLLocation alloc] initWithLatitude:[node.latitude doubleValue] longitude:[node.longitude doubleValue]];
+    
+    CLLocationDistance distance = [location distanceFromLocation:locationManager.location];
+    
+    return distance <= [node.radius floatValue];
+}
+
+- (void)checkLocation
+{
+    if ([self inRange]) {
+        [timer invalidate];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"In range" message:@"You are now in range of a node" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+//        [alert show];
+    }
 }
 
 @end

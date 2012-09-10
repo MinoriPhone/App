@@ -10,6 +10,6 @@
 
 @implementation Node
 
-@synthesize longitude, latitude;
+@synthesize longitude, latitude, radius;
 
 @end
