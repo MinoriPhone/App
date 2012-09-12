@@ -26,5 +26,9 @@
 - (void)playMovie:(NSString *)filename ofType:(NSString *)type;
 - (CLLocationDistance)calculateDistance:(Node *)node;
 - (void)checkStart;
+<<<<<<< HEAD
+=======
+- (void)moviePlayerPlaybackStateChanged:(NSNotification *)notification;
+>>>>>>> movie
 
 @end

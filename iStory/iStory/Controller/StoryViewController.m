@@ -25,6 +25,7 @@
     locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [locationManager startUpdatingLocation];
     
+    // Play video on load
     [self playMovie:@"movie" ofType:@"mp4"];
     
     self.title = story.name;
@@ -39,7 +40,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(checkStart) userInfo:nil repeats:YES];
+    //timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(checkStart) userInfo:nil repeats:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -62,17 +63,35 @@
 {
     NSString *path = [[NSBundle mainBundle] pathForResource:filename ofType:type];
     
+    // Set moviePlayer settings
     moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL fileURLWithPath:path]];
     moviePlayer.view.frame = CGRectMake(0, 0, 1024, 704);
     moviePlayer.shouldAutoplay = NO;
-    moviePlayer.repeatMode = MPMovieRepeatModeOne;
-    moviePlayer.fullscreen = YES;
+    moviePlayer.repeatMode = MPMovieRepeatModeNone;
+    moviePlayer.fullscreen = NO;
     moviePlayer.movieSourceType = MPMovieSourceTypeFile;
     moviePlayer.scalingMode = MPMovieScalingModeNone;
     moviePlayer.controlStyle = MPMovieControlStyleNone;
+    moviePlayer.view.userInteractionEnabled = NO;
+
+    // Add movieplayer playbackstate listener
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayerPlaybackStateChanged:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
     
     [self.view addSubview:moviePlayer.view];
     [moviePlayer play];
+}
+
+- (void)moviePlayerPlaybackStateChanged:(NSNotification *)notification
+{
+    // Get stop reason for movie
+    NSNumber *reason = [[notification userInfo] objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
+    
+    // Call action when movie playbackstate is done (so NOT stopped!!)
+    if([reason intValue] == MPMovieFinishReasonPlaybackEnded && moviePlayer.playbackState != MPMoviePlaybackStateStopped) {
+        
+        // Add movie to history (viewed media)
+        
+    }
 }
 
 - (CLLocationDistance)calculateDistance:(Node *)node

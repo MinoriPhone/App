@@ -47,8 +47,7 @@
         currentNode = [[Node alloc] init];
     }
     
-    if([elementName isEqualToString:@"links"])
-    {
+    if([elementName isEqualToString:@"links"]) {
         [[currentLinks objectAtIndex:currentLinks.count-1] setValue:[[NSMutableArray alloc] init] forKey:@"next"];
     }
 }
@@ -64,7 +63,7 @@
     }
     
     [currentElementValue appendString:string];
-}  
+}
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
 {
