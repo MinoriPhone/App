@@ -90,9 +90,9 @@
         if (nearbiestRoute == nil || distance < nearbiest) {
             nearbiestRoute = route;
             nearbiest = distance;
-            NSLog(@"Locatie(%@, %@) dichterbij (afstand %f)", route.start.to.longitude, route.start.to.latitude, distance);
+            Log(@"Locatie(%@, %@) dichterbij (afstand %f)", route.start.to.longitude, route.start.to.latitude, distance);
         } else {
-            NSLog(@"Locatie(%@, %@) niet dichterbij (afstand %f)", route.start.to.longitude, route.start.to.latitude, distance);
+            Log(@"Locatie(%@, %@) niet dichterbij (afstand %f)", route.start.to.longitude, route.start.to.latitude, distance);
         }
     }
     if ([self calculateDistance:nearbiestRoute.start.to] < [nearbiestRoute.start.to.radius floatValue]) {
@@ -101,7 +101,7 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"In range" message:message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [alert show];
     } else {
-        NSLog(@"Locatie(%@, %@) niet binnen bereik", nearbiestRoute.start.to.longitude, nearbiestRoute.start.to.latitude);
+        Log(@"Locatie(%@, %@) niet binnen bereik", nearbiestRoute.start.to.longitude, nearbiestRoute.start.to.latitude);
     }
 }
 

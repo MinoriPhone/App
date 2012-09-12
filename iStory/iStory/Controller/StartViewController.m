@@ -55,7 +55,7 @@
     if (success) {
         [stories addObject:parser.story];
     } else {
-        NSLog(@"Error parsing document!");
+        Log(@"Error parsing document!");
     }
 }
 
