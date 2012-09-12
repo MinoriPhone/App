@@ -13,7 +13,6 @@
 		F91BC43F15F8BEC000381DFF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F91BC43D15F8BEC000381DFF /* InfoPlist.strings */; };
 		F91BC44115F8BEC000381DFF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F91BC44015F8BEC000381DFF /* main.m */; };
 		F91BC44515F8BEC000381DFF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F91BC44415F8BEC000381DFF /* AppDelegate.m */; };
-		F91BC44815F8BEC000381DFF /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F91BC44615F8BEC000381DFF /* MainStoryboard.storyboard */; };
 		F91BC44B15F8BEC000381DFF /* StoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F91BC44A15F8BEC000381DFF /* StoryViewController.m */; };
 		F91BC45315F8BEC000381DFF /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F91BC45215F8BEC000381DFF /* SenTestingKit.framework */; };
 		F91BC45415F8BEC000381DFF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F91BC43415F8BEC000381DFF /* UIKit.framework */; };
@@ -30,6 +29,7 @@
 		F9DE431A15F8D2E8007CEA71 /* movie.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = F9DE431915F8D2E8007CEA71 /* movie.mp4 */; };
 		F9DE431D15F8D66F007CEA71 /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9DE431C15F8D66F007CEA71 /* StartViewController.m */; };
 		FF16D97D15FDF19000C11DCB /* testroute.xml in Resources */ = {isa = PBXBuildFile; fileRef = FF16D97C15FDF19000C11DCB /* testroute.xml */; };
+		FFF0839216008CEE00FCFB1C /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFF0839016008CEE00FCFB1C /* MainStoryboard.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,7 +53,6 @@
 		F91BC44215F8BEC000381DFF /* iStory-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iStory-Prefix.pch"; sourceTree = "<group>"; };
 		F91BC44315F8BEC000381DFF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F91BC44415F8BEC000381DFF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		F91BC44715F8BEC000381DFF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		F91BC44915F8BEC000381DFF /* StoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoryViewController.h; sourceTree = "<group>"; };
 		F91BC44A15F8BEC000381DFF /* StoryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoryViewController.m; sourceTree = "<group>"; };
 		F91BC45115F8BEC000381DFF /* iStoryTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iStoryTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,6 +77,7 @@
 		F9DE431B15F8D66F007CEA71 /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartViewController.h; sourceTree = "<group>"; };
 		F9DE431C15F8D66F007CEA71 /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartViewController.m; sourceTree = "<group>"; };
 		FF16D97C15FDF19000C11DCB /* testroute.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = testroute.xml; sourceTree = "<group>"; };
+		FFF0839116008CEE00FCFB1C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = "iStory/Supporting Files/en.lproj/MainStoryboard.storyboard"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,7 +202,7 @@
 		F91BC46A15F8BEE600381DFF /* View */ = {
 			isa = PBXGroup;
 			children = (
-				F91BC44615F8BEC000381DFF /* MainStoryboard.storyboard */,
+				FFF0839016008CEE00FCFB1C /* MainStoryboard.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -299,9 +299,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				F91BC43F15F8BEC000381DFF /* InfoPlist.strings in Resources */,
-				F91BC44815F8BEC000381DFF /* MainStoryboard.storyboard in Resources */,
 				F9DE431A15F8D2E8007CEA71 /* movie.mp4 in Resources */,
 				FF16D97D15FDF19000C11DCB /* testroute.xml in Resources */,
+				FFF0839216008CEE00FCFB1C /* MainStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,21 +375,20 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		F91BC44615F8BEC000381DFF /* MainStoryboard.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F91BC44715F8BEC000381DFF /* en */,
-			);
-			name = MainStoryboard.storyboard;
-			path = "iStory/Supporting Files";
-			sourceTree = "<group>";
-		};
 		F91BC45B15F8BEC000381DFF /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				F91BC45C15F8BEC000381DFF /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		FFF0839016008CEE00FCFB1C /* MainStoryboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FFF0839116008CEE00FCFB1C /* en */,
+			);
+			name = MainStoryboard.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

@@ -25,6 +25,8 @@
     locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [locationManager startUpdatingLocation];
     
+    [self playMovie:@"movie" ofType:@"mp4"];
+    
     self.title = story.name;
 }
 
@@ -37,7 +39,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(checkLocation) userInfo:nil repeats:YES];
+    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(checkStart) userInfo:nil repeats:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -68,6 +70,7 @@
     moviePlayer.movieSourceType = MPMovieSourceTypeFile;
     moviePlayer.scalingMode = MPMovieScalingModeNone;
     moviePlayer.controlStyle = MPMovieControlStyleNone;
+    
     [self.view addSubview:moviePlayer.view];
     [moviePlayer play];
 }
