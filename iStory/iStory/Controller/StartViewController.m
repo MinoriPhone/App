@@ -86,8 +86,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"goToStory"]) {
-        UITableViewCell *cell = sender;
-        [segue.destinationViewController setValue:[stories objectAtIndex:[[self.tableView indexPathForCell:cell] row]] forKey:@"story"];
+        [segue.destinationViewController setValue:[stories objectAtIndex:[[self.tableView indexPathForSelectedRow] row]] forKey:@"story"];
     }
 }
 
