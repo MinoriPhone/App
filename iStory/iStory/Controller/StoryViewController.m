@@ -67,6 +67,7 @@
     moviePlayer.fullscreen = YES;
     moviePlayer.movieSourceType = MPMovieSourceTypeFile;
     moviePlayer.scalingMode = MPMovieScalingModeNone;
+    moviePlayer.controlStyle = MPMovieControlStyleNone;
     [self.view addSubview:moviePlayer.view];
     [moviePlayer play];
 }

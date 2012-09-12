@@ -381,7 +381,7 @@
 				F91BC44715F8BEC000381DFF /* en */,
 			);
 			name = MainStoryboard.storyboard;
-			path = "../Supporting Files";
+			path = "iStory/Supporting Files";
 			sourceTree = "<group>";
 		};
 		F91BC45B15F8BEC000381DFF /* InfoPlist.strings */ = {
