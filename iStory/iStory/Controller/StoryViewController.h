@@ -23,8 +23,8 @@
 @property (nonatomic, retain) Story *story;
 @property (nonatomic, retain) NSTimer *timer;
 
-- (void)playMovie:(NSString *)filename;
+- (void)playMovie:(NSString *)filename ofType:(NSString *)type;
 - (CLLocationDistance)calculateDistance:(Node *)node;
-- (void)checkLocation;
+- (void)checkstart;
 
 @end

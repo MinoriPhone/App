@@ -10,6 +10,6 @@
 
 @implementation Link
 
-@synthesize from, to, next;
+@synthesize from, to, next, files;
 
 @end

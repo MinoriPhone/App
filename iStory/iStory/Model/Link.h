@@ -13,5 +13,6 @@
 @property (nonatomic, retain) Node *from;
 @property (nonatomic, retain) Node *to;
 @property (nonatomic, retain) NSMutableArray *next;
+@property (nonatomic, retain) NSMutableArray *files;
 
 @end

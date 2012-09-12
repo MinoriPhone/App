@@ -56,9 +56,9 @@
     return YES;
 }
 
-- (void)playMovie:(NSString *)filename
+- (void)playMovie:(NSString *)filename ofType:(NSString *)type
 {
-    NSString *path = [[NSBundle mainBundle] pathForResource:filename ofType:@"mp4"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:filename ofType:type];
     
     moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL fileURLWithPath:path]];
     moviePlayer.view.frame = CGRectMake(0, 0, 1024, 704);
@@ -80,9 +80,8 @@
     return distance;
 }
 
-- (void)checkLocation
+- (void)checkStart
 {
-    [timer invalidate];
     CLLocationDistance nearbiest = 0;
     Route *nearbiestRoute = nil;
     for (Route *route in story.routes) {
@@ -97,9 +96,7 @@
     }
     if ([self calculateDistance:nearbiestRoute.start.to] < [nearbiestRoute.start.to.radius floatValue]) {
         [timer invalidate];
-        NSString *message = [NSString stringWithFormat:@"You (%f, %f) are now in range of route %@ (%@, %@)", locationManager.location.coordinate.longitude, locationManager.location.coordinate.latitude, nearbiestRoute.name, nearbiestRoute.start.to.longitude, nearbiestRoute.start.to.latitude];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"In range" message:message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        [alert show];
+        [self playMovie:[[nearbiestRoute.start.files objectAtIndex:0] valueForKey:@"filename"] ofType:[[nearbiestRoute.start.files objectAtIndex:0] valueForKey:@"ofType"]];
     } else {
         Log(@"Locatie(%@, %@) niet binnen bereik", nearbiestRoute.start.to.longitude, nearbiestRoute.start.to.latitude);
     }
