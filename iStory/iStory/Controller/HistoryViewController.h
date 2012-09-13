@@ -6,8 +6,11 @@
 //  Copyright (c) 2012 HSS. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@class History;
 
-@interface HistoryViewController : UIViewController
+@interface HistoryViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
+
+@property (nonatomic, retain) History *history;
+@property (nonatomic, retain) IBOutlet UIScrollView *rightScrollView;
 
 @end

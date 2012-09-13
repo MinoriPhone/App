@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 HSS. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 @interface History : NSObject
+
+@property (nonatomic, retain) NSMutableArray *linkQueue;
 
 @end
