@@ -5,6 +5,7 @@
 		<route>
 			<route.name>A</route.name>
 			<route.link>
+                <link.name>De oude kerk</link.name>
 				<from>
 					<longitude>52.05224</longitude>
 					<latitude>4.47567</latitude>
@@ -13,6 +14,16 @@
 					<longitude>52.05206</longitude>
 					<latitude>4.48202</latitude>
 				</to>
+                <queue>
+                    <message>
+                        <filename>verhaal.txt</filename>
+                        <duration>1</duration>
+                    </message>
+                    <image>
+                        <filename>image.png</filename>
+                        <duration>1</duration>
+                    </image>
+                </queue>
 				<links>
                     <link>
                         <from>

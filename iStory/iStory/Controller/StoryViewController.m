@@ -11,10 +11,15 @@
 #import "Route.h"
 #import "Link.h"
 #import "Node.h"
+#import "MediaItem.h"
+#import "Image.h"
+#import "Video.h"
+#import "Message.h"
+#import "History.h"
 
 @implementation StoryViewController
 
-@synthesize moviePlayer, locationManager, story, timer;
+@synthesize moviePlayer, locationManager, story, currentLink, currentQueueIndex, history, timer;
 
 - (void)viewDidLoad
 {
@@ -25,8 +30,11 @@
     locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [locationManager startUpdatingLocation];
     
+    history = [[History alloc] init];
+    
     // Play video on load
-    [self playMovie:@"movie" ofType:@"mp4"];
+    currentLink = [[story.routes objectAtIndex:0] valueForKey:@"start"];
+    [self showLinkQueue];
     
     self.title = story.name;
 }
@@ -59,11 +67,28 @@
     return YES;
 }
 
-- (void)playMovie:(NSString *)filename ofType:(NSString *)type
+- (void)showLinkQueue
 {
-    NSString *path = [[NSBundle mainBundle] pathForResource:filename ofType:type];
+    if (currentQueueIndex >= currentLink.queue.count) {
+        // start checking next position
+        [history.linkQueue addObject:currentLink];
+        return;
+    }
     
-    // Set moviePlayer settings
+    MediaItem *object = [currentLink.queue objectAtIndex:currentQueueIndex];
+    
+    if ([object isKindOfClass:[Video class]])
+        [self playMovie:object.filename];
+    else if ([object isKindOfClass:[Image class]])
+        [self showImage:object.filename duration:object.duration];
+    else if ([object isKindOfClass:[Message class]])
+        [self showMessage:object.filename duration:object.duration];
+}
+
+- (void)playMovie:(NSString *)filename
+{
+    NSString *path = [[NSBundle mainBundle] pathForResource:filename ofType:nil];
+    
     moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL fileURLWithPath:path]];
     moviePlayer.view.frame = CGRectMake(0, 0, 1024, 704);
     moviePlayer.shouldAutoplay = NO;
@@ -73,25 +98,51 @@
     moviePlayer.scalingMode = MPMovieScalingModeNone;
     moviePlayer.controlStyle = MPMovieControlStyleNone;
     moviePlayer.view.userInteractionEnabled = NO;
-
-    // Add movieplayer playbackstate listener
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayerPlaybackStateChanged:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
-    
     [self.view addSubview:moviePlayer.view];
     [moviePlayer play];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayerPlaybackStateChanged:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
 }
 
 - (void)moviePlayerPlaybackStateChanged:(NSNotification *)notification
 {
-    // Get stop reason for movie
     NSNumber *reason = [[notification userInfo] objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
     
-    // Call action when movie playbackstate is done (so NOT stopped!!)
     if([reason intValue] == MPMovieFinishReasonPlaybackEnded && moviePlayer.playbackState != MPMoviePlaybackStateStopped) {
-        
-        // Add movie to history (viewed media)
-        
+        [moviePlayer.view removeFromSuperview];
+        currentQueueIndex++;
+        [self showLinkQueue];
     }
+}
+
+- (void)showImage:(NSString *)filename duration:(NSInteger)duration
+{
+    imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:filename]];
+    [self.view addSubview:imageView];
+    timer = [NSTimer scheduledTimerWithTimeInterval:duration target:self selector:@selector(hideImage) userInfo:nil repeats:NO];
+}
+
+- (void)hideImage
+{
+    [imageView removeFromSuperview];
+    currentQueueIndex++;
+    [self showLinkQueue];
+}
+
+- (void)showMessage:(NSString *)filename duration:(NSInteger)duration
+{
+    message = [[UITextView alloc] initWithFrame:self.view.frame];
+    NSString *messageText = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:filename ofType:nil] encoding:NSUTF8StringEncoding error:nil];
+    [self.view addSubview:message];
+    message.text = messageText;
+    timer = [NSTimer scheduledTimerWithTimeInterval:duration target:self selector:@selector(hideMessage) userInfo:nil repeats:NO];
+}
+
+- (void)hideMessage
+{
+    [message removeFromSuperview];
+    currentQueueIndex++;
+    [self showLinkQueue];
 }
 
 - (CLLocationDistance)calculateDistance:(Node *)node
@@ -105,24 +156,30 @@
 
 - (void)checkStart
 {
-    CLLocationDistance nearbiest = 0;
-    Route *nearbiestRoute = nil;
+    CLLocationDistance nearest = 0;
+    Route *nearestRoute = nil;
     for (Route *route in story.routes) {
         CLLocationDistance distance = [self calculateDistance:route.start.to];
-        if (nearbiestRoute == nil || distance < nearbiest) {
-            nearbiestRoute = route;
-            nearbiest = distance;
+        if (nearestRoute == nil || distance < nearest) {
+            nearestRoute = route;
+            nearest = distance;
             Log(@"Locatie(%@, %@) dichterbij (afstand %f)", route.start.to.longitude, route.start.to.latitude, distance);
         } else {
             Log(@"Locatie(%@, %@) niet dichterbij (afstand %f)", route.start.to.longitude, route.start.to.latitude, distance);
         }
     }
-    if ([self calculateDistance:nearbiestRoute.start.to] < [nearbiestRoute.start.to.radius floatValue]) {
+    if ([self calculateDistance:nearestRoute.start.to] < [nearestRoute.start.to.radius floatValue]) {
         [timer invalidate];
-        [self playMovie:[[nearbiestRoute.start.files objectAtIndex:0] valueForKey:@"filename"] ofType:[[nearbiestRoute.start.files objectAtIndex:0] valueForKey:@"ofType"]];
+        currentLink = nearestRoute.start;
+        [self showLinkQueue];
     } else {
-        Log(@"Locatie(%@, %@) niet binnen bereik", nearbiestRoute.start.to.longitude, nearbiestRoute.start.to.latitude);
+        Log(@"Locatie(%@, %@) niet binnen bereik", nearestRoute.start.to.longitude, nearestRoute.start.to.latitude);
     }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    [segue.destinationViewController setValue:history forKey:@"history"];
 }
 
 @end

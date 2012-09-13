@@ -10,9 +10,10 @@
 
 @interface Link : NSObject
 
+@property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) Node *from;
 @property (nonatomic, retain) Node *to;
 @property (nonatomic, retain) NSMutableArray *next;
-@property (nonatomic, retain) NSMutableArray *files;
+@property (nonatomic, retain) NSMutableArray *queue;
 
 @end
