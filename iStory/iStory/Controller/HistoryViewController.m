@@ -8,6 +8,12 @@
 
 #import "HistoryViewController.h"
 #import "History.h"
+#import "Link.h"
+#import "MediaItem.h"
+#import "Image.h"
+#import "Video.h"
+#import "Message.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 @implementation HistoryViewController
 
@@ -34,9 +40,64 @@
     // Release any retained subviews of the main view.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self setScrollViewContent:[history.linkQueue objectAtIndex:0]];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 	return YES;
+}
+
+- (void)setScrollViewContent:(Link *)link
+{
+    for (UIView *subView in rightScrollView.subviews) {
+        [subView removeFromSuperview];
+    }
+    
+    for (MediaItem *object in link.queue) {
+        if ([object isKindOfClass:[Video class]])
+            [self addMovie:object.filename];
+        else if ([object isKindOfClass:[Image class]])
+            [self addImage:object.filename];
+        else if ([object isKindOfClass:[Message class]])
+            [self addMessage:object.filename];
+    }
+}
+
+- (void)addMovie:(NSString *)filename
+{
+    NSString *path = [[NSBundle mainBundle] pathForResource:filename ofType:nil];
+    
+    MPMoviePlayerController *moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL fileURLWithPath:path]];
+    moviePlayer.view.frame = CGRectMake(10, rightScrollView.subviews.count*160, 218, 150);
+    moviePlayer.shouldAutoplay = NO;
+    moviePlayer.repeatMode = MPMovieRepeatModeNone;
+    moviePlayer.fullscreen = NO;
+    moviePlayer.movieSourceType = MPMovieSourceTypeFile;
+    moviePlayer.scalingMode = MPMovieScalingModeNone;
+    moviePlayer.controlStyle = MPMovieControlStyleNone;
+    moviePlayer.view.userInteractionEnabled = NO;
+    [rightScrollView addSubview:moviePlayer.view];
+    rightScrollView.contentSize = CGSizeMake(rightScrollView.frame.size.width, rightScrollView.contentSize.height+160);
+}
+
+- (void)addImage:(NSString *)filename
+{
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:filename]];
+    imageView.frame = CGRectMake(10, rightScrollView.subviews.count*160, rightScrollView.frame.size.width-20, 150);
+    [rightScrollView addSubview:imageView];
+    rightScrollView.contentSize = CGSizeMake(rightScrollView.frame.size.width, rightScrollView.contentSize.height+160);
+}
+
+- (void)addMessage:(NSString *)filename
+{
+    UITextView *message = [[UITextView alloc] initWithFrame:CGRectMake(10, rightScrollView.subviews.count*160, rightScrollView.frame.size.width-20, 150)];
+    message.text = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:filename ofType:nil] encoding:NSUTF8StringEncoding error:nil];
+    [rightScrollView addSubview:message];
+    rightScrollView.contentSize = CGSizeMake(rightScrollView.frame.size.width, rightScrollView.contentSize.height+160);
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -57,7 +118,6 @@
     if(cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    id link = [history.linkQueue objectAtIndex:indexPath.row];
     
     cell.backgroundColor = [UIColor clearColor];
     cell.textLabel.textColor = [UIColor whiteColor];
@@ -65,6 +125,12 @@
     cell.textLabel.text = [[history.linkQueue objectAtIndex:indexPath.row] valueForKey:@"name"];
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self setScrollViewContent:[history.linkQueue objectAtIndex:indexPath.row]];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

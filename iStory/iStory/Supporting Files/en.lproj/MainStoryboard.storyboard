@@ -73,6 +73,17 @@
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="748"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
+                                        <prototypes>
+                                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="Cell" id="og0-Mr-H9l">
+                                                <rect key="frame" x="0.0" y="22" width="300" height="44"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                                    <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                </view>
+                                            </tableViewCell>
+                                        </prototypes>
                                         <connections>
                                             <outlet property="dataSource" destination="F8y-Wm-pBe" id="l42-eZ-OfL"/>
                                             <outlet property="delegate" destination="F8y-Wm-pBe" id="61b-cQ-vhW"/>
@@ -87,6 +98,9 @@
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="MER-YW-Cru">
                                         <rect key="frame" x="0.0" y="0.0" width="724" height="748"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="F8y-Wm-pBe" id="HQo-3X-mCS"/>
+                                        </connections>
                                     </scrollView>
                                 </subviews>
                             </view>
@@ -127,20 +141,6 @@
             <point key="canvasLocation" x="804" y="-747"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="HistoryViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/HistoryViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="rightScrollView" candidateClass="UIScrollView"/>
-            </relationships>
-        </class>
-        <class className="StartViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/StartViewController.h"/>
-        </class>
-        <class className="StoryViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/StoryViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

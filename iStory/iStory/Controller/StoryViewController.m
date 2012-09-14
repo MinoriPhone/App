@@ -132,9 +132,8 @@
 - (void)showMessage:(NSString *)filename duration:(NSInteger)duration
 {
     message = [[UITextView alloc] initWithFrame:self.view.frame];
-    NSString *messageText = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:filename ofType:nil] encoding:NSUTF8StringEncoding error:nil];
+    message.text = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:filename ofType:nil] encoding:NSUTF8StringEncoding error:nil];
     [self.view addSubview:message];
-    message.text = messageText;
     timer = [NSTimer scheduledTimerWithTimeInterval:duration target:self selector:@selector(hideMessage) userInfo:nil repeats:NO];
 }
 

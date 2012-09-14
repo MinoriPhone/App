@@ -23,6 +23,9 @@
                         <filename>image.png</filename>
                         <duration>1</duration>
                     </image>
+                    <video>
+                        <filename>movie.mp4</filename>
+                    </video>
                 </queue>
 				<links>
                     <link>
