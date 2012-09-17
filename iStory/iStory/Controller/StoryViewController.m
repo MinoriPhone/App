@@ -19,7 +19,7 @@
 
 @implementation StoryViewController
 
-@synthesize moviePlayer, locationManager, story, currentLink, currentQueueIndex, history, timer;
+@synthesize moviePlayer, locationManager, story, currentLink, currentQueueIndex, history, timer, historyButton;
 
 - (void)viewDidLoad
 {
@@ -72,6 +72,7 @@
     if (currentQueueIndex >= currentLink.queue.count) {
         // start checking next position
         [history.linkQueue addObject:currentLink];
+        historyButton.enabled = YES;
         return;
     }
     

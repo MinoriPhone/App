@@ -10,6 +10,9 @@
 #import "StoryViewController.h"
 #import "Story.h"
 #import "XMLParser.h"
+#import "ZipFile.h"
+#import "ZipReadStream.h"
+#import "FileInZipInfo.h"
 
 @implementation StartViewController
 
@@ -31,7 +34,7 @@
     
     stories = [[NSMutableArray alloc] init];
     
-    [self parse:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"testroute" ofType:@"xml"]]];
+    [self readZippedFile];
 }
 
 - (void)viewDidUnload
@@ -43,6 +46,33 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 	return YES;
+}
+
+- (void)readZippedFile
+{
+    NSString *documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSString *iStoryDir = [documentsDir stringByAppendingPathComponent:@"iStory"];
+    NSString *filePath = [iStoryDir stringByAppendingPathComponent:@"test.iStory"];
+    
+    NSLog(@"%@", filePath);
+    
+    ZipFile *unzipFile= [[ZipFile alloc] initWithFileName:filePath mode:ZipFileModeUnzip];
+    NSArray *infos= [unzipFile listFileInZipInfos];
+    for (FileInZipInfo *info in infos) {
+        if (![[info.name substringToIndex:1] isEqualToString:@"_"] &&
+            [[info.name substringFromIndex:info.name.length-3] isEqualToString:@"xml"]) {
+            [unzipFile locateFileInZip:info.name];
+            
+            ZipReadStream *read= [unzipFile readCurrentFileInZip];
+            NSMutableData *data= [[NSMutableData alloc] initWithLength:info.length];
+            int bytesRead= [read readDataWithBuffer:data];
+            
+            if (bytesRead > 0)
+                [self parse:data];
+            
+            [read finishedReading];
+        }
+    }
 }
 
 - (void)parse:(NSData *)data

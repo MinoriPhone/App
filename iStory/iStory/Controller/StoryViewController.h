@@ -32,6 +32,7 @@
 @property NSInteger currentQueueIndex;
 @property (nonatomic, retain) History *history;
 @property (nonatomic, retain) NSTimer *timer;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *historyButton;
 
 - (void)showLinkQueue;
 - (void)playMovie:(NSString *)filename;

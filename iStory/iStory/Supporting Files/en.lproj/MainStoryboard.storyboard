@@ -127,7 +127,7 @@
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <navigationItem key="navigationItem" id="kTt-Ic-ORp">
-                        <barButtonItem key="rightBarButtonItem" title="History" id="fCM-tI-lhN">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="History" id="fCM-tI-lhN">
                             <connections>
                                 <segue destination="F8y-Wm-pBe" kind="popover" popoverAnchorBarButtonItem="fCM-tI-lhN" id="05n-yg-KYZ">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
@@ -136,11 +136,31 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <connections>
+                        <outlet property="historyButton" destination="fCM-tI-lhN" id="nfx-1P-7ep"/>
+                    </connections>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="804" y="-747"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="HistoryViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/HistoryViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="rightScrollView" candidateClass="UIScrollView"/>
+            </relationships>
+        </class>
+        <class className="StartViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/StartViewController.h"/>
+        </class>
+        <class className="StoryViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/StoryViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="historyButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
