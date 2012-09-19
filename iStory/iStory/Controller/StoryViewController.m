@@ -97,8 +97,7 @@
     moviePlayer.fullscreen = NO;
     moviePlayer.movieSourceType = MPMovieSourceTypeFile;
     moviePlayer.scalingMode = MPMovieScalingModeNone;
-    moviePlayer.controlStyle = MPMovieControlStyleNone;
-    moviePlayer.view.userInteractionEnabled = NO;
+    //moviePlayer.controlStyle = MPMovieControlStyleNone;
     [self.view addSubview:moviePlayer.view];
     [moviePlayer play];
     
@@ -179,7 +178,10 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    [segue.destinationViewController setValue:history forKey:@"history"];
+    if ([segue.identifier isEqualToString:@"showHistory"]) {
+        [segue.destinationViewController setValue:history forKey:@"history"];
+    }
+        
 }
 
 @end

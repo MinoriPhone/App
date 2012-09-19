@@ -133,4 +133,9 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+- (IBAction)hideHistory:(id)sender
+{
+    [self dismissModalViewControllerAnimated:YES];
+}
+
 @end

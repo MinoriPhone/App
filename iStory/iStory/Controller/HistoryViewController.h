@@ -17,5 +17,6 @@
 - (void)addMovie:(NSString *)filename;
 - (void)addImage:(NSString *)filename;
 - (void)addMessage:(NSString *)filename;
+- (IBAction)hideHistory:(id)sender;
 
 @end

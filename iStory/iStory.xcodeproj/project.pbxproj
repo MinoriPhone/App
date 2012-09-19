@@ -44,21 +44,19 @@
 		F95E0716160730F2008AF453 /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = F95E06FA160730F2008AF453 /* trees.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F95E0717160730F2008AF453 /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = F95E06FC160730F2008AF453 /* uncompr.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F95E0718160730F2008AF453 /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = F95E06FF160730F2008AF453 /* zutil.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		F9780B771609C2070039CFF3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F9780B751609C2070039CFF3 /* Localizable.strings */; };
 		F984E3991601DA3B007CE9F4 /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F984E3981601DA3B007CE9F4 /* HistoryViewController.m */; };
 		F984E39D1601E1F2007CE9F4 /* History.m in Sources */ = {isa = PBXBuildFile; fileRef = F984E39C1601E1F2007CE9F4 /* History.m */; };
 		F984E3A01601E779007CE9F4 /* MediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F984E39F1601E779007CE9F4 /* MediaItem.m */; };
 		F984E3A31601E806007CE9F4 /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = F984E3A21601E806007CE9F4 /* Image.m */; };
 		F984E3A61601E829007CE9F4 /* Video.m in Sources */ = {isa = PBXBuildFile; fileRef = F984E3A51601E829007CE9F4 /* Video.m */; };
 		F984E3A91601E891007CE9F4 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = F984E3A81601E891007CE9F4 /* Message.m */; };
-		F984E3AC1601EF77007CE9F4 /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = F984E3AA1601EF77007CE9F4 /* image.png */; };
-		F984E3AD1601EF77007CE9F4 /* verhaal.txt in Resources */ = {isa = PBXBuildFile; fileRef = F984E3AB1601EF77007CE9F4 /* verhaal.txt */; };
 		F98FE00815F9EB880057B4F1 /* Link.m in Sources */ = {isa = PBXBuildFile; fileRef = F98FE00115F9EB880057B4F1 /* Link.m */; };
 		F98FE00915F9EB880057B4F1 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = F98FE00315F9EB880057B4F1 /* Node.m */; };
 		F98FE00A15F9EB880057B4F1 /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = F98FE00515F9EB880057B4F1 /* Route.m */; };
 		F98FE00B15F9EB880057B4F1 /* Story.m in Sources */ = {isa = PBXBuildFile; fileRef = F98FE00715F9EB880057B4F1 /* Story.m */; };
 		F98FE01415F9F21C0057B4F1 /* XMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F98FE01315F9F21C0057B4F1 /* XMLParser.m */; };
 		F9DE431615F8BFFD007CEA71 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9DE431515F8BFFD007CEA71 /* MediaPlayer.framework */; };
-		F9DE431A15F8D2E8007CEA71 /* movie.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = F9DE431915F8D2E8007CEA71 /* movie.mp4 */; };
 		F9DE431D15F8D66F007CEA71 /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9DE431C15F8D66F007CEA71 /* StartViewController.m */; };
 		FFF0839216008CEE00FCFB1C /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFF0839016008CEE00FCFB1C /* MainStoryboard.storyboard */; };
 /* End PBXBuildFile section */
@@ -138,6 +136,7 @@
 		F95E06FE160730F2008AF453 /* zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zlib.h; sourceTree = "<group>"; };
 		F95E06FF160730F2008AF453 /* zutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zutil.c; sourceTree = "<group>"; };
 		F95E0700160730F2008AF453 /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zutil.h; sourceTree = "<group>"; };
+		F9780B761609C2070039CFF3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F984E3971601DA3B007CE9F4 /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
 		F984E3981601DA3B007CE9F4 /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
 		F984E39B1601E1F2007CE9F4 /* History.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = History.h; sourceTree = "<group>"; };
@@ -150,8 +149,6 @@
 		F984E3A51601E829007CE9F4 /* Video.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Video.m; sourceTree = "<group>"; };
 		F984E3A71601E891007CE9F4 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
 		F984E3A81601E891007CE9F4 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
-		F984E3AA1601EF77007CE9F4 /* image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image.png; sourceTree = "<group>"; };
-		F984E3AB1601EF77007CE9F4 /* verhaal.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = verhaal.txt; sourceTree = "<group>"; };
 		F98FE00015F9EB880057B4F1 /* Link.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Link.h; sourceTree = "<group>"; };
 		F98FE00115F9EB880057B4F1 /* Link.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Link.m; sourceTree = "<group>"; };
 		F98FE00215F9EB880057B4F1 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
@@ -163,7 +160,6 @@
 		F98FE01215F9F21C0057B4F1 /* XMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLParser.h; sourceTree = "<group>"; };
 		F98FE01315F9F21C0057B4F1 /* XMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLParser.m; sourceTree = "<group>"; };
 		F9DE431515F8BFFD007CEA71 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		F9DE431915F8D2E8007CEA71 /* movie.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = movie.mp4; sourceTree = "<group>"; };
 		F9DE431B15F8D66F007CEA71 /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartViewController.h; sourceTree = "<group>"; };
 		F9DE431C15F8D66F007CEA71 /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartViewController.m; sourceTree = "<group>"; };
 		FFF0839116008CEE00FCFB1C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = "iStory/Supporting Files/en.lproj/MainStoryboard.storyboard"; sourceTree = SOURCE_ROOT; };
@@ -244,13 +240,11 @@
 		F91BC43B15F8BEC000381DFF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				F984E3AA1601EF77007CE9F4 /* image.png */,
-				F984E3AB1601EF77007CE9F4 /* verhaal.txt */,
-				F9DE431915F8D2E8007CEA71 /* movie.mp4 */,
 				F91BC43C15F8BEC000381DFF /* iStory-Info.plist */,
 				F91BC43D15F8BEC000381DFF /* InfoPlist.strings */,
 				F91BC44015F8BEC000381DFF /* main.m */,
 				F91BC44215F8BEC000381DFF /* iStory-Prefix.pch */,
+				F9780B751609C2070039CFF3 /* Localizable.strings */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -478,10 +472,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F91BC43F15F8BEC000381DFF /* InfoPlist.strings in Resources */,
-				F9DE431A15F8D2E8007CEA71 /* movie.mp4 in Resources */,
 				FFF0839216008CEE00FCFB1C /* MainStoryboard.storyboard in Resources */,
-				F984E3AC1601EF77007CE9F4 /* image.png in Resources */,
-				F984E3AD1601EF77007CE9F4 /* verhaal.txt in Resources */,
+				F9780B771609C2070039CFF3 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -591,6 +583,14 @@
 				F91BC45C15F8BEC000381DFF /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		F9780B751609C2070039CFF3 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F9780B761609C2070039CFF3 /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 		FFF0839016008CEE00FCFB1C /* MainStoryboard.storyboard */ = {

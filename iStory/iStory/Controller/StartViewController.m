@@ -32,6 +32,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    self.navigationController.navigationBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"navigationbar.jpg"]];
+    
     stories = [[NSMutableArray alloc] init];
     
     [self readZippedFile];
@@ -108,6 +110,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     
+    cell.textLabel.textColor = [UIColor whiteColor];
     cell.textLabel.text = [[stories objectAtIndex:indexPath.row] name];
     
     return cell;

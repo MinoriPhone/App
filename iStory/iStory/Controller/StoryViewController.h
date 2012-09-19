@@ -8,6 +8,7 @@
 
 #import <MediaPlayer/MediaPlayer.h>
 #import <CoreLocation/CoreLocation.h>
+#import "HistoryViewController.h"
 
 @class Location, Story, Link, Node, History;
 
