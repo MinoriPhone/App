@@ -19,7 +19,7 @@
 
 @implementation StoryViewController
 
-@synthesize moviePlayer, locationManager, story, currentLink, currentQueueIndex, history, timer, historyButton;
+@synthesize moviePlayer, imageView, message, locationManager, story, currentLink, currentQueueIndex, history, timer, historyButton;
 
 - (void)viewDidLoad
 {

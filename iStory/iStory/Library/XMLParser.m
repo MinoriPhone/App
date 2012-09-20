@@ -17,7 +17,7 @@
 #import "Message.h"
 
 @implementation XMLParser
-@synthesize story, currentLinks, currentNode, currentQueue, currentRoute;
+@synthesize story, currentRoute, currentLinks, currentNode, currentQueue, currentMediaItem, numberFormatter;
 
 - (XMLParser *) initXMLParser {
     self = [super init];
