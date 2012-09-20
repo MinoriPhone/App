@@ -36,7 +36,7 @@
     
     stories = [[NSMutableArray alloc] init];
     
-    [self readZippedFile];
+    [self readZippedFiles];
 }
 
 - (void)viewDidUnload
@@ -50,29 +50,33 @@
 	return YES;
 }
 
-- (void)readZippedFile
+- (void)readZippedFiles
 {
     NSString *documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
     NSString *iStoryDir = [documentsDir stringByAppendingPathComponent:@"iStory"];
-    NSString *filePath = [iStoryDir stringByAppendingPathComponent:@"test.iStory"];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSArray *dirContents = [fileManager contentsOfDirectoryAtPath:iStoryDir error:nil];
+    NSPredicate *filter = [NSPredicate predicateWithFormat:@"self ENDSWITH '.iStory'"];
+    NSArray *onlyIStories = [dirContents filteredArrayUsingPredicate:filter];
     
-    NSLog(@"%@", filePath);
-    
-    ZipFile *unzipFile= [[ZipFile alloc] initWithFileName:filePath mode:ZipFileModeUnzip];
-    NSArray *infos= [unzipFile listFileInZipInfos];
-    for (FileInZipInfo *info in infos) {
-        if (![[info.name substringToIndex:1] isEqualToString:@"_"] &&
-            [[info.name substringFromIndex:info.name.length-3] isEqualToString:@"xml"]) {
-            [unzipFile locateFileInZip:info.name];
-            
-            ZipReadStream *read= [unzipFile readCurrentFileInZip];
-            NSMutableData *data= [[NSMutableData alloc] initWithLength:info.length];
-            int bytesRead= [read readDataWithBuffer:data];
-            
-            if (bytesRead > 0)
-                [self parse:data];
-            
-            [read finishedReading];
+    for (NSString *filePath in onlyIStories) {
+        NSLog(@"%@", filePath);
+        ZipFile *unzipFile= [[ZipFile alloc] initWithFileName:filePath mode:ZipFileModeUnzip];
+        NSArray *infos= [unzipFile listFileInZipInfos];
+        for (FileInZipInfo *info in infos) {
+            if (![[info.name substringToIndex:1] isEqualToString:@"_"] &&
+                [[info.name substringFromIndex:info.name.length-3] isEqualToString:@"xml"]) {
+                [unzipFile locateFileInZip:info.name];
+                
+                ZipReadStream *read= [unzipFile readCurrentFileInZip];
+                NSMutableData *data= [[NSMutableData alloc] initWithLength:info.length];
+                int bytesRead= [read readDataWithBuffer:data];
+                
+                if (bytesRead > 0)
+                    [self parse:data];
+                
+                [read finishedReading];
+            }
         }
     }
 }
