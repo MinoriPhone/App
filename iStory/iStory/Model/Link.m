@@ -10,6 +10,6 @@
 
 @implementation Link
 
-@synthesize name, from, to, next, queue;
+@synthesize identifier, name, from, to, next, queue;
 
 @end

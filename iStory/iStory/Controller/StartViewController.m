@@ -56,32 +56,32 @@
     NSString *iStoryDir = [documentsDir stringByAppendingPathComponent:@"iStory"];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSArray *dirContents = [fileManager contentsOfDirectoryAtPath:iStoryDir error:nil];
-    NSPredicate *filter = [NSPredicate predicateWithFormat:@"self ENDSWITH '.iStory'"];
+    NSPredicate *filter = [NSPredicate predicateWithFormat:@"self ENDSWITH '.zip'"];
     NSArray *onlyIStories = [dirContents filteredArrayUsingPredicate:filter];
     
     for (NSString *filePath in onlyIStories) {
-        NSLog(@"%@", filePath);
-        ZipFile *unzipFile= [[ZipFile alloc] initWithFileName:filePath mode:ZipFileModeUnzip];
-        NSArray *infos= [unzipFile listFileInZipInfos];
+        ZipFile *unzipFile = [[ZipFile alloc] initWithFileName:filePath mode:ZipFileModeUnzip];
+        NSArray *infos = [unzipFile listFileInZipInfos];
         for (FileInZipInfo *info in infos) {
             if (![[info.name substringToIndex:1] isEqualToString:@"_"] &&
                 [[info.name substringFromIndex:info.name.length-3] isEqualToString:@"xml"]) {
                 [unzipFile locateFileInZip:info.name];
                 
-                ZipReadStream *read= [unzipFile readCurrentFileInZip];
-                NSMutableData *data= [[NSMutableData alloc] initWithLength:info.length];
-                int bytesRead= [read readDataWithBuffer:data];
+                ZipReadStream *read = [unzipFile readCurrentFileInZip];
+                NSMutableData *data = [[NSMutableData alloc] initWithLength:info.length];
+                int bytesRead = [read readDataWithBuffer:data];
                 
                 if (bytesRead > 0)
-                    [self parse:data];
+                    [self parse:data zipFilename:filePath];
                 
                 [read finishedReading];
             }
         }
+        [unzipFile close];
     }
 }
 
-- (void)parse:(NSData *)data
+- (void)parse:(NSData *)data zipFilename:(NSString *)zipFilename
 {
     NSXMLParser *nsXmlParser = [[NSXMLParser alloc] initWithData:data];
     XMLParser *parser = [[XMLParser alloc] initXMLParser];
@@ -89,6 +89,7 @@
     
     BOOL success = [nsXmlParser parse];
     if (success) {
+        parser.story.zipFilename = zipFilename;
         [stories addObject:parser.story];
     } else {
         Log(@"Error parsing document!");

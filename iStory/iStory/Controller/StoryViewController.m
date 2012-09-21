@@ -16,6 +16,9 @@
 #import "Video.h"
 #import "Message.h"
 #import "History.h"
+#import "ZipFile.h"
+#import "ZipReadStream.h"
+#import "FileInZipInfo.h"
 
 @implementation StoryViewController
 
@@ -77,19 +80,58 @@
     }
     
     MediaItem *object = [currentLink.queue objectAtIndex:currentQueueIndex];
+    [self readFileForMediaItem:object];
     
-    if ([object isKindOfClass:[Video class]])
-        [self playMovie:object.filename];
-    else if ([object isKindOfClass:[Image class]])
-        [self showImage:object.filename duration:object.duration];
-    else if ([object isKindOfClass:[Message class]])
-        [self showMessage:object.filename duration:object.duration];
+    if ([object isKindOfClass:[Video class]]) {
+        NSString *documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+        NSString *iStoryDir = [documentsDir stringByAppendingPathComponent:@"iStory"];
+        NSString *mediaFilesDir = [iStoryDir stringByAppendingPathComponent:story.name];
+        NSString *currentMediaFileDir = [mediaFilesDir stringByAppendingPathComponent:[currentLink.identifier stringValue]];
+        NSString *filePath = [currentMediaFileDir stringByAppendingPathComponent:object.filename];
+        
+        [self playMovie:filePath];
+    } else if ([object isKindOfClass:[Image class]]) {
+        [self showImage:object.data duration:object.duration];
+    } else if ([object isKindOfClass:[Message class]]) {
+        [self showMessage:object.data duration:object.duration];
+    }
 }
 
-- (void)playMovie:(NSString *)filename
+- (void)readFileForMediaItem:(MediaItem *)mediaItem
 {
-    NSString *path = [[NSBundle mainBundle] pathForResource:filename ofType:nil];
+    NSString *documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSString *iStoryDir = [documentsDir stringByAppendingPathComponent:@"iStory"];
+    NSString *mediaFilesDir = [iStoryDir stringByAppendingPathComponent:story.name];
+    NSString *currentMediaFileDir = [mediaFilesDir stringByAppendingPathComponent:[currentLink.identifier stringValue]];
     
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:[currentMediaFileDir stringByAppendingPathComponent:mediaItem.filename]]){
+        NSString *filePath = [iStoryDir stringByAppendingPathComponent:story.zipFilename];
+        
+        ZipFile *unzipFile= [[ZipFile alloc] initWithFileName:filePath mode:ZipFileModeUnzip];
+        [unzipFile locateFileInZip:mediaItem.filename];
+        FileInZipInfo *info = [unzipFile getCurrentFileInZipInfo];
+        
+        ZipReadStream *read= [unzipFile readCurrentFileInZip];
+        NSMutableData *data= [[NSMutableData alloc] initWithLength:info.length];
+        int bytesRead= [read readDataWithBuffer:data];
+        
+        if (bytesRead > 0) {
+            if ([mediaItem isKindOfClass:[Video class]]) {
+                NSError *error = nil;
+                [data writeToFile:[currentMediaFileDir stringByAppendingPathComponent:mediaItem.filename] options:NSDataWritingAtomic error:&error];
+            } else {
+                mediaItem.data = data;
+            }
+        }
+        
+        [read finishedReading];
+        [unzipFile close];
+    }
+}
+
+- (void)playMovie:(NSString *)path
+{
     moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL fileURLWithPath:path]];
     moviePlayer.view.frame = CGRectMake(0, 0, 1024, 704);
     moviePlayer.shouldAutoplay = NO;
@@ -115,9 +157,9 @@
     }
 }
 
-- (void)showImage:(NSString *)filename duration:(NSInteger)duration
+- (void)showImage:(NSData *)data duration:(NSInteger)duration
 {
-    imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:filename]];
+    imageView = [[UIImageView alloc] initWithImage:[UIImage imageWithData:data]];
     [self.view addSubview:imageView];
     timer = [NSTimer scheduledTimerWithTimeInterval:duration target:self selector:@selector(hideImage) userInfo:nil repeats:NO];
 }
@@ -129,10 +171,10 @@
     [self showLinkQueue];
 }
 
-- (void)showMessage:(NSString *)filename duration:(NSInteger)duration
+- (void)showMessage:(NSData *)data duration:(NSInteger)duration
 {
     message = [[UITextView alloc] initWithFrame:self.view.frame];
-    message.text = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:filename ofType:nil] encoding:NSUTF8StringEncoding error:nil];
+    message.text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     [self.view addSubview:message];
     timer = [NSTimer scheduledTimerWithTimeInterval:duration target:self selector:@selector(hideMessage) userInfo:nil repeats:NO];
 }

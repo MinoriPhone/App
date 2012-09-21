@@ -10,6 +10,6 @@
 
 @implementation MediaItem
 
-@synthesize filename, duration;
+@synthesize filename, duration, data;
 
 @end

@@ -10,7 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "HistoryViewController.h"
 
-@class Location, Story, Link, Node, History;
+@class Location, Story, Link, Node, History, MediaItem;
 
 @interface StoryViewController : UIViewController {
     MPMoviePlayerController *moviePlayer;
@@ -36,11 +36,12 @@
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *historyButton;
 
 - (void)showLinkQueue;
+- (void)readFileForMediaItem:(MediaItem *)mediaItem;
 - (void)playMovie:(NSString *)filename;
 - (void)moviePlayerPlaybackStateChanged:(NSNotification *)notification;
-- (void)showImage:(NSString *)filename duration:(NSInteger)duration;
+- (void)showImage:(NSData *)data duration:(NSInteger)duration;
 - (void)hideImage;
-- (void)showMessage:(NSString *)filename duration:(NSInteger)duration;
+- (void)showMessage:(NSData *)data duration:(NSInteger)duration;
 - (void)hideMessage;
 - (CLLocationDistance)calculateDistance:(Node *)node;
 - (void)checkStart;

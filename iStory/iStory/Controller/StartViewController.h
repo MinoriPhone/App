@@ -13,6 +13,6 @@
 @property (nonatomic, retain) NSMutableArray *stories;
 
 - (void)readZippedFiles;
-- (void)parse:(NSData *)data;
+- (void)parse:(NSData *)data zipFilename:(NSString *)zipFilename;
 
 @end

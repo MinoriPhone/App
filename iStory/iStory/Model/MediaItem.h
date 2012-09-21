@@ -12,5 +12,6 @@
 
 @property (nonatomic, retain) NSString *filename;
 @property NSInteger duration;
+@property (nonatomic, retain) NSData *data;
 
 @end

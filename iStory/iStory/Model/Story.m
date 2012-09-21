@@ -10,13 +10,6 @@
 
 @implementation Story
 
-@synthesize name, routes;
-
-- (id)initWithName:(NSString *)newName
-{
-    self = [super init];
-    self.name = newName;
-    return self;
-}
+@synthesize zipFilename, name, routes;
 
 @end
