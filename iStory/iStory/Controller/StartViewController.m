@@ -91,8 +91,6 @@
     if (success) {
         parser.story.zipFilename = zipFilename;
         [stories addObject:parser.story];
-    } else {
-        Log(@"Error parsing document!");
     }
 }
 
