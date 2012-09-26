@@ -34,7 +34,6 @@
 		F98FE01415F9F21C0057B4F1 /* XMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F98FE01315F9F21C0057B4F1 /* XMLParser.m */; };
 		F9DE431615F8BFFD007CEA71 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9DE431515F8BFFD007CEA71 /* MediaPlayer.framework */; };
 		F9DE431D15F8D66F007CEA71 /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9DE431C15F8D66F007CEA71 /* StartViewController.m */; };
-		F9FF069B160C97E400E01A7C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F9FF069A160C97E400E01A7C /* libz.dylib */; };
 		F9FF0775160C9DBC00E01A7C /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = F9FF0747160C9DBC00E01A7C /* ioapi.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F9FF0776160C9DBC00E01A7C /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = F9FF0749160C9DBC00E01A7C /* mztools.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F9FF0777160C9DBC00E01A7C /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = F9FF074B160C9DBC00E01A7C /* unzip.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -69,27 +68,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = F91BC42F15F8BEC000381DFF;
 			remoteInfo = iStory;
-		};
-		F9FF06BB160C986000E01A7C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F9FF06B5160C986000E01A7C /* ZipKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = ZipKit;
-		};
-		F9FF06BD160C986000E01A7C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F9FF06B5160C986000E01A7C /* ZipKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CB9B9CB6109F665C003E3F8B;
-			remoteInfo = zipkit;
-		};
-		F9FF06BF160C986000E01A7C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F9FF06B5160C986000E01A7C /* ZipKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CB9B9CEE109F6769003E3F8B;
-			remoteInfo = touchzipkit;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -139,8 +117,6 @@
 		F9DE431515F8BFFD007CEA71 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		F9DE431B15F8D66F007CEA71 /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartViewController.h; sourceTree = "<group>"; };
 		F9DE431C15F8D66F007CEA71 /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartViewController.m; sourceTree = "<group>"; };
-		F9FF069A160C97E400E01A7C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		F9FF06B5160C986000E01A7C /* ZipKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZipKit.xcodeproj; path = "../../../../Downloads/kolpanic-zipkit-531cd75fef32/ZipKit.xcodeproj"; sourceTree = "<group>"; };
 		F9FF0746160C9DBC00E01A7C /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
 		F9FF0747160C9DBC00E01A7C /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
 		F9FF0748160C9DBC00E01A7C /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
@@ -194,7 +170,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F9FF069B160C97E400E01A7C /* libz.dylib in Frameworks */,
 				F939E9E615FDF7470005D6B7 /* CoreLocation.framework in Frameworks */,
 				F9DE431615F8BFFD007CEA71 /* MediaPlayer.framework in Frameworks */,
 				F91BC43515F8BEC000381DFF /* UIKit.framework in Frameworks */,
@@ -238,8 +213,6 @@
 		F91BC43315F8BEC000381DFF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F9FF06B5160C986000E01A7C /* ZipKit.xcodeproj */,
-				F9FF069A160C97E400E01A7C /* libz.dylib */,
 				F939E9E515FDF7470005D6B7 /* CoreLocation.framework */,
 				F9DE431515F8BFFD007CEA71 /* MediaPlayer.framework */,
 				F91BC43415F8BEC000381DFF /* UIKit.framework */,
@@ -351,16 +324,6 @@
 				F98FE01315F9F21C0057B4F1 /* XMLParser.m */,
 			);
 			path = Library;
-			sourceTree = "<group>";
-		};
-		F9FF06B6160C986000E01A7C /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				F9FF06BC160C986000E01A7C /* ZipKit.framework */,
-				F9FF06BE160C986000E01A7C /* libzipkit.a */,
-				F9FF06C0160C986000E01A7C /* libtouchzipkit.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		F9FF0745160C9DBC00E01A7C /* MiniZip */ = {
@@ -487,12 +450,6 @@
 			mainGroup = F91BC42515F8BEC000381DFF;
 			productRefGroup = F91BC43115F8BEC000381DFF /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = F9FF06B6160C986000E01A7C /* Products */;
-					ProjectRef = F9FF06B5160C986000E01A7C /* ZipKit.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				F91BC42F15F8BEC000381DFF /* iStory */,
@@ -500,30 +457,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		F9FF06BC160C986000E01A7C /* ZipKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ZipKit.framework;
-			remoteRef = F9FF06BB160C986000E01A7C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F9FF06BE160C986000E01A7C /* libzipkit.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libzipkit.a;
-			remoteRef = F9FF06BD160C986000E01A7C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F9FF06C0160C986000E01A7C /* libtouchzipkit.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libtouchzipkit.a;
-			remoteRef = F9FF06BF160C986000E01A7C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		F91BC42E15F8BEC000381DFF /* Resources */ = {

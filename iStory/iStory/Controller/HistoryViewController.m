@@ -17,7 +17,7 @@
 
 @implementation HistoryViewController
 
-@synthesize history, rightScrollView;
+@synthesize storyName, history, rightScrollView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -58,19 +58,24 @@
     }
     
     for (MediaItem *object in link.queue) {
-        if ([object isKindOfClass:[Video class]])
-            [self addMovie:object.filename];
-        else if ([object isKindOfClass:[Image class]])
-            [self addImage:object.filename];
-        else if ([object isKindOfClass:[Message class]])
-            [self addMessage:object.filename];
+        if ([object isKindOfClass:[Video class]]) {
+            NSString *documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+            NSString *iStoryDir = [documentsDir stringByAppendingPathComponent:@"iStory"];
+            NSString *mediaFilesDir = [iStoryDir stringByAppendingPathComponent:storyName];
+            NSString *currentMediaFileDir = [mediaFilesDir stringByAppendingPathComponent:[link.identifier stringValue]];
+            NSString *filePath = [currentMediaFileDir stringByAppendingPathComponent:object.filename];
+            
+            [self addMovie:filePath];
+        } else if ([object isKindOfClass:[Image class]]) {
+            [self addImage:object.data];
+        } else if ([object isKindOfClass:[Message class]]) {
+            [self addMessage:object.data];
+        }
     }
 }
 
-- (void)addMovie:(NSString *)filename
+- (void)addMovie:(NSString *)path
 {
-    NSString *path = [[NSBundle mainBundle] pathForResource:filename ofType:nil];
-    
     MPMoviePlayerController *moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL fileURLWithPath:path]];
     moviePlayer.view.frame = CGRectMake(10, rightScrollView.subviews.count*160, 218, 150);
     moviePlayer.shouldAutoplay = NO;
@@ -84,18 +89,17 @@
     rightScrollView.contentSize = CGSizeMake(rightScrollView.frame.size.width, rightScrollView.contentSize.height+160);
 }
 
-- (void)addImage:(NSString *)filename
+- (void)addImage:(NSData *)data
 {
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:filename]];
-    imageView.frame = CGRectMake(10, rightScrollView.subviews.count*160, rightScrollView.frame.size.width-20, 150);
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageWithData:data]];
     [rightScrollView addSubview:imageView];
     rightScrollView.contentSize = CGSizeMake(rightScrollView.frame.size.width, rightScrollView.contentSize.height+160);
 }
 
-- (void)addMessage:(NSString *)filename
+- (void)addMessage:(NSData *)data
 {
     UITextView *message = [[UITextView alloc] initWithFrame:CGRectMake(10, rightScrollView.subviews.count*160, rightScrollView.frame.size.width-20, 150)];
-    message.text = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:filename ofType:nil] encoding:NSUTF8StringEncoding error:nil];
+    message.text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     [rightScrollView addSubview:message];
     rightScrollView.contentSize = CGSizeMake(rightScrollView.frame.size.width, rightScrollView.contentSize.height+160);
 }

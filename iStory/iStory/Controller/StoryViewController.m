@@ -22,7 +22,7 @@
 
 @implementation StoryViewController
 
-@synthesize moviePlayer, imageView, message, locationManager, story, currentLink, currentQueueIndex, history, timer, historyButton;
+@synthesize moviePlayer, imageView, message, locationManager, story, currentLink, currentQueueIndex, history, timer, historyButton, currentVideoFilePath, timerStarted;
 
 - (void)viewDidLoad
 {
@@ -34,10 +34,6 @@
     [locationManager startUpdatingLocation];
     
     history = [[History alloc] init];
-    
-    // Play video on load
-    currentLink = [[story.routes objectAtIndex:0] valueForKey:@"start"];
-    [self showLinkQueue];
     
     self.title = story.name;
 }
@@ -51,7 +47,8 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    //timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(checkStart) userInfo:nil repeats:YES];
+    [self performSelectorInBackground:@selector(unzipVideos) withObject:nil];
+    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(checkStart) userInfo:nil repeats:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -70,30 +67,98 @@
     return YES;
 }
 
+- (void)unzipVideos
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    NSString *documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSString *iStoryDir = [documentsDir stringByAppendingPathComponent:@"iStory"];
+    NSString *mediaFilesDir = [iStoryDir stringByAppendingPathComponent:story.name];
+    
+    NSString *filePath = [iStoryDir stringByAppendingPathComponent:story.zipFilename];
+    ZipFile *unzipFile = [[ZipFile alloc] initWithFileName:filePath mode:ZipFileModeUnzip];
+    
+    NSArray *infos = [unzipFile listFileInZipInfos];
+    for (FileInZipInfo *info in infos) {
+        if (info.name.length > 0) {
+            if (![[info.name substringToIndex:1] isEqualToString:@"_"] &&
+                ![[info.name substringFromIndex:info.name.length-1] isEqualToString:@"/"] &&
+                ([[info.name substringFromIndex:info.name.length-3] isEqualToString:@"avi"] ||
+                 [[info.name substringFromIndex:info.name.length-3] isEqualToString:@"m4v"] ||
+                 [[info.name substringFromIndex:info.name.length-3] isEqualToString:@"mov"] ||
+                 [[info.name substringFromIndex:info.name.length-3] isEqualToString:@"mp4"])) {
+                    [unzipFile locateFileInZip:info.name];
+                    
+                    ZipReadStream *read = [unzipFile readCurrentFileInZip];
+                    NSMutableData *data = [[NSMutableData alloc] initWithLength:info.length];
+                    int bytesRead = [read readDataWithBuffer:data];
+                    
+                    if (bytesRead > 0) {
+                        if (![fileManager fileExistsAtPath:mediaFilesDir isDirectory:nil])
+                            [fileManager createDirectoryAtPath:mediaFilesDir withIntermediateDirectories:YES attributes:nil error:NULL];
+                        
+                        NSString *linkPath = [mediaFilesDir stringByAppendingPathComponent:[info.name stringByDeletingLastPathComponent]];
+                        
+                        if (![fileManager fileExistsAtPath:linkPath isDirectory:nil])
+                            [fileManager createDirectoryAtPath:linkPath withIntermediateDirectories:YES attributes:nil error:NULL];
+                        
+                        NSString *filePath = [linkPath stringByAppendingPathComponent:[info.name lastPathComponent]];
+                        
+                        [data writeToFile:filePath atomically:YES];
+                    }
+                    
+                    [read finishedReading];
+            }
+        }
+    }
+    [unzipFile close];
+}
+
 - (void)showLinkQueue
 {
-    if (currentQueueIndex >= currentLink.queue.count) {
-        // start checking next position
+    if (currentQueueIndex == 0) {
+        historyButton.enabled = NO;
+    } else if (currentQueueIndex >= currentLink.queue.count) {
         [history.linkQueue addObject:currentLink];
         historyButton.enabled = YES;
+        timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(checkPosition) userInfo:nil repeats:YES];
         return;
     }
     
     MediaItem *object = [currentLink.queue objectAtIndex:currentQueueIndex];
-    [self readFileForMediaItem:object];
     
     if ([object isKindOfClass:[Video class]]) {
         NSString *documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
         NSString *iStoryDir = [documentsDir stringByAppendingPathComponent:@"iStory"];
         NSString *mediaFilesDir = [iStoryDir stringByAppendingPathComponent:story.name];
-        NSString *currentMediaFileDir = [mediaFilesDir stringByAppendingPathComponent:[currentLink.identifier stringValue]];
-        NSString *filePath = [currentMediaFileDir stringByAppendingPathComponent:object.filename];
+        NSString *linkDir = [mediaFilesDir stringByAppendingPathComponent:[currentLink.identifier stringValue]];
+        currentVideoFilePath = [linkDir stringByAppendingPathComponent:object.filename];
         
-        [self playMovie:filePath];
-    } else if ([object isKindOfClass:[Image class]]) {
-        [self showImage:object.data duration:object.duration];
-    } else if ([object isKindOfClass:[Message class]]) {
-        [self showMessage:object.data duration:object.duration];
+        timerStarted = [NSDate date];
+        timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(checkFile) userInfo:nil repeats:YES];
+    } else {
+        [self readFileForMediaItem:object];
+        
+        if ([object isKindOfClass:[Image class]]) {
+            [self showImage:object.data duration:object.duration];
+        } else if ([object isKindOfClass:[Message class]]) {
+            [self showMessage:object.data duration:object.duration];
+        }
+    }
+}
+
+- (void)checkFile
+{
+    if ([timerStarted timeIntervalSinceNow] < -30) {
+        [timer invalidate];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Opening video took too long" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
+    }
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if ([fileManager fileExistsAtPath:currentVideoFilePath]){
+        [timer invalidate];
+        [self playMovie:currentVideoFilePath];
     }
 }
 
@@ -101,13 +166,9 @@
 {
     NSString *documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
     NSString *iStoryDir = [documentsDir stringByAppendingPathComponent:@"iStory"];
-    NSString *mediaFilesDir = [iStoryDir stringByAppendingPathComponent:story.name];
-    NSString *currentMediaFileDir = [mediaFilesDir stringByAppendingPathComponent:[currentLink.identifier stringValue]];
     
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    if (![fileManager fileExistsAtPath:[currentMediaFileDir stringByAppendingPathComponent:mediaItem.filename]]){
+    if (mediaItem.data == nil){
         NSString *filePath = [iStoryDir stringByAppendingPathComponent:story.zipFilename];
-        
         ZipFile *unzipFile= [[ZipFile alloc] initWithFileName:filePath mode:ZipFileModeUnzip];
         [unzipFile locateFileInZip:mediaItem.filename];
         FileInZipInfo *info = [unzipFile getCurrentFileInZipInfo];
@@ -117,12 +178,7 @@
         int bytesRead= [read readDataWithBuffer:data];
         
         if (bytesRead > 0) {
-            if ([mediaItem isKindOfClass:[Video class]]) {
-                NSError *error = nil;
-                [data writeToFile:[currentMediaFileDir stringByAppendingPathComponent:mediaItem.filename] options:NSDataWritingAtomic error:&error];
-            } else {
-                mediaItem.data = data;
-            }
+            mediaItem.data = data;
         }
         
         [read finishedReading];
@@ -136,10 +192,10 @@
     moviePlayer.view.frame = CGRectMake(0, 0, 1024, 704);
     moviePlayer.shouldAutoplay = NO;
     moviePlayer.repeatMode = MPMovieRepeatModeNone;
-    moviePlayer.fullscreen = NO;
+    moviePlayer.fullscreen = YES;
     moviePlayer.movieSourceType = MPMovieSourceTypeFile;
-    moviePlayer.scalingMode = MPMovieScalingModeNone;
-    //moviePlayer.controlStyle = MPMovieControlStyleNone;
+    moviePlayer.scalingMode = MPMovieScalingModeAspectFit;
+    moviePlayer.controlStyle = MPMovieControlStyleNone;
     [self.view addSubview:moviePlayer.view];
     [moviePlayer play];
     
@@ -204,17 +260,30 @@
         if (nearestRoute == nil || distance < nearest) {
             nearestRoute = route;
             nearest = distance;
-            Log(@"Locatie(%@, %@) dichterbij (afstand %f)", route.start.to.longitude, route.start.to.latitude, distance);
-        } else {
-            Log(@"Locatie(%@, %@) niet dichterbij (afstand %f)", route.start.to.longitude, route.start.to.latitude, distance);
         }
     }
     if ([self calculateDistance:nearestRoute.start.to] < [nearestRoute.start.to.radius floatValue]) {
         [timer invalidate];
         currentLink = nearestRoute.start;
         [self showLinkQueue];
-    } else {
-        Log(@"Locatie(%@, %@) niet binnen bereik", nearestRoute.start.to.longitude, nearestRoute.start.to.latitude);
+    }
+}
+
+- (void)checkPosition
+{
+    CLLocationDistance nearest = 0;
+    Link *nearestLink = nil;
+    for (Link *link in currentLink.next) {
+        CLLocationDistance distance = [self calculateDistance:link.to];
+        if (nearestLink == nil || distance < nearest) {
+            nearestLink = link;
+            nearest = distance;
+        }
+    }
+    if ([self calculateDistance:nearestLink.to] < [nearestLink.to.radius floatValue]) {
+        [timer invalidate];
+        currentLink = nearestLink;
+        [self showLinkQueue];
     }
 }
 
@@ -222,8 +291,8 @@
 {
     if ([segue.identifier isEqualToString:@"showHistory"]) {
         [segue.destinationViewController setValue:history forKey:@"history"];
+        [segue.destinationViewController setValue:story.name forKey:@"storyName"];
     }
-        
 }
 
 @end

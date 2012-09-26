@@ -85,6 +85,8 @@
         [currentLinks removeLastObject];
     } else if ([elementName isEqualToString:@"link.name"]) {
         [[currentLinks objectAtIndex:currentLinks.count-1] setValue:currentElementValue forKey:@"name"];
+    } else if ([elementName isEqualToString:@"link.id"]) {
+        [[currentLinks objectAtIndex:currentLinks.count-1] setValue:[numberFormatter numberFromString:currentElementValue] forKey:@"identifier"];
     } else if ([elementName isEqualToString:@"from"] || [elementName isEqualToString:@"to"]) {
         [[currentLinks objectAtIndex:currentLinks.count-1] setValue:currentNode forKey:elementName];
         currentNode = nil;

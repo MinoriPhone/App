@@ -56,14 +56,15 @@
     NSString *iStoryDir = [documentsDir stringByAppendingPathComponent:@"iStory"];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSArray *dirContents = [fileManager contentsOfDirectoryAtPath:iStoryDir error:nil];
-    NSPredicate *filter = [NSPredicate predicateWithFormat:@"self ENDSWITH '.zip'"];
+    NSPredicate *filter = [NSPredicate predicateWithFormat:@"self ENDSWITH '.iStory'"];
     NSArray *onlyIStories = [dirContents filteredArrayUsingPredicate:filter];
     
     for (NSString *filePath in onlyIStories) {
-        ZipFile *unzipFile = [[ZipFile alloc] initWithFileName:filePath mode:ZipFileModeUnzip];
+        ZipFile *unzipFile = [[ZipFile alloc] initWithFileName:[iStoryDir stringByAppendingPathComponent:filePath] mode:ZipFileModeUnzip];
         NSArray *infos = [unzipFile listFileInZipInfos];
         for (FileInZipInfo *info in infos) {
             if (![[info.name substringToIndex:1] isEqualToString:@"_"] &&
+                ![[info.name substringFromIndex:info.name.length-1] isEqualToString:@"/"] &&
                 [[info.name substringFromIndex:info.name.length-3] isEqualToString:@"xml"]) {
                 [unzipFile locateFileInZip:info.name];
                 

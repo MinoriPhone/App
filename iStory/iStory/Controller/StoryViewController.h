@@ -22,6 +22,8 @@
     NSInteger currentQueueIndex;
     History *history;
     NSTimer *timer;
+    NSString *currentVideoFilePath;
+    NSDate *timerStarted;
 }
 
 @property (nonatomic, retain) MPMoviePlayerController *moviePlayer;
@@ -34,6 +36,8 @@
 @property (nonatomic, retain) History *history;
 @property (nonatomic, retain) NSTimer *timer;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *historyButton;
+@property (nonatomic, retain) NSString *currentVideoFilePath;
+@property (nonatomic, retain) NSDate *timerStarted;
 
 - (void)showLinkQueue;
 - (void)readFileForMediaItem:(MediaItem *)mediaItem;

@@ -10,13 +10,14 @@
 
 @interface HistoryViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
 
+@property (nonatomic, retain) NSString *storyName;
 @property (nonatomic, retain) History *history;
 @property (nonatomic, retain) IBOutlet UIScrollView *rightScrollView;
 
 - (void)setScrollViewContent:(Link *)link;
-- (void)addMovie:(NSString *)filename;
-- (void)addImage:(NSString *)filename;
-- (void)addMessage:(NSString *)filename;
+- (void)addMovie:(NSString *)path;
+- (void)addImage:(NSData *)data;
+- (void)addMessage:(NSData *)data;
 - (IBAction)hideHistory:(id)sender;
 
 @end
