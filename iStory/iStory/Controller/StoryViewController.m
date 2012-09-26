@@ -72,10 +72,9 @@
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
     NSString *documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-    NSString *iStoryDir = [documentsDir stringByAppendingPathComponent:@"iStory"];
-    NSString *mediaFilesDir = [iStoryDir stringByAppendingPathComponent:story.name];
+    NSString *mediaFilesDir = [documentsDir stringByAppendingPathComponent:story.name];
     
-    NSString *filePath = [iStoryDir stringByAppendingPathComponent:story.zipFilename];
+    NSString *filePath = [documentsDir stringByAppendingPathComponent:story.zipFilename];
     ZipFile *unzipFile = [[ZipFile alloc] initWithFileName:filePath mode:ZipFileModeUnzip];
     
     NSArray *infos = [unzipFile listFileInZipInfos];
@@ -129,8 +128,7 @@
     
     if ([object isKindOfClass:[Video class]]) {
         NSString *documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-        NSString *iStoryDir = [documentsDir stringByAppendingPathComponent:@"iStory"];
-        NSString *mediaFilesDir = [iStoryDir stringByAppendingPathComponent:story.name];
+        NSString *mediaFilesDir = [documentsDir stringByAppendingPathComponent:story.name];
         NSString *linkDir = [mediaFilesDir stringByAppendingPathComponent:[currentLink.identifier stringValue]];
         currentVideoFilePath = [linkDir stringByAppendingPathComponent:object.filename];
         
@@ -165,10 +163,9 @@
 - (void)readFileForMediaItem:(MediaItem *)mediaItem
 {
     NSString *documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-    NSString *iStoryDir = [documentsDir stringByAppendingPathComponent:@"iStory"];
     
     if (mediaItem.data == nil){
-        NSString *filePath = [iStoryDir stringByAppendingPathComponent:story.zipFilename];
+        NSString *filePath = [documentsDir stringByAppendingPathComponent:story.zipFilename];
         ZipFile *unzipFile= [[ZipFile alloc] initWithFileName:filePath mode:ZipFileModeUnzip];
         [unzipFile locateFileInZip:mediaItem.filename];
         FileInZipInfo *info = [unzipFile getCurrentFileInZipInfo];

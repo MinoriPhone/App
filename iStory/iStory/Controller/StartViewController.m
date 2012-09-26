@@ -53,14 +53,13 @@
 - (void)readZippedFiles
 {
     NSString *documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-    NSString *iStoryDir = [documentsDir stringByAppendingPathComponent:@"iStory"];
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSArray *dirContents = [fileManager contentsOfDirectoryAtPath:iStoryDir error:nil];
+    NSArray *dirContents = [fileManager contentsOfDirectoryAtPath:documentsDir error:nil];
     NSPredicate *filter = [NSPredicate predicateWithFormat:@"self ENDSWITH '.iStory'"];
     NSArray *onlyIStories = [dirContents filteredArrayUsingPredicate:filter];
     
     for (NSString *filePath in onlyIStories) {
-        ZipFile *unzipFile = [[ZipFile alloc] initWithFileName:[iStoryDir stringByAppendingPathComponent:filePath] mode:ZipFileModeUnzip];
+        ZipFile *unzipFile = [[ZipFile alloc] initWithFileName:[documentsDir stringByAppendingPathComponent:filePath] mode:ZipFileModeUnzip];
         NSArray *infos = [unzipFile listFileInZipInfos];
         for (FileInZipInfo *info in infos) {
             if (![[info.name substringToIndex:1] isEqualToString:@"_"] &&
