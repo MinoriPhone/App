@@ -268,20 +268,14 @@
 
 - (void)checkPosition
 {
-    CLLocationDistance nearest = 0;
-    Link *nearestLink = nil;
     for (Link *link in currentLink.next) {
-        CLLocationDistance distance = [self calculateDistance:link.to];
-        if (nearestLink == nil || distance < nearest) {
-            nearestLink = link;
-            nearest = distance;
+        if ([self calculateDistance:link.to] < [link.to.radius floatValue]) {
+            [timer invalidate];
+            currentLink = link;
+            [self showLinkQueue];
         }
     }
-    if ([self calculateDistance:nearestLink.to] < [nearestLink.to.radius floatValue]) {
-        [timer invalidate];
-        currentLink = nearestLink;
-        [self showLinkQueue];
-    }
+    
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

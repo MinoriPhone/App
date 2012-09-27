@@ -12,4 +12,11 @@
 
 @synthesize longitude, latitude, radius;
 
+- (id)init
+{
+    self = [super init];
+    self.radius = [NSNumber numberWithInt:2];
+    return self;
+}
+
 @end
