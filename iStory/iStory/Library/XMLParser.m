@@ -21,8 +21,6 @@
 
 - (XMLParser *) initXMLParser {
     self = [super init];
-    numberFormatter = [[NSNumberFormatter alloc] init];
-    [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
     return self;
 }
 
@@ -67,6 +65,9 @@
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
 {
+    numberFormatter = [[NSNumberFormatter alloc] init];
+    [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    [numberFormatter setDecimalSeparator:@"."];
     if ([elementName isEqualToString:@"story.name"]) {
         story.name = currentElementValue;
     } else if ([elementName isEqualToString:@"route.name"]) {
