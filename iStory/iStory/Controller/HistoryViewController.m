@@ -58,19 +58,16 @@
     }
     
     for (MediaItem *object in link.queue) {
-        if ([object isKindOfClass:[Video class]]) {
-            NSString *documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-            NSString *iStoryDir = [documentsDir stringByAppendingPathComponent:@"iStory"];
-            NSString *mediaFilesDir = [iStoryDir stringByAppendingPathComponent:storyName];
-            NSString *currentMediaFileDir = [mediaFilesDir stringByAppendingPathComponent:[link.identifier stringValue]];
-            NSString *filePath = [currentMediaFileDir stringByAppendingPathComponent:object.filename];
-            
+        NSString *documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+        NSString *mediaFilesDir = [documentsDir stringByAppendingPathComponent:storyName];
+        NSString *currentMediaFileDir = [mediaFilesDir stringByAppendingPathComponent:[link.identifier stringValue]];
+        NSString *filePath = [currentMediaFileDir stringByAppendingPathComponent:object.filename];
+        if ([object isKindOfClass:[Video class]])
             [self addMovie:filePath];
-        } else if ([object isKindOfClass:[Image class]]) {
-            [self addImage:object.data];
-        } else if ([object isKindOfClass:[Message class]]) {
-            [self addMessage:object.data];
-        }
+        else if ([object isKindOfClass:[Image class]])
+            [self addImage:filePath];
+        else if ([object isKindOfClass:[Message class]])
+            [self addMessage:filePath];
     }
 }
 
@@ -89,17 +86,18 @@
     rightScrollView.contentSize = CGSizeMake(rightScrollView.frame.size.width, rightScrollView.contentSize.height+160);
 }
 
-- (void)addImage:(NSData *)data
+- (void)addImage:(NSString *)path
 {
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageWithData:data]];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:path]];
     [rightScrollView addSubview:imageView];
     rightScrollView.contentSize = CGSizeMake(rightScrollView.frame.size.width, rightScrollView.contentSize.height+160);
 }
 
-- (void)addMessage:(NSData *)data
+- (void)addMessage:(NSString *)path
 {
-    UITextView *message = [[UITextView alloc] initWithFrame:CGRectMake(10, rightScrollView.subviews.count*160, rightScrollView.frame.size.width-20, 150)];
-    message.text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    UIWebView *message = [[UIWebView alloc] initWithFrame:self.view.frame];
+    [message loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:path]]];
+    message.delegate = self;
     [rightScrollView addSubview:message];
     rightScrollView.contentSize = CGSizeMake(rightScrollView.frame.size.width, rightScrollView.contentSize.height+160);
 }
@@ -139,7 +137,13 @@
 
 - (IBAction)hideHistory:(id)sender
 {
-    [self dismissModalViewControllerAnimated:YES];
+    if ([self.parentViewController valueForKey:@"storyEnded"]) {
+        [self.view removeFromSuperview];
+        [self removeFromParentViewController];
+        [self.parentViewController dismissModalViewControllerAnimated:YES];
+    } else {
+        [self dismissModalViewControllerAnimated:YES];
+    }
 }
 
 @end

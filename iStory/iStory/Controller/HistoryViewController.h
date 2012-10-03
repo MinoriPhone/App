@@ -8,7 +8,7 @@
 
 @class History, Link;
 
-@interface HistoryViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
+@interface HistoryViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIWebViewDelegate>
 
 @property (nonatomic, retain) NSString *storyName;
 @property (nonatomic, retain) History *history;
@@ -16,8 +16,8 @@
 
 - (void)setScrollViewContent:(Link *)link;
 - (void)addMovie:(NSString *)path;
-- (void)addImage:(NSData *)data;
-- (void)addMessage:(NSData *)data;
+- (void)addImage:(NSString *)path;
+- (void)addMessage:(NSString *)path;
 - (IBAction)hideHistory:(id)sender;
 
 @end
