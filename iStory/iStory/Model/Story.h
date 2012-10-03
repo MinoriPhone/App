@@ -12,6 +12,7 @@
 
 @property (nonatomic, retain) NSString *zipFilename;
 @property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSString *imageName;
 @property (nonatomic, retain) NSMutableArray *routes;
 
 @end

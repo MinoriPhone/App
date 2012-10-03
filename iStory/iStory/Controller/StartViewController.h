@@ -14,5 +14,6 @@
 
 - (void)readZippedFiles;
 - (void)parse:(NSData *)data zipFilename:(NSString *)zipFilename;
+- (IBAction)buttonPressed:(id)sender;
 
 @end

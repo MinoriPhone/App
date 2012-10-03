@@ -101,7 +101,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return stories.count;
+    if (stories.count > 0)
+        return stories.count/2+1;
+    
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -113,17 +116,41 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     
-    cell.textLabel.textColor = [UIColor whiteColor];
-    cell.textLabel.text = [[stories objectAtIndex:indexPath.row] name];
+    [cell setSelectionStyle:UITableViewCellEditingStyleNone];
+    
+    if (stories.count > 0) {
+        if (indexPath.row*2 < stories.count) {
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 495, 300)];
+            [button setImage:[UIImage imageNamed:[[stories objectAtIndex:indexPath.row*2] imageName]] forState:UIControlStateNormal];
+            [button setTag:indexPath.row*2];
+            [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+            [cell addSubview:button];
+        }
+        if (indexPath.row*2+1 < stories.count) {
+            UIButton *button2 = [[UIButton alloc] initWithFrame:CGRectMake(515, 10, 495, 300)];
+            [button2 setImage:[UIImage imageNamed:[[stories objectAtIndex:indexPath.row*2+1] imageName]] forState:UIControlStateNormal];
+            [button2 setTag:indexPath.row*2+1];
+            [button2 addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+            [cell addSubview:button2];
+        }
+    }
     
     return cell;
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (IBAction)buttonPressed:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"goToStory"]) {
-        [segue.destinationViewController setValue:[stories objectAtIndex:[[self.tableView indexPathForSelectedRow] row]] forKey:@"story"];
-    }
+    StoryViewController *storyViewController = [[StoryViewController alloc] init];
+    storyViewController.story = [stories objectAtIndex:((UIButton *)sender).tag];
+    [self.navigationController pushViewController:storyViewController animated:YES];
+}
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    if ([identifier isEqualToString:@"showStory"])
+        return NO;
+    
+    return YES;
 }
 
 @end
