@@ -70,6 +70,8 @@
     [numberFormatter setDecimalSeparator:@"."];
     if ([elementName isEqualToString:@"story.name"]) {
         story.name = currentElementValue;
+    } else if ([elementName isEqualToString:@"story.imageName"]) {
+            story.imageName = currentElementValue;
     } else if ([elementName isEqualToString:@"route.name"]) {
         currentRoute.name = currentElementValue;
     } else if ([elementName isEqualToString:@"route"]) {
@@ -89,6 +91,7 @@
     } else if ([elementName isEqualToString:@"link.id"]) {
         [[currentLinks objectAtIndex:currentLinks.count-1] setValue:[numberFormatter numberFromString:currentElementValue] forKey:@"identifier"];
     } else if ([elementName isEqualToString:@"from"] || [elementName isEqualToString:@"to"]) {
+        currentNode.location = [[CLLocation alloc] initWithLatitude:[currentNode.latitude doubleValue] longitude:[currentNode.longitude doubleValue]];
         [[currentLinks objectAtIndex:currentLinks.count-1] setValue:currentNode forKey:elementName];
         currentNode = nil;
     } else if([elementName isEqualToString:@"queue"]) {
