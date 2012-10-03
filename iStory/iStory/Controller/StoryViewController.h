@@ -12,42 +12,50 @@
 
 @class Location, Story, Link, Node, History, MediaItem;
 
-@interface StoryViewController : UIViewController {
+@interface StoryViewController : UIViewController <CLLocationManagerDelegate, UIWebViewDelegate> {
     MPMoviePlayerController *moviePlayer;
     UIImageView *imageView;
-    UITextView *message;
+    UIWebView *message;
     CLLocationManager *locationManager;
     Story *story;
     Link *currentLink;
     NSInteger currentQueueIndex;
+    MediaItem *currentMediaItem;
     History *history;
     NSTimer *timer;
-    NSString *currentVideoFilePath;
+    NSString *currentFilePath;
     NSDate *timerStarted;
+    BOOL started;
+    NSInteger counter;
+    BOOL storyEnded;
 }
 
 @property (nonatomic, retain) MPMoviePlayerController *moviePlayer;
 @property (nonatomic, retain) UIImageView *imageView;
-@property (nonatomic, retain) UITextView *message;
+@property (nonatomic, retain) UIWebView *message;
 @property (nonatomic, retain) CLLocationManager *locationManager;
 @property (nonatomic, retain) Story *story;
 @property (nonatomic, retain) Link *currentLink;
 @property NSInteger currentQueueIndex;
+@property (nonatomic, retain) MediaItem *currentMediaItem;
 @property (nonatomic, retain) History *history;
 @property (nonatomic, retain) NSTimer *timer;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *historyButton;
-@property (nonatomic, retain) NSString *currentVideoFilePath;
+@property (nonatomic, retain) NSString *currentFilePath;
 @property (nonatomic, retain) NSDate *timerStarted;
+@property BOOL started;
+@property NSInteger counter;
+@property BOOL storyEnded;
 
+- (void)unzipVideos;
 - (void)showLinkQueue;
-- (void)readFileForMediaItem:(MediaItem *)mediaItem;
+- (void)checkFile;
 - (void)playMovie:(NSString *)filename;
 - (void)moviePlayerPlaybackStateChanged:(NSNotification *)notification;
-- (void)showImage:(NSData *)data duration:(NSInteger)duration;
+- (void)showImage:(NSString *)path duration:(NSInteger)duration;
 - (void)hideImage;
-- (void)showMessage:(NSData *)data duration:(NSInteger)duration;
+- (void)showMessage:(NSString *)path duration:(NSInteger)duration;
 - (void)hideMessage;
-- (CLLocationDistance)calculateDistance:(Node *)node;
-- (void)checkStart;
+- (void)endOfStory;
 
 @end
