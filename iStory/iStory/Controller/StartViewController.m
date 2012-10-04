@@ -121,14 +121,14 @@
     if (stories.count > 0) {
         if (indexPath.row*2 < stories.count) {
             UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 495, 300)];
-            [button setImage:[UIImage imageNamed:[[stories objectAtIndex:indexPath.row*2] imageName]] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:[[stories objectAtIndex:indexPath.row*2] valueForKey:@"image"]] forState:UIControlStateNormal];
             [button setTag:indexPath.row*2];
             [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
             [cell addSubview:button];
         }
         if (indexPath.row*2+1 < stories.count) {
             UIButton *button2 = [[UIButton alloc] initWithFrame:CGRectMake(515, 10, 495, 300)];
-            [button2 setImage:[UIImage imageNamed:[[stories objectAtIndex:indexPath.row*2+1] imageName]] forState:UIControlStateNormal];
+            [button2 setImage:[UIImage imageNamed:[[stories objectAtIndex:indexPath.row*2+1] valueForKey:@"image"]] forState:UIControlStateNormal];
             [button2 setTag:indexPath.row*2+1];
             [button2 addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
             [cell addSubview:button2];

@@ -10,6 +10,6 @@
 
 @implementation Story
 
-@synthesize zipFilename, name, imageName, routes;
+@synthesize zipFilename, name, image, routes;
 
 @end

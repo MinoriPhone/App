@@ -70,8 +70,8 @@
     [numberFormatter setDecimalSeparator:@"."];
     if ([elementName isEqualToString:@"story.name"]) {
         story.name = currentElementValue;
-    } else if ([elementName isEqualToString:@"story.imageName"]) {
-            story.imageName = currentElementValue;
+    } else if ([elementName isEqualToString:@"story.image"]) {
+            story.image = currentElementValue;
     } else if ([elementName isEqualToString:@"route.name"]) {
         currentRoute.name = currentElementValue;
     } else if ([elementName isEqualToString:@"route"]) {
