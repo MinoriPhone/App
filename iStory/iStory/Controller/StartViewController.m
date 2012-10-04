@@ -37,6 +37,7 @@
     stories = [[NSMutableArray alloc] init];
     
     [self readZippedFiles];
+    [self getStoryImages];
 }
 
 - (void)viewDidUnload
@@ -81,6 +82,30 @@
     }
 }
 
+- (void)getStoryImages
+{
+    NSString *documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    for (Story *story in stories) {
+        ZipFile *unzipFile = [[ZipFile alloc] initWithFileName:[documentsDir stringByAppendingPathComponent:story.zipFilename] mode:ZipFileModeUnzip];
+        [unzipFile locateFileInZip:story.image];
+        FileInZipInfo *info = [unzipFile getCurrentFileInZipInfo];
+        
+        ZipReadStream *read = [unzipFile readCurrentFileInZip];
+        NSMutableData *data = [[NSMutableData alloc] initWithLength:info.length];
+        int bytesRead = [read readDataWithBuffer:data];
+        
+        if (bytesRead > 0) {
+            if (![fileManager fileExistsAtPath:[documentsDir stringByAppendingPathComponent:story.name] isDirectory:nil])
+                [fileManager createDirectoryAtPath:[documentsDir stringByAppendingPathComponent:story.name] withIntermediateDirectories:YES attributes:nil error:NULL];
+            
+            [data writeToFile:[[documentsDir stringByAppendingPathComponent:story.name] stringByAppendingPathComponent:story.image] atomically:YES];
+        }
+    }
+    
+}
+
 - (void)parse:(NSData *)data zipFilename:(NSString *)zipFilename
 {
     NSXMLParser *nsXmlParser = [[NSXMLParser alloc] initWithData:data];
@@ -109,6 +134,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSString *documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    
     static NSString *identifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     
@@ -120,15 +147,17 @@
     
     if (stories.count > 0) {
         if (indexPath.row*2 < stories.count) {
+            NSString *storyDir = [documentsDir stringByAppendingPathComponent:[[stories objectAtIndex:indexPath.row*2] name]];
             UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 495, 300)];
-            [button setImage:[UIImage imageNamed:[[stories objectAtIndex:indexPath.row*2] valueForKey:@"image"]] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageWithContentsOfFile:[storyDir stringByAppendingPathComponent:[[stories objectAtIndex:indexPath.row*2] valueForKey:@"image"]]] forState:UIControlStateNormal];
             [button setTag:indexPath.row*2];
             [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
             [cell addSubview:button];
         }
         if (indexPath.row*2+1 < stories.count) {
+            NSString *storyDir = [documentsDir stringByAppendingPathComponent:[[stories objectAtIndex:indexPath.row*2] name]];
             UIButton *button2 = [[UIButton alloc] initWithFrame:CGRectMake(515, 10, 495, 300)];
-            [button2 setImage:[UIImage imageNamed:[[stories objectAtIndex:indexPath.row*2+1] valueForKey:@"image"]] forState:UIControlStateNormal];
+            [button2 setImage:[UIImage imageWithContentsOfFile:[storyDir stringByAppendingPathComponent:[[stories objectAtIndex:indexPath.row*2+1] valueForKey:@"image"]]] forState:UIControlStateNormal];
             [button2 setTag:indexPath.row*2+1];
             [button2 addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
             [cell addSubview:button2];
