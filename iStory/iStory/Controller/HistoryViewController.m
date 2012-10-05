@@ -19,6 +19,8 @@
 
 @synthesize storyName, history, tableView, rightScrollView, storyEnded;
 
+NSInteger itemHeight = 250;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -74,32 +76,35 @@
 - (void)addMovie:(NSString *)path
 {
     MPMoviePlayerController *moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL fileURLWithPath:path]];
-    moviePlayer.view.frame = CGRectMake(10, rightScrollView.subviews.count*160, 218, 150);
-    moviePlayer.shouldAutoplay = NO;
-    moviePlayer.repeatMode = MPMovieRepeatModeNone;
+    moviePlayer.view.frame = CGRectMake(10, rightScrollView.subviews.count*(itemHeight+10), 334, itemHeight);
+    moviePlayer.shouldAutoplay = YES;
+    moviePlayer.repeatMode = MPMovieRepeatModeOne;
+    moviePlayer.allowsAirPlay = YES;
     moviePlayer.fullscreen = NO;
     moviePlayer.movieSourceType = MPMovieSourceTypeFile;
-    moviePlayer.scalingMode = MPMovieScalingModeNone;
+    moviePlayer.scalingMode = MPMovieScalingModeAspectFit;
     moviePlayer.controlStyle = MPMovieControlStyleNone;
-    moviePlayer.view.userInteractionEnabled = NO;
     [rightScrollView addSubview:moviePlayer.view];
-    rightScrollView.contentSize = CGSizeMake(rightScrollView.frame.size.width, rightScrollView.contentSize.height+160);
+    rightScrollView.contentSize = CGSizeMake(rightScrollView.frame.size.width, rightScrollView.contentSize.height+(itemHeight+10));
 }
 
 - (void)addImage:(NSString *)path
 {
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:path]];
+    if (imageView.frame.size.height > itemHeight) {
+        imageView.frame = CGRectMake(0, 0, ((self.view.frame.size.height/imageView.frame.size.height)*imageView.frame.size.width), self.view.frame.size.height);
+    }
     [rightScrollView addSubview:imageView];
-    rightScrollView.contentSize = CGSizeMake(rightScrollView.frame.size.width, rightScrollView.contentSize.height+160);
+    rightScrollView.contentSize = CGSizeMake(rightScrollView.frame.size.width, rightScrollView.contentSize.height+(itemHeight+10));
 }
 
 - (void)addMessage:(NSString *)path
 {
-    UIWebView *message = [[UIWebView alloc] initWithFrame:self.view.frame];
+    UIWebView *message = [[UIWebView alloc] initWithFrame:CGRectMake(10, rightScrollView.subviews.count*(itemHeight+10), 218, itemHeight)];
     [message loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:path]]];
     message.delegate = self;
     [rightScrollView addSubview:message];
-    rightScrollView.contentSize = CGSizeMake(rightScrollView.frame.size.width, rightScrollView.contentSize.height+160);
+    rightScrollView.contentSize = CGSizeMake(rightScrollView.frame.size.width, rightScrollView.contentSize.height+(itemHeight+10));
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

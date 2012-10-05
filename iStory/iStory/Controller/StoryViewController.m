@@ -190,14 +190,13 @@
 {
     moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL fileURLWithPath:path]];
     moviePlayer.view.frame = self.view.frame;
-    moviePlayer.shouldAutoplay = NO;
+    moviePlayer.shouldAutoplay = YES;
     moviePlayer.repeatMode = MPMovieRepeatModeNone;
     moviePlayer.fullscreen = YES;
     moviePlayer.movieSourceType = MPMovieSourceTypeFile;
     moviePlayer.scalingMode = MPMovieScalingModeAspectFit;
     moviePlayer.controlStyle = MPMovieControlStyleNone;
     [self.view addSubview:moviePlayer.view];
-    [moviePlayer play];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayerPlaybackStateChanged:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
 }
@@ -216,6 +215,13 @@
 - (void)showImage:(NSString *)path duration:(NSInteger)duration
 {
     imageView = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:path]];
+    if (imageView.frame.size.width > self.view.frame.size.width || imageView.frame.size.height > self.view.frame.size.height) {
+        if (((self.view.frame.size.width/imageView.frame.size.width)*imageView.frame.size.height) < self.view.frame.size.height) {
+            imageView.frame = CGRectMake(0, 0, self.view.frame.size.width, ((self.view.frame.size.width/imageView.frame.size.width)*imageView.frame.size.height));
+        } else {
+            imageView.frame = CGRectMake(0, 0, ((self.view.frame.size.height/imageView.frame.size.height)*imageView.frame.size.width), self.view.frame.size.height);
+        }
+    }
     [self.view addSubview:imageView];
     timer = [NSTimer scheduledTimerWithTimeInterval:duration target:self selector:@selector(hideImage) userInfo:nil repeats:NO];
 }
@@ -251,6 +257,7 @@
 {
     HistoryViewController *historyViewController = [[HistoryViewController alloc] init];
     historyViewController.history = history;
+    historyViewController.storyName = story.name;
     [self.navigationController presentModalViewController:historyViewController animated:YES];
 }
 
