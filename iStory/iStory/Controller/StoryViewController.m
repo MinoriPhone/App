@@ -23,7 +23,14 @@
 
 @implementation StoryViewController
 
-@synthesize moviePlayer, imageView, message, locationManager, story, currentLink, currentQueueIndex, currentMediaItem, history, timer, historyButton, currentFilePath, timerStarted, started, counter, storyEnded;
+@synthesize moviePlayer, imageView, message, locationManager, story, currentLink, currentQueueIndex, currentMediaItem, history, timer, historyButton, currentFilePath, timerStarted, started, counter, storyEnded, storyUnzipped;
+
+- (id)initWithStory:(Story *)newStory
+{
+    self = [super init];
+    self.story = newStory;
+    return self;
+}
 
 - (void)viewDidLoad
 {
@@ -33,6 +40,7 @@
     started = NO;
     counter = 0;
     storyEnded = NO;
+    storyUnzipped = NO;
     
     history = [[History alloc] init];
     
@@ -40,9 +48,6 @@
     locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     locationManager.distanceFilter = 10;
     locationManager.delegate = self;
-    [locationManager startUpdatingLocation];
-    
-    [self performSelectorInBackground:@selector(unzipVideos) withObject:nil];
 }
 
 - (void)viewDidUnload
@@ -56,7 +61,12 @@
     [super viewWillAppear:animated];
     
     if (storyEnded)
-        [self dismissModalViewControllerAnimated:NO];
+        [self.navigationController popToRootViewControllerAnimated:NO];
+    
+    if (!storyUnzipped)
+        [self performSelectorInBackground:@selector(unzipStory) withObject:nil];
+    
+    [locationManager startUpdatingLocation];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -82,7 +92,7 @@
     return YES;
 }
 
-- (void)unzipVideos
+- (void)unzipStory
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
@@ -123,18 +133,22 @@
         }
     }
     [unzipFile close];
+    
+    storyUnzipped = YES;
 }
 
 - (void)showLinkQueue
 {
     if (currentQueueIndex == 0) {
-        historyButton.enabled = NO;
+        historyButton.hidden = YES;
     } else if (currentQueueIndex >= currentLink.queue.count) {
         [history.linkQueue addObject:currentLink];
-        historyButton.enabled = YES;
         if (currentLink.next.count == 0) {
+            storyEnded = YES;
             [locationManager stopUpdatingLocation];
-            [self endOfStory];
+            [self showHistory];
+        } else {
+            historyButton.hidden = NO;
         }
         return;
     }
@@ -175,13 +189,13 @@
 - (void)playMovie:(NSString *)path
 {
     moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL fileURLWithPath:path]];
-    moviePlayer.view.frame = CGRectMake(0, 0, 1024, 704);
+    moviePlayer.view.frame = self.view.frame;
     moviePlayer.shouldAutoplay = NO;
     moviePlayer.repeatMode = MPMovieRepeatModeNone;
     moviePlayer.fullscreen = YES;
     moviePlayer.movieSourceType = MPMovieSourceTypeFile;
     moviePlayer.scalingMode = MPMovieScalingModeAspectFit;
-    //moviePlayer.controlStyle = MPMovieControlStyleNone;
+    moviePlayer.controlStyle = MPMovieControlStyleNone;
     [self.view addSubview:moviePlayer.view];
     [moviePlayer play];
     
@@ -233,15 +247,11 @@
     [self showLinkQueue];
 }
 
-- (void)endOfStory
+- (IBAction)showHistory
 {
-    storyEnded = YES;
     HistoryViewController *historyViewController = [[HistoryViewController alloc] init];
     historyViewController.history = history;
-    historyViewController.storyName = story.name;
-    historyViewController.view.backgroundColor = [UIColor blueColor];
-    [self addChildViewController:historyViewController];
-    [self.view addSubview:historyViewController.view];
+    [self.navigationController presentModalViewController:historyViewController animated:YES];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)currentLocation fromLocation:(CLLocation *)oldLocation
@@ -274,14 +284,6 @@
             started = YES;
             [self showLinkQueue];
         }
-    }
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"showHistory"]) {
-        [segue.destinationViewController setValue:history forKey:@"history"];
-        [segue.destinationViewController setValue:story.name forKey:@"storyName"];
     }
 }
 

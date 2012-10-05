@@ -10,9 +10,17 @@
 
 @implementation AppDelegate
 
+@synthesize window, startViewController, navigationController;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    self.startViewController = [[StartViewController alloc] init];
+    self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.startViewController];
+    self.navigationController.navigationBarHidden = YES;
+    self.window.rootViewController = self.navigationController;
+    [self.window makeKeyAndVisible];
     return YES;
 }
 							

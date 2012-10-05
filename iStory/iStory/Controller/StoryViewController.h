@@ -12,23 +12,7 @@
 
 @class Location, Story, Link, Node, History, MediaItem;
 
-@interface StoryViewController : UIViewController <CLLocationManagerDelegate, UIWebViewDelegate> {
-    MPMoviePlayerController *moviePlayer;
-    UIImageView *imageView;
-    UIWebView *message;
-    CLLocationManager *locationManager;
-    Story *story;
-    Link *currentLink;
-    NSInteger currentQueueIndex;
-    MediaItem *currentMediaItem;
-    History *history;
-    NSTimer *timer;
-    NSString *currentFilePath;
-    NSDate *timerStarted;
-    BOOL started;
-    NSInteger counter;
-    BOOL storyEnded;
-}
+@interface StoryViewController : UIViewController <CLLocationManagerDelegate, UIWebViewDelegate>
 
 @property (nonatomic, retain) MPMoviePlayerController *moviePlayer;
 @property (nonatomic, retain) UIImageView *imageView;
@@ -40,14 +24,16 @@
 @property (nonatomic, retain) MediaItem *currentMediaItem;
 @property (nonatomic, retain) History *history;
 @property (nonatomic, retain) NSTimer *timer;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *historyButton;
+@property (nonatomic, retain) IBOutlet UIButton *historyButton;
 @property (nonatomic, retain) NSString *currentFilePath;
 @property (nonatomic, retain) NSDate *timerStarted;
 @property BOOL started;
 @property NSInteger counter;
 @property BOOL storyEnded;
+@property BOOL storyUnzipped;
 
-- (void)unzipVideos;
+- (id)initWithStory:(Story *)newStory;
+- (void)unzipStory;
 - (void)showLinkQueue;
 - (void)checkFile;
 - (void)playMovie:(NSString *)filename;
@@ -56,6 +42,6 @@
 - (void)hideImage;
 - (void)showMessage:(NSString *)path duration:(NSInteger)duration;
 - (void)hideMessage;
-- (void)endOfStory;
+- (IBAction)showHistory;
 
 @end

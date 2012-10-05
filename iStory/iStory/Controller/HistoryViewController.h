@@ -12,12 +12,14 @@
 
 @property (nonatomic, retain) NSString *storyName;
 @property (nonatomic, retain) History *history;
+@property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UIScrollView *rightScrollView;
+@property BOOL storyEnded;
 
 - (void)setScrollViewContent:(Link *)link;
 - (void)addMovie:(NSString *)path;
 - (void)addImage:(NSString *)path;
 - (void)addMessage:(NSString *)path;
-- (IBAction)hideHistory:(id)sender;
+- (IBAction)hideHistory;
 
 @end

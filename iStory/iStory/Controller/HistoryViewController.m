@@ -17,7 +17,7 @@
 
 @implementation HistoryViewController
 
-@synthesize storyName, history, rightScrollView;
+@synthesize storyName, history, tableView, rightScrollView, storyEnded;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -112,10 +112,10 @@
     return history.linkQueue.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    UITableViewCell *cell = [theTableView dequeueReusableCellWithIdentifier:identifier];
     
     if(cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
@@ -129,21 +129,15 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self setScrollViewContent:[history.linkQueue objectAtIndex:indexPath.row]];
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [theTableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (IBAction)hideHistory:(id)sender
+- (IBAction)hideHistory
 {
-    if ([self.parentViewController valueForKey:@"storyEnded"]) {
-        [self.view removeFromSuperview];
-        [self removeFromParentViewController];
-        [self.parentViewController dismissModalViewControllerAnimated:YES];
-    } else {
-        [self dismissModalViewControllerAnimated:YES];
-    }
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 @end
