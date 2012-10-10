@@ -14,7 +14,6 @@
 		F91BC44115F8BEC000381DFF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F91BC44015F8BEC000381DFF /* main.m */; };
 		F91BC44515F8BEC000381DFF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F91BC44415F8BEC000381DFF /* AppDelegate.m */; };
 		F91BC44B15F8BEC000381DFF /* StoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F91BC44A15F8BEC000381DFF /* StoryViewController.m */; };
-		F91BC45315F8BEC000381DFF /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F91BC45215F8BEC000381DFF /* SenTestingKit.framework */; };
 		F91BC45415F8BEC000381DFF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F91BC43415F8BEC000381DFF /* UIKit.framework */; };
 		F91BC45515F8BEC000381DFF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F91BC43615F8BEC000381DFF /* Foundation.framework */; };
 		F91BC45D15F8BEC000381DFF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F91BC45B15F8BEC000381DFF /* InfoPlist.strings */; };
@@ -86,7 +85,6 @@
 		F91BC44915F8BEC000381DFF /* StoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoryViewController.h; sourceTree = "<group>"; };
 		F91BC44A15F8BEC000381DFF /* StoryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoryViewController.m; sourceTree = "<group>"; };
 		F91BC45115F8BEC000381DFF /* iStoryTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iStoryTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F91BC45215F8BEC000381DFF /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		F91BC45A15F8BEC000381DFF /* iStoryTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iStoryTests-Info.plist"; sourceTree = "<group>"; };
 		F91BC45C15F8BEC000381DFF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F91BC45E15F8BEC000381DFF /* iStoryTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iStoryTests.h; sourceTree = "<group>"; };
@@ -183,7 +181,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F91BC45315F8BEC000381DFF /* SenTestingKit.framework in Frameworks */,
 				F91BC45415F8BEC000381DFF /* UIKit.framework in Frameworks */,
 				F91BC45515F8BEC000381DFF /* Foundation.framework in Frameworks */,
 			);
@@ -219,7 +216,6 @@
 				F91BC43415F8BEC000381DFF /* UIKit.framework */,
 				F91BC43615F8BEC000381DFF /* Foundation.framework */,
 				F91BC43815F8BEC000381DFF /* CoreGraphics.framework */,
-				F91BC45215F8BEC000381DFF /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
