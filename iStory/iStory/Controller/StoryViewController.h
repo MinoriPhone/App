@@ -28,9 +28,11 @@
 @property (nonatomic, retain) NSString *currentFilePath;
 @property (nonatomic, retain) NSDate *timerStarted;
 @property BOOL started;
+@property BOOL ended;
 @property NSInteger counter;
 @property BOOL storyUnzipped;
 @property BOOL showingQueue;
+@property (nonatomic, retain) IBOutlet UILabel *debugLabel;
 
 - (id)initWithStory:(Story *)newStory;
 - (void)unzipStory;

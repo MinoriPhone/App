@@ -22,7 +22,7 @@
 
 @implementation StoryViewController
 
-@synthesize moviePlayer, imageView, message, locationManager, story, currentLink, currentQueueIndex, currentMediaItem, history, timer, historyMenu, historyTable, currentFilePath, timerStarted, started, counter, storyUnzipped, showingQueue;
+@synthesize moviePlayer, imageView, message, locationManager, story, currentLink, currentQueueIndex, currentMediaItem, history, timer, historyMenu, historyTable, currentFilePath, timerStarted, started, ended, counter, storyUnzipped, showingQueue, debugLabel;
 
 CGRect historyMenuFrame;
 CGPoint touchedFrom;
@@ -38,8 +38,9 @@ CGPoint touchedFrom;
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    self.title = story.name;
+    debugLabel.text = story.name;
     started = NO;
+    ended = NO;
     counter = 0;
     storyUnzipped = NO;
     showingQueue = NO;
@@ -142,12 +143,15 @@ CGPoint touchedFrom;
     if (currentQueueIndex == 0) {
         showingQueue = YES;
     } else if (currentQueueIndex >= currentLink.queue.count) {
-        [history.linkQueue addObject:currentLink];
-        [historyTable reloadData];
-        if (currentLink.next.count == 0) {
-            [locationManager stopUpdatingLocation];
-        } else {
-            [self checkLocation];
+        if (!ended) {
+            [history.linkQueue addObject:currentLink];
+            [historyTable reloadData];
+            if (currentLink.next.count == 0) {
+                ended = YES;
+                [locationManager stopUpdatingLocation];
+            } else {
+                [self checkLocation];
+            }
         }
         showingQueue = NO;
         return;
@@ -189,6 +193,7 @@ CGPoint touchedFrom;
 - (void)playMovie:(NSString *)path
 {
     moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL fileURLWithPath:path]];
+    [moviePlayer prepareToPlay];
     moviePlayer.view.frame = self.view.frame;
     moviePlayer.shouldAutoplay = YES;
     moviePlayer.repeatMode = MPMovieRepeatModeNone;
@@ -206,7 +211,9 @@ CGPoint touchedFrom;
     NSNumber *reason = [[notification userInfo] objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
     
     if([reason intValue] == MPMovieFinishReasonPlaybackEnded && moviePlayer.playbackState != MPMoviePlaybackStateStopped) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
         [moviePlayer.view removeFromSuperview];
+        moviePlayer = nil;
         currentQueueIndex++;
         [self showLinkQueue];
     }
@@ -269,13 +276,13 @@ CGPoint touchedFrom;
                     nearest = distance;
                 }
             }
-            self.title = [NSString stringWithFormat:@"%d: %f", counter, nearest];
-            if ([nearestRoute.start.to.location distanceFromLocation:currentLocation] < [nearestRoute.start.to.radius floatValue]) {
+            debugLabel.text = [NSString stringWithFormat:@"%d: %f", counter, nearest];
+            //if ([nearestRoute.start.to.location distanceFromLocation:currentLocation] < [nearestRoute.start.to.radius floatValue]) {
                 currentQueueIndex = 0;
                 currentLink = nearestRoute.start;
                 started = YES;
                 [self showLinkQueue];
-            }
+            //}
         }
     }
 }
@@ -284,7 +291,8 @@ CGPoint touchedFrom;
 {
     for (Link *link in currentLink.next) {
         CLLocationDistance distance = [link.to.location distanceFromLocation:locationManager.location];
-        self.title = [NSString stringWithFormat:@"%d: %f", counter, distance];
+        distance = 20;
+        debugLabel.text = [NSString stringWithFormat:@"%d: %f", counter, distance];
         if (distance < [link.to.radius floatValue]) {
             currentQueueIndex = 0;
             currentLink = link;
