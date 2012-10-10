@@ -13,7 +13,6 @@
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
 			<string>IBUITableView</string>
-			<string>IBUIViewController</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -31,27 +30,18 @@
 				<string key="IBProxiedObjectIdentifier">IBFirstResponder</string>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 			</object>
-			<object class="IBUIViewController" id="687105991">
-				<object class="IBUITableView" key="IBUIView" id="427685442">
-					<reference key="NSNextResponder"/>
-					<int key="NSvFlags">274</int>
-					<string key="NSFrameSize">{1024, 768}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
-					<string key="NSReuseIdentifierKey">_NS:9</string>
-					<object class="NSColor" key="IBUIBackgroundColor">
-						<int key="NSColorSpace">3</int>
-						<bytes key="NSWhite">MAA</bytes>
-					</object>
-					<bool key="IBUIClipsSubviews">YES</bool>
-					<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-					<bool key="IBUIAlwaysBounceVertical">YES</bool>
-					<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
-					<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
-					<float key="IBUIRowHeight">320</float>
-					<float key="IBUISectionHeaderHeight">22</float>
-					<float key="IBUISectionFooterHeight">22</float>
+			<object class="IBUITableView" id="427685442">
+				<reference key="NSNextResponder"/>
+				<int key="NSvFlags">274</int>
+				<string key="NSFrameSize">{1024, 768}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
+				<string key="NSReuseIdentifierKey">_NS:9</string>
+				<object class="NSColor" key="IBUIBackgroundColor">
+					<int key="NSColorSpace">3</int>
+					<bytes key="NSWhite">MAA</bytes>
 				</object>
+				<bool key="IBUIClipsSubviews">YES</bool>
 				<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
 					<int key="IBUIInterfaceOrientation">3</int>
 					<int key="interfaceOrientation">3</int>
@@ -73,13 +63,25 @@
 					<string key="IBUIDisplayName">iPad Full Screen</string>
 					<int key="IBUIType">1</int>
 				</object>
-				<bool key="IBUIWantsFullScreenLayout">YES</bool>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-				<bool key="IBUIHorizontal">YES</bool>
+				<bool key="IBUIAlwaysBounceVertical">YES</bool>
+				<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
+				<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
+				<float key="IBUIRowHeight">320</float>
+				<float key="IBUISectionHeaderHeight">22</float>
+				<float key="IBUISectionFooterHeight">22</float>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<array class="NSMutableArray" key="connectionRecords">
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">view</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="427685442"/>
+					</object>
+					<int key="connectionID">19</int>
+				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">dataSource</string>
@@ -117,17 +119,9 @@
 						<reference key="parent" ref="0"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">3</int>
-						<reference key="object" ref="687105991"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="427685442"/>
-						</array>
-						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">4</int>
 						<reference key="object" ref="427685442"/>
-						<reference key="parent" ref="687105991"/>
+						<reference key="parent" ref="0"/>
 					</object>
 				</array>
 			</object>
@@ -136,15 +130,13 @@
 				<string key="-1.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="-2.CustomClassName">UIResponder</string>
 				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="3.CustomClassName">StartViewController</string>
-				<string key="3.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">18</int>
+			<int key="maxID">21</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

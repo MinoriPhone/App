@@ -185,15 +185,4 @@
     [self.navigationController pushViewController:storyViewController animated:YES];
 }
 
-- (void)storyEnded:(History *)history
-{
-    [storyViewController.view removeFromSuperview];
-    [storyViewController removeFromParentViewController];
-    
-    HistoryViewController *historyViewController = [[HistoryViewController alloc] init];
-    historyViewController.history = history;
-    [self addChildViewController:historyViewController];
-    [self.view addSubview:historyViewController.view];
-}
-
 @end

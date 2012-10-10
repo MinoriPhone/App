@@ -8,11 +8,10 @@
 
 #import <MediaPlayer/MediaPlayer.h>
 #import <CoreLocation/CoreLocation.h>
-#import "HistoryViewController.h"
 
 @class Location, Story, Link, Node, History, MediaItem;
 
-@interface StoryViewController : UIViewController <CLLocationManagerDelegate, UIWebViewDelegate>
+@interface StoryViewController : UIViewController <CLLocationManagerDelegate, UIWebViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, retain) MPMoviePlayerController *moviePlayer;
 @property (nonatomic, retain) UIImageView *imageView;
@@ -24,13 +23,14 @@
 @property (nonatomic, retain) MediaItem *currentMediaItem;
 @property (nonatomic, retain) History *history;
 @property (nonatomic, retain) NSTimer *timer;
-@property (nonatomic, retain) IBOutlet UIButton *historyButton;
+@property (nonatomic, retain) IBOutlet UIView *historyMenu;
+@property (nonatomic, retain) IBOutlet UITableView *historyTable;
 @property (nonatomic, retain) NSString *currentFilePath;
 @property (nonatomic, retain) NSDate *timerStarted;
 @property BOOL started;
 @property NSInteger counter;
-@property BOOL storyEnded;
 @property BOOL storyUnzipped;
+@property BOOL showingQueue;
 
 - (id)initWithStory:(Story *)newStory;
 - (void)unzipStory;
@@ -42,6 +42,7 @@
 - (void)hideImage;
 - (void)showMessage:(NSString *)path duration:(NSInteger)duration;
 - (void)hideMessage;
-- (IBAction)showHistory;
+- (void)checkLocation;
+- (void)animateHistoryView:(BOOL)show;
 
 @end

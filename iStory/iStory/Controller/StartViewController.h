@@ -17,6 +17,5 @@
 - (void)getStoryImages;
 - (void)parse:(NSData *)data zipFilename:(NSString *)zipFilename;
 - (IBAction)buttonPressed:(id)sender;
-- (void)storyEnded:(History *)history;
 
 @end

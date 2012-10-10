@@ -7,7 +7,6 @@
 //
 
 #import "StoryViewController.h"
-#import "HistoryViewController.h"
 #import "Story.h"
 #import "Route.h"
 #import "Link.h"
@@ -23,7 +22,10 @@
 
 @implementation StoryViewController
 
-@synthesize moviePlayer, imageView, message, locationManager, story, currentLink, currentQueueIndex, currentMediaItem, history, timer, historyButton, currentFilePath, timerStarted, started, counter, storyEnded, storyUnzipped;
+@synthesize moviePlayer, imageView, message, locationManager, story, currentLink, currentQueueIndex, currentMediaItem, history, timer, historyMenu, historyTable, currentFilePath, timerStarted, started, counter, storyUnzipped, showingQueue;
+
+CGRect historyMenuFrame;
+CGPoint touchedFrom;
 
 - (id)initWithStory:(Story *)newStory
 {
@@ -39,8 +41,9 @@
     self.title = story.name;
     started = NO;
     counter = 0;
-    storyEnded = NO;
     storyUnzipped = NO;
+    showingQueue = NO;
+    historyMenuFrame = historyMenu.frame;
     
     history = [[History alloc] init];
     
@@ -59,9 +62,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    if (storyEnded)
-        [self.navigationController popToRootViewControllerAnimated:NO];
     
     if (!storyUnzipped)
         [self performSelectorInBackground:@selector(unzipStory) withObject:nil];
@@ -140,16 +140,16 @@
 - (void)showLinkQueue
 {
     if (currentQueueIndex == 0) {
-        historyButton.hidden = YES;
+        showingQueue = YES;
     } else if (currentQueueIndex >= currentLink.queue.count) {
         [history.linkQueue addObject:currentLink];
+        [historyTable reloadData];
         if (currentLink.next.count == 0) {
-            storyEnded = YES;
             [locationManager stopUpdatingLocation];
-            [self showHistory];
         } else {
-            historyButton.hidden = NO;
+            [self checkLocation];
         }
+        showingQueue = NO;
         return;
     }
     
@@ -195,7 +195,7 @@
     moviePlayer.fullscreen = YES;
     moviePlayer.movieSourceType = MPMovieSourceTypeFile;
     moviePlayer.scalingMode = MPMovieScalingModeAspectFit;
-    moviePlayer.controlStyle = MPMovieControlStyleNone;
+    //moviePlayer.controlStyle = MPMovieControlStyleNone;
     [self.view addSubview:moviePlayer.view];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayerPlaybackStateChanged:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
@@ -253,45 +253,125 @@
     [self showLinkQueue];
 }
 
-- (IBAction)showHistory
-{
-    HistoryViewController *historyViewController = [[HistoryViewController alloc] init];
-    historyViewController.history = history;
-    historyViewController.storyName = story.name;
-    [self.navigationController presentModalViewController:historyViewController animated:YES];
-}
-
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)currentLocation fromLocation:(CLLocation *)oldLocation
 {
     counter++;
-    if (started) {
-        for (Link *link in currentLink.next) {
-            CLLocationDistance distance = [link.to.location distanceFromLocation:currentLocation];
-            self.title = [NSString stringWithFormat:@"%d: %f", counter, distance];
-            if (distance < [link.to.radius floatValue]) {
+    if (!showingQueue) {
+        if (started) {
+            [self checkLocation];
+        } else {
+            CLLocationDistance nearest = 0;
+            Route *nearestRoute = nil;
+            for (Route *route in story.routes) {
+                CLLocationDistance distance = [route.start.to.location distanceFromLocation:currentLocation];
+                if (nearestRoute == nil || distance < nearest) {
+                    nearestRoute = route;
+                    nearest = distance;
+                }
+            }
+            self.title = [NSString stringWithFormat:@"%d: %f", counter, nearest];
+            if ([nearestRoute.start.to.location distanceFromLocation:currentLocation] < [nearestRoute.start.to.radius floatValue]) {
                 currentQueueIndex = 0;
-                currentLink = link;
+                currentLink = nearestRoute.start;
+                started = YES;
                 [self showLinkQueue];
             }
         }
-    } else {
-        CLLocationDistance nearest = 0;
-        Route *nearestRoute = nil;
-        for (Route *route in story.routes) {
-            CLLocationDistance distance = [route.start.to.location distanceFromLocation:currentLocation];
-            if (nearestRoute == nil || distance < nearest) {
-                nearestRoute = route;
-                nearest = distance;
-            }
-        }
-        self.title = [NSString stringWithFormat:@"%d: %f", counter, nearest];
-        if ([nearestRoute.start.to.location distanceFromLocation:currentLocation] < [nearestRoute.start.to.radius floatValue]) {
+    }
+}
+
+- (void)checkLocation
+{
+    for (Link *link in currentLink.next) {
+        CLLocationDistance distance = [link.to.location distanceFromLocation:locationManager.location];
+        self.title = [NSString stringWithFormat:@"%d: %f", counter, distance];
+        if (distance < [link.to.radius floatValue]) {
             currentQueueIndex = 0;
-            currentLink = nearestRoute.start;
-            started = YES;
+            currentLink = link;
             [self showLinkQueue];
         }
     }
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return history.linkQueue.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *identifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    
+    if(cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    }
+    
+    //[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    
+    cell.backgroundColor = [UIColor clearColor];
+    cell.textLabel.textColor = [UIColor whiteColor];
+    cell.textLabel.textAlignment = UITextAlignmentRight;
+    cell.textLabel.text = [[history.linkQueue objectAtIndex:indexPath.row] valueForKey:@"name"];
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self animateHistoryView:NO];
+    currentLink = [history.linkQueue objectAtIndex:indexPath.row];
+    currentQueueIndex = 0;
+    [self showLinkQueue];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if (!showingQueue) {
+        UITouch *touch = [touches anyObject];
+        touchedFrom = [touch locationInView:self.view];
+    }
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if (!showingQueue) {
+        UITouch *touch = [touches anyObject];
+        CGPoint location = [touch locationInView:self.view];
+        if (location.x > touchedFrom.x && location.x-touchedFrom.x < historyMenu.frame.size.width)
+            historyMenu.frame = CGRectMake(-historyMenu.frame.size.width+(location.x-touchedFrom.x), 0, historyMenu.frame.size.width, historyMenu.frame.size.height);
+        else if (location.x < touchedFrom.x && touchedFrom.x-location.x < historyMenu.frame.size.width)
+            historyMenu.frame = CGRectMake(-(touchedFrom.x-location.x), 0, historyMenu.frame.size.width, historyMenu.frame.size.height);
+        else
+            historyMenu.frame = historyMenuFrame;
+    }
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if (!showingQueue) {
+        UITouch *touch = [touches anyObject];
+        CGPoint location = [touch locationInView:self.view];
+        if (location.x > touchedFrom.x && location.x-touchedFrom.x > historyMenu.frame.size.width/2) {
+            [self animateHistoryView:YES];
+        } else if (location.x < touchedFrom.x && touchedFrom.x-location.x > historyMenu.frame.size.width/2) {
+            [self animateHistoryView:NO];
+        } else {
+            historyMenu.frame = historyMenuFrame;
+        }
+    }
+}
+
+- (void)animateHistoryView:(BOOL)show
+{
+     historyMenu.frame = CGRectMake(show ? 0 : -historyMenu.frame.size.width, 0, historyMenu.frame.size.width, historyMenu.frame.size.height);
+     historyMenuFrame = historyMenu.frame;
+    
 }
 
 @end

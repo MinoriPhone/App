@@ -22,10 +22,8 @@
 		F939E9E615FDF7470005D6B7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F939E9E515FDF7470005D6B7 /* CoreLocation.framework */; };
 		F95E03EE161D93BC00F76E74 /* defaultStoryImage.png in Resources */ = {isa = PBXBuildFile; fileRef = F95E03ED161D93BC00F76E74 /* defaultStoryImage.png */; };
 		F96EDDC8161DD51D00BEE2B7 /* StoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F96EDDC7161DD51D00BEE2B7 /* StoryViewController.xib */; };
-		F96EDDCB161DD5A300BEE2B7 /* HistoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F96EDDCA161DD5A300BEE2B7 /* HistoryViewController.xib */; };
 		F96EDDCF161DDA9F00BEE2B7 /* StartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F96EDDCE161DDA9F00BEE2B7 /* StartViewController.xib */; };
 		F9780B771609C2070039CFF3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F9780B751609C2070039CFF3 /* Localizable.strings */; };
-		F984E3991601DA3B007CE9F4 /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F984E3981601DA3B007CE9F4 /* HistoryViewController.m */; };
 		F984E39D1601E1F2007CE9F4 /* History.m in Sources */ = {isa = PBXBuildFile; fileRef = F984E39C1601E1F2007CE9F4 /* History.m */; };
 		F984E3A01601E779007CE9F4 /* MediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F984E39F1601E779007CE9F4 /* MediaItem.m */; };
 		F984E3A31601E806007CE9F4 /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = F984E3A21601E806007CE9F4 /* Image.m */; };
@@ -96,11 +94,8 @@
 		F939E9E515FDF7470005D6B7 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		F95E03ED161D93BC00F76E74 /* defaultStoryImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultStoryImage.png; sourceTree = "<group>"; };
 		F96EDDC7161DD51D00BEE2B7 /* StoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoryViewController.xib; sourceTree = "<group>"; };
-		F96EDDCA161DD5A300BEE2B7 /* HistoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HistoryViewController.xib; sourceTree = "<group>"; };
 		F96EDDCE161DDA9F00BEE2B7 /* StartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StartViewController.xib; sourceTree = "<group>"; };
 		F9780B761609C2070039CFF3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		F984E3971601DA3B007CE9F4 /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
-		F984E3981601DA3B007CE9F4 /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
 		F984E39B1601E1F2007CE9F4 /* History.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = History.h; sourceTree = "<group>"; };
 		F984E39C1601E1F2007CE9F4 /* History.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = History.m; sourceTree = "<group>"; };
 		F984E39E1601E779007CE9F4 /* MediaItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaItem.h; sourceTree = "<group>"; };
@@ -304,7 +299,6 @@
 			isa = PBXGroup;
 			children = (
 				F96EDDC7161DD51D00BEE2B7 /* StoryViewController.xib */,
-				F96EDDCA161DD5A300BEE2B7 /* HistoryViewController.xib */,
 				F96EDDCE161DDA9F00BEE2B7 /* StartViewController.xib */,
 			);
 			path = View;
@@ -317,8 +311,6 @@
 				F9DE431C15F8D66F007CEA71 /* StartViewController.m */,
 				F91BC44915F8BEC000381DFF /* StoryViewController.h */,
 				F91BC44A15F8BEC000381DFF /* StoryViewController.m */,
-				F984E3971601DA3B007CE9F4 /* HistoryViewController.h */,
-				F984E3981601DA3B007CE9F4 /* HistoryViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -476,7 +468,6 @@
 				F9780B771609C2070039CFF3 /* Localizable.strings in Resources */,
 				F95E03EE161D93BC00F76E74 /* defaultStoryImage.png in Resources */,
 				F96EDDC8161DD51D00BEE2B7 /* StoryViewController.xib in Resources */,
-				F96EDDCB161DD5A300BEE2B7 /* HistoryViewController.xib in Resources */,
 				F96EDDCF161DDA9F00BEE2B7 /* StartViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -521,7 +512,6 @@
 				F98FE00A15F9EB880057B4F1 /* Route.m in Sources */,
 				F98FE00B15F9EB880057B4F1 /* Story.m in Sources */,
 				F98FE01415F9F21C0057B4F1 /* XMLParser.m in Sources */,
-				F984E3991601DA3B007CE9F4 /* HistoryViewController.m in Sources */,
 				F984E39D1601E1F2007CE9F4 /* History.m in Sources */,
 				F984E3A01601E779007CE9F4 /* MediaItem.m in Sources */,
 				F984E3A31601E806007CE9F4 /* Image.m in Sources */,
@@ -656,7 +646,7 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iStory/Supporting Files/iStory-Prefix.pch";
-				INFOPLIST_FILE = "$(SRCROOT)/iStory/Supporting Files/iStory-Info.plist";
+				INFOPLIST_FILE = "iStory/Supporting Files/iStory-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -667,7 +657,7 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iStory/Supporting Files/iStory-Prefix.pch";
-				INFOPLIST_FILE = "$(SRCROOT)/iStory/Supporting Files/iStory-Info.plist";
+				INFOPLIST_FILE = "iStory/Supporting Files/iStory-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
