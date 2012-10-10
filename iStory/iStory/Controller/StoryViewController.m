@@ -332,7 +332,7 @@ CGPoint touchedFrom;
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if (!showingQueue) {
+    if (!showingQueue && history.linkQueue.count > 0) {
         UITouch *touch = [touches anyObject];
         touchedFrom = [touch locationInView:self.view];
     }
@@ -340,7 +340,7 @@ CGPoint touchedFrom;
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if (!showingQueue) {
+    if (!showingQueue && history.linkQueue.count > 0) {
         UITouch *touch = [touches anyObject];
         CGPoint location = [touch locationInView:self.view];
         if (location.x > touchedFrom.x && location.x-touchedFrom.x < historyMenu.frame.size.width)
@@ -354,7 +354,7 @@ CGPoint touchedFrom;
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if (!showingQueue) {
+    if (!showingQueue && history.linkQueue.count > 0) {
         UITouch *touch = [touches anyObject];
         CGPoint location = [touch locationInView:self.view];
         if (location.x > touchedFrom.x && location.x-touchedFrom.x > historyMenu.frame.size.width/2) {
