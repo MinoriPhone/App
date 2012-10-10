@@ -277,12 +277,12 @@ CGPoint touchedFrom;
                 }
             }
             debugLabel.text = [NSString stringWithFormat:@"%d: %f", counter, nearest];
-            //if ([nearestRoute.start.to.location distanceFromLocation:currentLocation] < [nearestRoute.start.to.radius floatValue]) {
+            if ([nearestRoute.start.to.location distanceFromLocation:currentLocation] < [nearestRoute.start.to.radius floatValue]) {
                 currentQueueIndex = 0;
                 currentLink = nearestRoute.start;
                 started = YES;
                 [self showLinkQueue];
-            //}
+            }
         }
     }
 }
@@ -291,7 +291,6 @@ CGPoint touchedFrom;
 {
     for (Link *link in currentLink.next) {
         CLLocationDistance distance = [link.to.location distanceFromLocation:locationManager.location];
-        distance = 20;
         debugLabel.text = [NSString stringWithFormat:@"%d: %f", counter, distance];
         if (distance < [link.to.radius floatValue]) {
             currentQueueIndex = 0;
