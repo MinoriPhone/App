@@ -13,6 +13,8 @@
 
 @interface StoryViewController : UIViewController <CLLocationManagerDelegate, UIWebViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
+@property (nonatomic, retain) IBOutlet UIImageView *background;
+@property (nonatomic, retain) IBOutlet UIView *indicatorView;
 @property (nonatomic, retain) MPMoviePlayerController *moviePlayer;
 @property (nonatomic, retain) UIImageView *imageView;
 @property (nonatomic, retain) UIWebView *message;
@@ -29,10 +31,8 @@
 @property (nonatomic, retain) NSDate *timerStarted;
 @property BOOL started;
 @property BOOL ended;
-@property NSInteger counter;
 @property BOOL storyUnzipped;
 @property BOOL showingQueue;
-@property (nonatomic, retain) IBOutlet UILabel *debugLabel;
 
 - (id)initWithStory:(Story *)newStory;
 - (void)unzipStory;

@@ -22,7 +22,7 @@
 
 @implementation StoryViewController
 
-@synthesize moviePlayer, imageView, message, locationManager, story, currentLink, currentQueueIndex, currentMediaItem, history, timer, historyMenu, historyTable, currentFilePath, timerStarted, started, ended, counter, storyUnzipped, showingQueue, debugLabel;
+@synthesize background, indicatorView, moviePlayer, imageView, message, locationManager, story, currentLink, currentQueueIndex, currentMediaItem, history, timer, historyMenu, historyTable, currentFilePath, timerStarted, started, ended, storyUnzipped, showingQueue;
 
 CGRect historyMenuFrame;
 CGPoint touchedFrom;
@@ -38,10 +38,8 @@ CGPoint touchedFrom;
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    debugLabel.text = story.name;
     started = NO;
     ended = NO;
-    counter = 0;
     storyUnzipped = NO;
     showingQueue = NO;
     historyMenuFrame = historyMenu.frame;
@@ -142,6 +140,7 @@ CGPoint touchedFrom;
 {
     if (currentQueueIndex == 0) {
         showingQueue = YES;
+        background.hidden = YES;
     } else if (currentQueueIndex >= currentLink.queue.count) {
         if (!ended) {
             [history.linkQueue addObject:currentLink];
@@ -154,6 +153,8 @@ CGPoint touchedFrom;
             }
         }
         showingQueue = NO;
+        indicatorView.hidden = YES;
+        background.hidden = NO;
         return;
     }
     
@@ -200,7 +201,8 @@ CGPoint touchedFrom;
     moviePlayer.fullscreen = YES;
     moviePlayer.movieSourceType = MPMovieSourceTypeFile;
     moviePlayer.scalingMode = MPMovieScalingModeAspectFit;
-    //moviePlayer.controlStyle = MPMovieControlStyleNone;
+    moviePlayer.controlStyle = MPMovieControlStyleNone;
+    indicatorView.hidden = YES;
     [self.view addSubview:moviePlayer.view];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayerPlaybackStateChanged:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
@@ -213,6 +215,7 @@ CGPoint touchedFrom;
     if([reason intValue] == MPMovieFinishReasonPlaybackEnded && moviePlayer.playbackState != MPMoviePlaybackStateStopped) {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
         [moviePlayer.view removeFromSuperview];
+        indicatorView.hidden = NO;
         moviePlayer = nil;
         currentQueueIndex++;
         [self showLinkQueue];
@@ -229,6 +232,7 @@ CGPoint touchedFrom;
             imageView.frame = CGRectMake(0, 0, ((self.view.frame.size.height/imageView.frame.size.height)*imageView.frame.size.width), self.view.frame.size.height);
         }
     }
+    indicatorView.hidden = YES;
     [self.view addSubview:imageView];
     timer = [NSTimer scheduledTimerWithTimeInterval:duration target:self selector:@selector(hideImage) userInfo:nil repeats:NO];
 }
@@ -238,6 +242,7 @@ CGPoint touchedFrom;
     [timer invalidate];
     timer = nil;
     [imageView removeFromSuperview];
+    indicatorView.hidden = NO;
     currentQueueIndex++;
     [self showLinkQueue];
 }
@@ -247,6 +252,7 @@ CGPoint touchedFrom;
     message = [[UIWebView alloc] initWithFrame:self.view.frame];
     [message loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:path]]];
     message.delegate = self;
+    indicatorView.hidden = YES;
     [self.view addSubview:message];
     timer = [NSTimer scheduledTimerWithTimeInterval:duration target:self selector:@selector(hideMessage) userInfo:nil repeats:NO];
 }
@@ -256,13 +262,13 @@ CGPoint touchedFrom;
     [timer invalidate];
     timer = nil;
     [message removeFromSuperview];
+    indicatorView.hidden = NO;
     currentQueueIndex++;
     [self showLinkQueue];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)currentLocation fromLocation:(CLLocation *)oldLocation
 {
-    counter++;
     if (!showingQueue) {
         if (started) {
             [self checkLocation];
@@ -276,8 +282,8 @@ CGPoint touchedFrom;
                     nearest = distance;
                 }
             }
-            debugLabel.text = [NSString stringWithFormat:@"%d: %f", counter, nearest];
             if ([nearestRoute.start.to.location distanceFromLocation:currentLocation] < [nearestRoute.start.to.radius floatValue]) {
+                indicatorView.hidden = NO;
                 currentQueueIndex = 0;
                 currentLink = nearestRoute.start;
                 started = YES;
@@ -291,8 +297,8 @@ CGPoint touchedFrom;
 {
     for (Link *link in currentLink.next) {
         CLLocationDistance distance = [link.to.location distanceFromLocation:locationManager.location];
-        debugLabel.text = [NSString stringWithFormat:@"%d: %f", counter, distance];
         if (distance < [link.to.radius floatValue]) {
+            indicatorView.hidden = NO;
             currentQueueIndex = 0;
             currentLink = link;
             [self showLinkQueue];
