@@ -1,13 +1,4 @@
-//
-//  ViewController.m
-//  iStory
-//
-//  Created by Gido Manders on 06-09-2012.
-//  Copyright (c) 2012 HSS. All rights reserved.
-//
-
 #import "StoryViewController.h"
-#import "Story.h"
 #import "Route.h"
 #import "Link.h"
 #import "Node.h"
@@ -22,7 +13,7 @@
 
 @implementation StoryViewController
 
-@synthesize background, indicatorView, moviePlayer, imageView, message, locationManager, story, currentLink, currentQueueIndex, currentMediaItem, history, timer, historyMenu, historyTable, currentFilePath, timerStarted, started, ended, storyUnzipped, showingQueue;
+@synthesize background, indicatorView, historyMenu, historyTable, documentsDir, moviePlayer, imageView, message, locationManager, story, startLinks, currentLink, currentQueueIndex, history, timer, timerStarted, started, ended, showingQueue;
 
 CGRect historyMenuFrame;
 CGPoint touchedFrom;
@@ -38,13 +29,18 @@ CGPoint touchedFrom;
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
     started = NO;
     ended = NO;
-    storyUnzipped = NO;
     showingQueue = NO;
     historyMenuFrame = historyMenu.frame;
     
     history = [[History alloc] init];
+    
+    startLinks = [[NSMutableArray alloc] initWithCapacity:story.routes.count];
+    for (Route *route in story.routes) {
+        [startLinks addObject:route.start];
+    }
     
     locationManager = [[CLLocationManager alloc] init];
     locationManager.desiredAccuracy = kCLLocationAccuracyBest;
@@ -62,8 +58,7 @@ CGPoint touchedFrom;
 {
     [super viewWillAppear:animated];
     
-    if (!storyUnzipped)
-        [self performSelectorInBackground:@selector(unzipStory) withObject:nil];
+    [self performSelectorInBackground:@selector(unzipStory) withObject:nil];
     
     [locationManager startUpdatingLocation];
 }
@@ -95,9 +90,6 @@ CGPoint touchedFrom;
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
-    NSString *documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-    NSString *mediaFilesDir = [documentsDir stringByAppendingPathComponent:story.name];
-    
     NSString *filePath = [documentsDir stringByAppendingPathComponent:story.zipFilename];
     ZipFile *unzipFile = [[ZipFile alloc] initWithFileName:filePath mode:ZipFileModeUnzip];
     
@@ -114,10 +106,10 @@ CGPoint touchedFrom;
                     int bytesRead = [read readDataWithBuffer:data];
                     
                     if (bytesRead > 0) {
-                        if (![fileManager fileExistsAtPath:mediaFilesDir isDirectory:nil])
-                            [fileManager createDirectoryAtPath:mediaFilesDir withIntermediateDirectories:YES attributes:nil error:NULL];
+                        if (![fileManager fileExistsAtPath:story.dir isDirectory:nil])
+                            [fileManager createDirectoryAtPath:story.dir withIntermediateDirectories:YES attributes:nil error:NULL];
                         
-                        NSString *linkPath = [mediaFilesDir stringByAppendingPathComponent:[info.name stringByDeletingLastPathComponent]];
+                        NSString *linkPath = [story.dir stringByAppendingPathComponent:[info.name stringByDeletingLastPathComponent]];
                         
                         if (![fileManager fileExistsAtPath:linkPath isDirectory:nil])
                             [fileManager createDirectoryAtPath:linkPath withIntermediateDirectories:YES attributes:nil error:NULL];
@@ -132,38 +124,25 @@ CGPoint touchedFrom;
         }
     }
     [unzipFile close];
-    
-    storyUnzipped = YES;
+}
+
+- (MediaItem *)currentMediaItem
+{
+    return [currentLink.queue objectAtIndex:currentQueueIndex];
+}
+
+- (NSString *)currentFilePath
+{
+    return [[story.dir stringByAppendingPathComponent:[currentLink.identifier stringValue]] stringByAppendingPathComponent:self.currentMediaItem.filename];
 }
 
 - (void)showLinkQueue
 {
     if (currentQueueIndex == 0) {
+        started = YES;
         showingQueue = YES;
         background.hidden = YES;
-    } else if (currentQueueIndex >= currentLink.queue.count) {
-        if (!ended) {
-            [history.linkQueue addObject:currentLink];
-            [historyTable reloadData];
-            if (currentLink.next.count == 0) {
-                ended = YES;
-                [locationManager stopUpdatingLocation];
-            } else {
-                [self checkLocation];
-            }
-        }
-        showingQueue = NO;
-        indicatorView.hidden = YES;
-        background.hidden = NO;
-        return;
     }
-    
-    currentMediaItem = [currentLink.queue objectAtIndex:currentQueueIndex];
-    
-    NSString *documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-    NSString *mediaFilesDir = [documentsDir stringByAppendingPathComponent:story.name];
-    NSString *linkDir = [mediaFilesDir stringByAppendingPathComponent:[currentLink.identifier stringValue]];
-    currentFilePath = [linkDir stringByAppendingPathComponent:currentMediaItem.filename];
     
     timerStarted = [NSDate date];
     timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(checkFile) userInfo:nil repeats:YES];
@@ -179,15 +158,20 @@ CGPoint touchedFrom;
     }
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    if ([fileManager fileExistsAtPath:currentFilePath]){
+    if ([fileManager fileExistsAtPath:self.currentFilePath]){
         [timer invalidate];
         timer = nil;
-        if ([[currentLink.queue objectAtIndex:currentQueueIndex] isMemberOfClass:[Video class]])
-            [self playMovie:currentFilePath];
-        else if ([[currentLink.queue objectAtIndex:currentQueueIndex] isMemberOfClass:[Image class]])
-            [self showImage:currentFilePath duration:currentMediaItem.duration];
-        else if ([[currentLink.queue objectAtIndex:currentQueueIndex] isMemberOfClass:[Message class]])
-            [self showMessage:currentFilePath duration:currentMediaItem.duration];
+        switch (self.currentMediaItem.type) {
+            case VideoType:
+                [self playMovie:self.currentFilePath];
+                break;
+            case ImageType:
+                [self showImage:self.currentFilePath duration:self.currentMediaItem.duration];
+                break;
+            case MessageType:
+                [self showMessage:self.currentFilePath duration:self.currentMediaItem.duration];
+                break;
+        }
     }
 }
 
@@ -210,15 +194,11 @@ CGPoint touchedFrom;
 
 - (void)moviePlayerPlaybackStateChanged:(NSNotification *)notification
 {
-    NSNumber *reason = [[notification userInfo] objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
-    
-    if([reason intValue] == MPMovieFinishReasonPlaybackEnded && moviePlayer.playbackState != MPMoviePlaybackStateStopped) {
+    if((MPMovieFinishReason)[[notification userInfo] objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] == MPMovieFinishReasonPlaybackEnded && moviePlayer.playbackState != MPMoviePlaybackStateStopped) {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
         [moviePlayer.view removeFromSuperview];
-        indicatorView.hidden = NO;
         moviePlayer = nil;
-        currentQueueIndex++;
-        [self showLinkQueue];
+        [self nextQueueItem];
     }
 }
 
@@ -242,9 +222,7 @@ CGPoint touchedFrom;
     [timer invalidate];
     timer = nil;
     [imageView removeFromSuperview];
-    indicatorView.hidden = NO;
-    currentQueueIndex++;
-    [self showLinkQueue];
+    [self nextQueueItem];
 }
 
 - (void)showMessage:(NSString *)path duration:(NSInteger)duration
@@ -262,48 +240,69 @@ CGPoint touchedFrom;
     [timer invalidate];
     timer = nil;
     [message removeFromSuperview];
+    [self nextQueueItem];
+}
+
+- (void)nextQueueItem
+{
     indicatorView.hidden = NO;
     currentQueueIndex++;
-    [self showLinkQueue];
+    
+    if (currentQueueIndex >= currentLink.queue.count) {
+        currentQueueIndex = 0;
+        
+        if (!ended) {
+            [history.linkQueue addObject:currentLink];
+            [historyTable reloadData];
+            if (currentLink.next.count == 0) {
+                ended = YES;
+                [locationManager stopUpdatingLocation];
+            } else {
+                [self checkLocation];
+            }
+        }
+        
+        showingQueue = NO;
+        indicatorView.hidden = YES;
+        background.hidden = NO;
+        return;
+    } else {
+        [self showLinkQueue];
+    }
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)currentLocation fromLocation:(CLLocation *)oldLocation
 {
     if (!showingQueue) {
-        if (started) {
-            [self checkLocation];
-        } else {
-            CLLocationDistance nearest = 0;
-            Route *nearestRoute = nil;
-            for (Route *route in story.routes) {
-                CLLocationDistance distance = [route.start.to.location distanceFromLocation:currentLocation];
-                if (nearestRoute == nil || distance < nearest) {
-                    nearestRoute = route;
-                    nearest = distance;
-                }
-            }
-            if ([nearestRoute.start.to.location distanceFromLocation:currentLocation] < [nearestRoute.start.to.radius floatValue]) {
-                indicatorView.hidden = NO;
-                currentQueueIndex = 0;
-                currentLink = nearestRoute.start;
-                started = YES;
-                [self showLinkQueue];
-            }
-        }
+        [self checkLocation];
     }
 }
 
 - (void)checkLocation
 {
-    for (Link *link in currentLink.next) {
+    CLLocationDistance nearest = 0;
+    Link *nearestLink = nil;
+    for (Link *link in started ? currentLink.next : startLinks) {
         CLLocationDistance distance = [link.to.location distanceFromLocation:locationManager.location];
         if (distance < [link.to.radius floatValue]) {
-            indicatorView.hidden = NO;
-            currentQueueIndex = 0;
-            currentLink = link;
-            [self showLinkQueue];
+            if (nearestLink == nil || distance < nearest) {
+                nearestLink = link;
+                nearest = distance;
+            }
         }
     }
+    if (nearestLink != nil) {
+        indicatorView.hidden = NO;
+        currentLink = nearestLink;
+        [self showLinkQueue];
+    }
+}
+
+- (void)animateHistoryView:(BOOL)show
+{
+    historyMenu.frame = CGRectMake(show ? 0 : -historyMenu.frame.size.width, 0, historyMenu.frame.size.width, historyMenu.frame.size.height);
+    historyMenuFrame = historyMenu.frame;
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -325,7 +324,7 @@ CGPoint touchedFrom;
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     
-    //[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
     cell.backgroundColor = [UIColor clearColor];
     cell.textLabel.textColor = [UIColor whiteColor];
@@ -339,7 +338,6 @@ CGPoint touchedFrom;
 {
     [self animateHistoryView:NO];
     currentLink = [history.linkQueue objectAtIndex:indexPath.row];
-    currentQueueIndex = 0;
     [self showLinkQueue];
 }
 
@@ -380,11 +378,9 @@ CGPoint touchedFrom;
     }
 }
 
-- (void)animateHistoryView:(BOOL)show
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-     historyMenu.frame = CGRectMake(show ? 0 : -historyMenu.frame.size.width, 0, historyMenu.frame.size.width, historyMenu.frame.size.height);
-     historyMenuFrame = historyMenu.frame;
-    
+    [self nextQueueItem];
 }
 
 @end

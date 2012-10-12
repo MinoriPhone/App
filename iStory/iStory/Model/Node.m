@@ -1,11 +1,3 @@
-//
-//  Node.m
-//  iStory
-//
-//  Created by Gido Manders on 05-09-2012.
-//  Copyright (c) 2012 HSS. All rights reserved.
-//
-
 #import "Node.h"
 
 @implementation Node
@@ -15,7 +7,7 @@
 - (id)init
 {
     self = [super init];
-    self.radius = [NSNumber numberWithInt:25];
+    self.radius = [NSNumber numberWithInt:5];
     return self;
 }
 

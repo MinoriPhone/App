@@ -1,14 +1,5 @@
-//
-//  StartViewController.m
-//  iStory
-//
-//  Created by Gido Manders on 06-09-2012.
-//  Copyright (c) 2012 HSS. All rights reserved.
-//
-
 #import "StartViewController.h"
 #import "StoryViewController.h"
-#import "Story.h"
 #import "XMLParser.h"
 #import "ZipFile.h"
 #import "ZipReadStream.h"
@@ -16,7 +7,7 @@
 
 @implementation StartViewController
 
-@synthesize stories, storyViewController;
+@synthesize stories, storyViewController, documentsDir;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -31,10 +22,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    [self.tableView setRowHeight:320];
-    [self.tableView setBackgroundColor:[UIColor blackColor]];
-    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    
+    documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
     stories = [[NSMutableArray alloc] init];
     
     [self readZippedFiles];
@@ -54,7 +42,6 @@
 
 - (void)readZippedFiles
 {
-    NSString *documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSArray *dirContents = [fileManager contentsOfDirectoryAtPath:documentsDir error:nil];
     NSPredicate *filter = [NSPredicate predicateWithFormat:@"self ENDSWITH '.iStory'"];
@@ -85,7 +72,6 @@
 
 - (void)getStoryImages
 {
-    NSString *documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
     for (Story *story in stories) {
@@ -137,8 +123,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-    
     static NSString *identifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     
@@ -151,32 +135,28 @@
     
     if (stories.count > 0) {
         if (indexPath.row*2 < stories.count) {
-            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(12, 10, 495, 300)];
-            if ([[stories objectAtIndex:indexPath.row*2] valueForKey:@"image"] != nil && ![[[stories objectAtIndex:indexPath.row*2] valueForKey:@"image"] isEqualToString:@""]) {
-                NSString *storyDir = [documentsDir stringByAppendingPathComponent:[[stories objectAtIndex:indexPath.row*2] name]];
-                [button setImage:[UIImage imageWithContentsOfFile:[storyDir stringByAppendingPathComponent:[[stories objectAtIndex:indexPath.row*2] valueForKey:@"image"]]] forState:UIControlStateNormal];
-            } else {
-                [button setImage:[UIImage imageNamed:@"defaultStoryImage.png"] forState:UIControlStateNormal];
-            }
-            [button setTag:indexPath.row*2];
-            [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
-            [cell addSubview:button];
+            [cell addSubview:[self createTile:indexPath.row*2]];
         }
         if (indexPath.row*2+1 < stories.count) {
-            UIButton *button2 = [[UIButton alloc] initWithFrame:CGRectMake(517, 10, 495, 300)];
-            if ([[stories objectAtIndex:indexPath.row*2+1] valueForKey:@"image"] != nil && ![[[stories objectAtIndex:indexPath.row*2+1] valueForKey:@"image"] isEqualToString:@""]) {
-                NSString *storyDir = [documentsDir stringByAppendingPathComponent:[[stories objectAtIndex:indexPath.row*2+1] name]];
-                [button2 setImage:[UIImage imageWithContentsOfFile:[storyDir stringByAppendingPathComponent:[[stories objectAtIndex:indexPath.row*2+1] valueForKey:@"image"]]] forState:UIControlStateNormal];
-            } else {
-                [button2 setImage:[UIImage imageNamed:@"defaultStoryImage.png"] forState:UIControlStateNormal];
-            }
-            [button2 setTag:indexPath.row*2+1];
-            [button2 addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
-            [cell addSubview:button2];
+            [cell addSubview:[self createTile:indexPath.row*2+1]];
         }
     }
     
     return cell;
+}
+
+- (UIButton *)createTile:(NSInteger)number
+{
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(number%2 == 0 ? 12 : 517, 10, 495, 300)];
+    if ([[stories objectAtIndex:number] valueForKey:@"image"] != nil && ![[[stories objectAtIndex:number] valueForKey:@"image"] isEqualToString:@""]) {
+        NSString *storyDir = [documentsDir stringByAppendingPathComponent:[[stories objectAtIndex:number] name]];
+        [button setImage:[UIImage imageWithContentsOfFile:[storyDir stringByAppendingPathComponent:[[stories objectAtIndex:number] valueForKey:@"image"]]] forState:UIControlStateNormal];
+    } else {
+        [button setImage:[UIImage imageNamed:@"defaultStoryImage.png"] forState:UIControlStateNormal];
+    }
+    [button setTag:number];
+    [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    return button;
 }
 
 - (IBAction)buttonPressed:(id)sender

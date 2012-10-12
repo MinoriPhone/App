@@ -1,6 +1,8 @@
-//
-// Prefix header for all source files of the 'iStory' target in the 'iStory' project
-//
+typedef enum {
+    VideoType,
+    ImageType,
+    MessageType
+} MediaItemType;
 
 #import <Availability.h>
 
@@ -11,6 +13,7 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
+    #import "Story.h"
 #endif
 
 #ifdef DEBUG

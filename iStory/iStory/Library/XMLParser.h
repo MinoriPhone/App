@@ -1,18 +1,4 @@
-//
-//  XMLParser.h
-//  iStory
-//
-//  Created by Gido Manders on 07-09-2012.
-//  Copyright (c) 2012 HSS. All rights reserved.
-//
-
-#import <Foundation/Foundation.h>
-
-@class Story;
-@class Route;
-@class Link;
-@class Node;
-@class MediaItem;
+@class Story, Route, Link, Node, MediaItem;
 
 @interface XMLParser : NSObject <NSXMLParserDelegate> {
     NSMutableString *currentElementValue;

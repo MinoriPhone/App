@@ -1,13 +1,5 @@
-//
-//  XMLParser.m
-//  iStory
-//
-//  Created by Gido Manders on 07-09-2012.
-//  Copyright (c) 2012 HSS. All rights reserved.
-//
-
 #import "XMLParser.h"
-#import "Story.h"
+#import <CoreLocation/CoreLocation.h>
 #import "Route.h"
 #import "Link.h"
 #import "Node.h"
@@ -19,7 +11,8 @@
 @implementation XMLParser
 @synthesize story, currentRoute, currentLinks, currentNode, currentQueue, currentMediaItem, numberFormatter;
 
-- (XMLParser *) initXMLParser {
+- (XMLParser *)initXMLParser
+{
     self = [super init];
     return self;
 }
@@ -45,11 +38,11 @@
     } else if([elementName isEqualToString:@"queue"]) {
         currentQueue = [[NSMutableArray alloc] init];
     } else if([elementName isEqualToString:@"video"]) {
-        currentMediaItem = [[Video alloc] init];
+        currentMediaItem = [[Video alloc] initWithType:VideoType];
     } else if([elementName isEqualToString:@"image"]) {
-        currentMediaItem = [[Image alloc] init];
+        currentMediaItem = [[Image alloc] initWithType:ImageType];
     } else if([elementName isEqualToString:@"message"]) {
-        currentMediaItem = [[Message alloc] init];
+        currentMediaItem = [[Message alloc] initWithType:MessageType];
     }
 }
 
@@ -83,6 +76,8 @@
         currentNode.longitude = [numberFormatter numberFromString:currentElementValue];
     } else if([elementName isEqualToString:@"latitude"]) {
         currentNode.latitude = [numberFormatter numberFromString:currentElementValue];
+    } else if([elementName isEqualToString:@"radius"]) {
+        currentNode.radius = [numberFormatter numberFromString:currentElementValue];
     } else if ([elementName isEqualToString:@"link"]) {
         [[[currentLinks objectAtIndex:currentLinks.count-2] valueForKey:@"next"] addObject:[currentLinks objectAtIndex:currentLinks.count-1]];
         [currentLinks removeLastObject];
