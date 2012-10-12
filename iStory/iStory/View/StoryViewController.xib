@@ -41,7 +41,7 @@
 					<object class="IBUIImageView" id="96412535">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">274</int>
-						<string key="NSFrame">{{0, -10}, {1024, 768}}</string>
+						<string key="NSFrameSize">{1024, 768}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="666141016"/>
@@ -74,10 +74,9 @@
 							<object class="IBUILabel" id="969817871">
 								<reference key="NSNextResponder" ref="666141016"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{20, 83}, {75, 21}}</string>
+								<string key="NSFrame">{{0, 83}, {115, 21}}</string>
 								<reference key="NSSuperview" ref="666141016"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -94,6 +93,7 @@
 								</object>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">0</int>
+								<int key="IBUITextAlignment">1</int>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
 									<int key="type">1</int>
 									<double key="pointSize">17</double>
