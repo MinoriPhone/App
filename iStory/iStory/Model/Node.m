@@ -7,7 +7,7 @@
 - (id)init
 {
     self = [super init];
-    self.radius = [NSNumber numberWithInt:5];
+    self.radius = [NSNumber numberWithInt:10];
     return self;
 }
 
