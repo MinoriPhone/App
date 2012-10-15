@@ -16,4 +16,9 @@
     return YES;
 }
 
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    [self.navigationController popToRootViewControllerAnimated:NO];
+}
+
 @end
