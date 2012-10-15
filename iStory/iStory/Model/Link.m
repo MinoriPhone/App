@@ -2,6 +2,6 @@
 
 @implementation Link
 
-@synthesize identifier, name, from, to, next, queue;
+@synthesize identifier, shortcut, name, from, to, next, queue;
 
 @end

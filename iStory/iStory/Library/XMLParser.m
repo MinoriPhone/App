@@ -85,6 +85,8 @@
         [[currentLinks objectAtIndex:currentLinks.count-1] setValue:currentElementValue forKey:@"name"];
     } else if ([elementName isEqualToString:@"link.id"]) {
         [[currentLinks objectAtIndex:currentLinks.count-1] setValue:[numberFormatter numberFromString:currentElementValue] forKey:@"identifier"];
+    } else if ([elementName isEqualToString:@"shortcut"]) {
+        [[currentLinks objectAtIndex:currentLinks.count-1] setValue:[numberFormatter numberFromString:currentElementValue] forKey:@"shortcut"];
     } else if ([elementName isEqualToString:@"from"] || [elementName isEqualToString:@"to"]) {
         currentNode.location = [[CLLocation alloc] initWithLatitude:[currentNode.latitude doubleValue] longitude:[currentNode.longitude doubleValue]];
         [[currentLinks objectAtIndex:currentLinks.count-1] setValue:currentNode forKey:elementName];

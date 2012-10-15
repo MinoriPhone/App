@@ -133,7 +133,10 @@ CGPoint touchedFrom;
 
 - (NSString *)currentFilePath
 {
-    return [[story.dir stringByAppendingPathComponent:[currentLink.identifier stringValue]] stringByAppendingPathComponent:self.currentMediaItem.filename];
+    if (currentLink.shortcut == nil || [[currentLink.shortcut stringValue] isEqualToString:@""])
+        return [[story.dir stringByAppendingPathComponent:[currentLink.identifier stringValue]] stringByAppendingPathComponent:self.currentMediaItem.filename];
+    else
+        return [[story.dir stringByAppendingPathComponent:[currentLink.shortcut stringValue]] stringByAppendingPathComponent:self.currentMediaItem.filename];
 }
 
 - (void)showLinkQueue
@@ -206,11 +209,15 @@ CGPoint touchedFrom;
 {
     imageView = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:path]];
     if (imageView.frame.size.width > self.view.frame.size.width || imageView.frame.size.height > self.view.frame.size.height) {
-        if (((self.view.frame.size.width/imageView.frame.size.width)*imageView.frame.size.height) < self.view.frame.size.height) {
-            imageView.frame = CGRectMake(0, 0, self.view.frame.size.width, ((self.view.frame.size.width/imageView.frame.size.width)*imageView.frame.size.height));
+        if (((self.view.frame.size.width/imageView.frame.size.width)*imageView.frame.size.height) <= self.view.frame.size.height) {
+            NSInteger height = (self.view.frame.size.width/imageView.frame.size.width)*imageView.frame.size.height;
+            imageView.frame = CGRectMake(0, ((self.view.frame.size.height-height)/2), self.view.frame.size.width, height);
         } else {
-            imageView.frame = CGRectMake(0, 0, ((self.view.frame.size.height/imageView.frame.size.height)*imageView.frame.size.width), self.view.frame.size.height);
+            NSInteger width = (self.view.frame.size.height/imageView.frame.size.height)*imageView.frame.size.width;
+            imageView.frame = CGRectMake(((self.view.frame.size.width-width)/2), 0, width, self.view.frame.size.height);
         }
+    } else {
+        imageView.frame = CGRectMake(((self.view.frame.size.width-imageView.frame.size.width)/2), ((self.view.frame.size.height-imageView.frame.size.height)/2), imageView.frame.size.width, imageView.frame.size.height);
     }
     indicatorView.hidden = YES;
     [self.view addSubview:imageView];
