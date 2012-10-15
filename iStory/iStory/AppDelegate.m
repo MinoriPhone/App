@@ -6,6 +6,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    application.idleTimerDisabled = YES;
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.startViewController = [[StartViewController alloc] initWithNibName:@"StartViewController" bundle:nil];
@@ -14,11 +15,6 @@
     self.window.rootViewController = self.navigationController;
     [self.window makeKeyAndVisible];
     return YES;
-}
-
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    [self.navigationController popToRootViewControllerAnimated:NO];
 }
 
 @end
