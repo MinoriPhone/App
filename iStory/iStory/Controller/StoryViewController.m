@@ -5,7 +5,7 @@
 #import "MediaItem.h"
 #import "Image.h"
 #import "Video.h"
-#import "Message.h"
+#import "Text.h"
 #import "History.h"
 #import "ZipFile.h"
 #import "ZipReadStream.h"
@@ -177,7 +177,7 @@ CGPoint touchedFrom;
             case ImageType:
                 [self showImage:self.currentFilePath duration:self.currentMediaItem.duration];
                 break;
-            case MessageType:
+            case TextType:
                 [self showMessage:self.currentFilePath duration:self.currentMediaItem.duration];
                 break;
         }

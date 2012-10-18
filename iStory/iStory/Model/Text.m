@@ -1,5 +1,5 @@
-#import "Message.h"
+#import "Text.h"
 
-@implementation Message
+@implementation Text
 
 @end

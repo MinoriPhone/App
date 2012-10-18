@@ -1,5 +1,5 @@
 #import "MediaItem.h"
 
-@interface Message : MediaItem
+@interface Text : MediaItem
 
 @end

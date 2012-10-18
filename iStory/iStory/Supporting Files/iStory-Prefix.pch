@@ -1,7 +1,7 @@
 typedef enum {
     VideoType,
     ImageType,
-    MessageType
+    TextType
 } MediaItemType;
 
 #import <Availability.h>

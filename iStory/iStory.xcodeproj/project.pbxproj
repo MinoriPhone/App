@@ -27,7 +27,7 @@
 		F984E3A01601E779007CE9F4 /* MediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F984E39F1601E779007CE9F4 /* MediaItem.m */; };
 		F984E3A31601E806007CE9F4 /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = F984E3A21601E806007CE9F4 /* Image.m */; };
 		F984E3A61601E829007CE9F4 /* Video.m in Sources */ = {isa = PBXBuildFile; fileRef = F984E3A51601E829007CE9F4 /* Video.m */; };
-		F984E3A91601E891007CE9F4 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = F984E3A81601E891007CE9F4 /* Message.m */; };
+		F984E3A91601E891007CE9F4 /* Text.m in Sources */ = {isa = PBXBuildFile; fileRef = F984E3A81601E891007CE9F4 /* Text.m */; };
 		F98FE00815F9EB880057B4F1 /* Link.m in Sources */ = {isa = PBXBuildFile; fileRef = F98FE00115F9EB880057B4F1 /* Link.m */; };
 		F98FE00915F9EB880057B4F1 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = F98FE00315F9EB880057B4F1 /* Node.m */; };
 		F98FE00A15F9EB880057B4F1 /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = F98FE00515F9EB880057B4F1 /* Route.m */; };
@@ -106,8 +106,8 @@
 		F984E3A21601E806007CE9F4 /* Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Image.m; sourceTree = "<group>"; };
 		F984E3A41601E829007CE9F4 /* Video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Video.h; sourceTree = "<group>"; };
 		F984E3A51601E829007CE9F4 /* Video.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Video.m; sourceTree = "<group>"; };
-		F984E3A71601E891007CE9F4 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
-		F984E3A81601E891007CE9F4 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
+		F984E3A71601E891007CE9F4 /* Text.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Text.h; sourceTree = "<group>"; };
+		F984E3A81601E891007CE9F4 /* Text.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Text.m; sourceTree = "<group>"; };
 		F98FE00015F9EB880057B4F1 /* Link.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Link.h; sourceTree = "<group>"; };
 		F98FE00115F9EB880057B4F1 /* Link.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Link.m; sourceTree = "<group>"; };
 		F98FE00215F9EB880057B4F1 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
@@ -297,8 +297,8 @@
 				F984E3A21601E806007CE9F4 /* Image.m */,
 				F984E3A41601E829007CE9F4 /* Video.h */,
 				F984E3A51601E829007CE9F4 /* Video.m */,
-				F984E3A71601E891007CE9F4 /* Message.h */,
-				F984E3A81601E891007CE9F4 /* Message.m */,
+				F984E3A71601E891007CE9F4 /* Text.h */,
+				F984E3A81601E891007CE9F4 /* Text.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -528,7 +528,7 @@
 				F984E3A01601E779007CE9F4 /* MediaItem.m in Sources */,
 				F984E3A31601E806007CE9F4 /* Image.m in Sources */,
 				F984E3A61601E829007CE9F4 /* Video.m in Sources */,
-				F984E3A91601E891007CE9F4 /* Message.m in Sources */,
+				F984E3A91601E891007CE9F4 /* Text.m in Sources */,
 				F9FF0775160C9DBC00E01A7C /* ioapi.c in Sources */,
 				F9FF0776160C9DBC00E01A7C /* mztools.c in Sources */,
 				F9FF0777160C9DBC00E01A7C /* unzip.c in Sources */,

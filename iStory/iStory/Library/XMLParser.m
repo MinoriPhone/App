@@ -6,7 +6,7 @@
 #import "MediaItem.h"
 #import "Video.h"
 #import "Image.h"
-#import "Message.h"
+#import "Text.h"
 
 @implementation XMLParser
 @synthesize story, currentRoute, currentLinks, currentNode, currentQueue, currentMediaItem, numberFormatter;
@@ -41,8 +41,8 @@
         currentMediaItem = [[Video alloc] initWithType:VideoType];
     } else if([elementName isEqualToString:@"image"]) {
         currentMediaItem = [[Image alloc] initWithType:ImageType];
-    } else if([elementName isEqualToString:@"message"]) {
-        currentMediaItem = [[Message alloc] initWithType:MessageType];
+    } else if([elementName isEqualToString:@"text"]) {
+        currentMediaItem = [[Text alloc] initWithType:TextType];
     }
 }
 
@@ -94,7 +94,7 @@
     } else if([elementName isEqualToString:@"queue"]) {
         [[currentLinks objectAtIndex:currentLinks.count-1] setValue:currentQueue forKey:@"queue"];
         currentQueue = nil;
-    } else if([elementName isEqualToString:@"video"] || [elementName isEqualToString:@"image"] || [elementName isEqualToString:@"message"]) {
+    } else if([elementName isEqualToString:@"video"] || [elementName isEqualToString:@"image"] || [elementName isEqualToString:@"text"]) {
         [currentQueue addObject:currentMediaItem];
         currentMediaItem = nil;
     } else if([elementName isEqualToString:@"filename"]) {
