@@ -46,6 +46,12 @@ CGPoint touchedFrom;
     locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     locationManager.distanceFilter = 10;
     locationManager.delegate = self;
+    
+    if(![CLLocationManager locationServicesEnabled] || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"GPS cannot be used" message:@"Check your preferences of location services is enabled for iStory" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        alert.tag = 999;
+        [alert show];
+    }
 }
 
 - (void)viewDidUnload
@@ -387,7 +393,15 @@ CGPoint touchedFrom;
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    [self nextQueueItem];
+    if (alertView.tag == 999) {
+        if ([[UIApplication sharedApplication] respondsToSelector:@selector(terminate)]) {
+            [[UIApplication sharedApplication] performSelector:@selector(terminate)];
+        } else {
+            kill(getpid(), SIGINT);
+        }
+    } else {
+        [self nextQueueItem];
+    }
 }
 
 @end
