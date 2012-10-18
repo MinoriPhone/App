@@ -47,7 +47,7 @@ CGPoint touchedFrom;
     locationManager.distanceFilter = 10;
     locationManager.delegate = self;
     
-    if(![CLLocationManager locationServicesEnabled] || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
+    if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"GPS cannot be used" message:@"Check your preferences of location services is enabled for iStory" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         alert.tag = 999;
         [alert show];
