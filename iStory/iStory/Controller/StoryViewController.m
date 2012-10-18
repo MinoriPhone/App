@@ -301,8 +301,8 @@ CGPoint touchedFrom;
     for (Link *link in started ? currentLink.next : startLinks) {
         CLLocationDistance distance = [link.to.location distanceFromLocation:locationManager.location];
         float radius = [link.to.radius floatValue];
-        if (locationManager.location.horizontalAccuracy > 20 && radius < 25)
-            radius = (radius*2) > 25 ? 25 : (radius*2);
+        if (locationManager.location.horizontalAccuracy > 20 && radius < 20)
+            radius = (radius*1.5) > 20 ? 20 : (radius*1.5);
         if (distance < radius) {
             if (nearestLink == nil || distance < nearest) {
                 nearestLink = link;
