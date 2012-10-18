@@ -203,7 +203,10 @@ CGPoint touchedFrom;
 
 - (void)moviePlayerPlaybackStateChanged:(NSNotification *)notification
 {
-    if((MPMovieFinishReason)[[notification userInfo] objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] == MPMovieFinishReasonPlaybackEnded && moviePlayer.playbackState != MPMoviePlaybackStateStopped) {
+    if((MPMovieFinishReason)[[notification userInfo] objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] == MPMovieFinishReasonPlaybackError) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"An error occured while playing video" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
+    } else if (moviePlayer.playbackState != MPMoviePlaybackStateStopped) {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
         [moviePlayer.view removeFromSuperview];
         moviePlayer = nil;
@@ -297,7 +300,10 @@ CGPoint touchedFrom;
     Link *nearestLink = nil;
     for (Link *link in started ? currentLink.next : startLinks) {
         CLLocationDistance distance = [link.to.location distanceFromLocation:locationManager.location];
-        if (distance < [link.to.radius floatValue]) {
+        float radius = [link.to.radius floatValue];
+        if (locationManager.location.horizontalAccuracy > 20 && radius < 25)
+            radius = (radius*2) > 25 ? 25 : (radius*2);
+        if (distance < radius) {
             if (nearestLink == nil || distance < nearest) {
                 nearestLink = link;
                 nearest = distance;
