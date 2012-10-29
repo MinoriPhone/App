@@ -135,28 +135,49 @@
     
     if (stories.count > 0) {
         if (indexPath.row*2 < stories.count) {
-            [cell addSubview:[self createTile:indexPath.row*2]];
+            [self createTile:indexPath.row*2 forCell:cell];
         }
         if (indexPath.row*2+1 < stories.count) {
-            [cell addSubview:[self createTile:indexPath.row*2+1]];
+            [self createTile:indexPath.row*2+1 forCell:cell];
         }
     }
     
     return cell;
 }
 
-- (UIButton *)createTile:(NSInteger)number
+- (void)createTile:(NSInteger)number forCell:(UITableViewCell *)cell
 {
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(number%2 == 0 ? 12 : 517, 10, 495, 300)];
+    NSInteger width = 495;
+    NSInteger height = 300;
+    NSInteger x = number%2 == 0 ? 12 : 517;
+    NSInteger y = 10;
+    
+    UIImage *image;
     if ([[stories objectAtIndex:number] valueForKey:@"image"] != nil && ![[[stories objectAtIndex:number] valueForKey:@"image"] isEqualToString:@""]) {
         NSString *storyDir = [documentsDir stringByAppendingPathComponent:[[stories objectAtIndex:number] name]];
-        [button setImage:[UIImage imageWithContentsOfFile:[storyDir stringByAppendingPathComponent:[[stories objectAtIndex:number] valueForKey:@"image"]]] forState:UIControlStateNormal];
+        image = [UIImage imageWithContentsOfFile:[storyDir stringByAppendingPathComponent:[[stories objectAtIndex:number] valueForKey:@"image"]]];
     } else {
-        [button setImage:[UIImage imageNamed:@"defaultStoryImage.png"] forState:UIControlStateNormal];
+        image = [UIImage imageNamed:@"defaultStoryImage.png"];
     }
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+    if (imageView.frame.size.width > width || imageView.frame.size.height > height) {
+        if (((width/imageView.frame.size.width)*imageView.frame.size.height) <= height) {
+            NSInteger imageHeight = (width/imageView.frame.size.width)*imageView.frame.size.height;
+            imageView.frame = CGRectMake(x, (y+((height-imageHeight)/2)), width, imageHeight);
+        } else {
+            NSInteger imageWidth = (height/imageView.frame.size.height)*imageView.frame.size.width;
+            imageView.frame = CGRectMake((x+((width-imageWidth)/2)), y, imageWidth, height);
+        }
+    } else {
+        imageView.frame = CGRectMake((x+((width-imageView.frame.size.width)/2)), (y+((self.view.frame.size.height-imageView.frame.size.height)/2)), imageView.frame.size.width, imageView.frame.size.height);
+    }
+    [cell addSubview:imageView];
+    
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(x, y, width, height)];
     [button setTag:number];
     [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    return button;
+    [cell addSubview:button];
 }
 
 - (IBAction)buttonPressed:(id)sender

@@ -268,8 +268,10 @@ CGPoint touchedFrom;
         currentQueueIndex = 0;
         
         if (!ended) {
-            [history.linkQueue addObject:currentLink];
-            [historyTable reloadData];
+            if (![history.linkQueue containsObject:currentLink]) {
+                [history.linkQueue addObject:currentLink];
+                [historyTable reloadData];
+            }
             if (currentLink.next.count == 0) {
                 ended = YES;
                 [locationManager stopUpdatingLocation];
