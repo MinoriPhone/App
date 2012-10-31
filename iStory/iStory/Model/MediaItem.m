@@ -2,7 +2,7 @@
 
 @implementation MediaItem
 
-@synthesize filename, duration, data, type;
+@synthesize shortcut, filename, duration, data, type;
 
 - (id)initWithType:(MediaItemType)theType
 {

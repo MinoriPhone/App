@@ -9,7 +9,7 @@
 #import "Text.h"
 
 @implementation XMLParser
-@synthesize story, currentRoute, currentLinks, currentNode, currentQueue, currentMediaItem, numberFormatter;
+@synthesize story, currentRoute, currentLinks, allLinks, currentNode, currentQueue, currentMediaItem, numberFormatter;
 
 - (XMLParser *)initXMLParser
 {
@@ -79,13 +79,23 @@
     } else if([elementName isEqualToString:@"radius"]) {
         currentNode.radius = [numberFormatter numberFromString:currentElementValue];
     } else if ([elementName isEqualToString:@"link"]) {
-        [[[currentLinks objectAtIndex:currentLinks.count-2] valueForKey:@"next"] addObject:[currentLinks objectAtIndex:currentLinks.count-1]];
+        Link *lastLink = [currentLinks objectAtIndex:currentLinks.count-1];
+        if (lastLink.shortcut == nil) {
+            [[[currentLinks objectAtIndex:currentLinks.count-2] valueForKey:@"next"] addObject:lastLink];
+            [allLinks addObject:lastLink];
+        } else {
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"id == %@", lastLink.shortcut];
+            NSArray *filteredArray = [allLinks filteredArrayUsingPredicate:predicate];
+            if ([filteredArray count] > 0) {
+                [[[currentLinks objectAtIndex:currentLinks.count-2] valueForKey:@"next"] addObject:[filteredArray objectAtIndex:0]];
+            }
+        }
         [currentLinks removeLastObject];
     } else if ([elementName isEqualToString:@"link.name"]) {
         [[currentLinks objectAtIndex:currentLinks.count-1] setValue:currentElementValue forKey:@"name"];
     } else if ([elementName isEqualToString:@"link.id"]) {
         [[currentLinks objectAtIndex:currentLinks.count-1] setValue:[numberFormatter numberFromString:currentElementValue] forKey:@"identifier"];
-    } else if ([elementName isEqualToString:@"shortcut"]) {
+    } else if ([elementName isEqualToString:@"link.shortcut"]) {
         [[currentLinks objectAtIndex:currentLinks.count-1] setValue:[numberFormatter numberFromString:currentElementValue] forKey:@"shortcut"];
     } else if ([elementName isEqualToString:@"from"] || [elementName isEqualToString:@"to"]) {
         currentNode.location = [[CLLocation alloc] initWithLatitude:[currentNode.latitude doubleValue] longitude:[currentNode.longitude doubleValue]];
@@ -97,6 +107,8 @@
     } else if([elementName isEqualToString:@"video"] || [elementName isEqualToString:@"image"] || [elementName isEqualToString:@"text"]) {
         [currentQueue addObject:currentMediaItem];
         currentMediaItem = nil;
+    } else if ([elementName isEqualToString:@"shortcut"]) {
+        currentMediaItem.shortcut = [numberFormatter numberFromString:currentElementValue];
     } else if([elementName isEqualToString:@"filename"]) {
         currentMediaItem.filename = currentElementValue;
     } else if([elementName isEqualToString:@"duration"]) {

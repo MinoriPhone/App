@@ -139,10 +139,10 @@ CGPoint touchedFrom;
 
 - (NSString *)currentFilePath
 {
-    if (currentLink.shortcut == nil || [[currentLink.shortcut stringValue] isEqualToString:@""])
+    if (self.currentMediaItem.shortcut == nil || [[self.currentMediaItem.shortcut stringValue] isEqualToString:@""])
         return [[story.dir stringByAppendingPathComponent:[currentLink.identifier stringValue]] stringByAppendingPathComponent:self.currentMediaItem.filename];
     else
-        return [[story.dir stringByAppendingPathComponent:[currentLink.shortcut stringValue]] stringByAppendingPathComponent:self.currentMediaItem.filename];
+        return [[story.dir stringByAppendingPathComponent:[self.currentMediaItem.shortcut stringValue]] stringByAppendingPathComponent:self.currentMediaItem.filename];
 }
 
 - (void)showLinkQueue

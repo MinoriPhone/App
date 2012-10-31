@@ -5,6 +5,7 @@
     Story *story;
     Route *currentRoute;
     NSMutableArray *currentLinks;
+    NSMutableArray *allLinks;
     Node *currentNode;
     NSMutableArray *currentQueue;
     MediaItem *currentMediaItem;
@@ -14,6 +15,7 @@
 @property (nonatomic, retain) Story *story;
 @property (nonatomic, retain) Route *currentRoute;
 @property (nonatomic, retain) NSMutableArray *currentLinks;
+@property (nonatomic, retain) NSMutableArray *allLinks;
 @property (nonatomic, retain) Node *currentNode;
 @property (nonatomic, retain) NSMutableArray *currentQueue;
 @property (nonatomic, retain) MediaItem *currentMediaItem;
