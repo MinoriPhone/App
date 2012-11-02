@@ -225,8 +225,10 @@
             NSInteger imageWidth = (height/imageView.frame.size.height)*imageView.frame.size.width;
             imageView.frame = CGRectMake((x+((width-imageWidth)/2)), y, imageWidth, height);
         }
-    } else {
+    } else if (imageView.frame.size.width < width || imageView.frame.size.height < height) {
         imageView.frame = CGRectMake((x+((width-imageView.frame.size.width)/2)), (y+((self.view.frame.size.height-imageView.frame.size.height)/2)), imageView.frame.size.width, imageView.frame.size.height);
+    } else {
+        imageView.frame = CGRectMake(x, y, width, height);
     }
     
     // Add the view with the image corresponding to the story to the given table cell
