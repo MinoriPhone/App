@@ -14,18 +14,15 @@
 @property (nonatomic, retain) UIImageView *imageView;
 @property (nonatomic, retain) UIWebView *message;
 @property (nonatomic, retain) CLLocationManager *locationManager;
+@property (nonatomic, retain) NSTimer *locationUpdateTimer;
 @property (nonatomic, retain) Story *story;
 @property (nonatomic, retain) NSMutableArray *startLinks;
 @property (nonatomic, retain) Link *currentLink;
-@property NSInteger currentQueueIndex;
 @property (nonatomic, retain) History *history;
 @property (nonatomic, retain) NSTimer *timer;
 @property (nonatomic, retain) NSDate *timerStarted;
-@property BOOL started;
-@property BOOL ended;
-@property BOOL showingQueue;
 
-- (id)initWithStory:(Story *)newStory;
+- (id)initWithStory:(Story *)newStory folder:(NSString *)folder;
 - (void)unzipStory;
 - (MediaItem *)currentMediaItem;
 - (NSString *)currentFilePath;

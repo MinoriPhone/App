@@ -13,24 +13,26 @@
 
 @implementation StoryViewController
 
-@synthesize background, indicatorView, historyMenu, historyTable, documentsDir, moviePlayer, imageView, message, locationManager, story, startLinks, currentLink, currentQueueIndex, history, timer, timerStarted, started, ended, showingQueue;
+@synthesize background, indicatorView, historyMenu, historyTable, documentsDir, moviePlayer, imageView, message, locationManager, story, startLinks, currentLink, history, timer, timerStarted;
 
 CGRect historyMenuFrame;
 CGPoint touchedFrom;
+NSInteger currentQueueIndex;
+BOOL started;
+BOOL ended;
+BOOL showingQueue;
 
-- (id)initWithStory:(Story *)newStory
+- (id)initWithStory:(Story *)newStory folder:(NSString *)folder
 {
     self = [super init];
     self.story = newStory;
+    self.documentsDir = folder;
     return self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-    // Define the documents folder of this app
-    documentsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
     
     // Define variables needed to detect the start and end of the story
     started = NO;
@@ -397,11 +399,9 @@ CGPoint touchedFrom;
             // Check if the end of the story is reached
             if (currentLink.next.count == 0) {
                 ended = YES;
-                
-                // Stop obtaining the GPS location
                 [locationManager stopUpdatingLocation];
             } else {
-                // Check if the platform is within the radius of any of the next locations
+                // Check the GPS location again
                 [self checkLocation];
             }
         }
@@ -422,7 +422,7 @@ CGPoint touchedFrom;
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)currentLocation fromLocation:(CLLocation *)oldLocation
 {
     // Check if it is possible to show a queue
-    if (!showingQueue) {
+    if (!showingQueue && [currentLocation.timestamp timeIntervalSinceNow] > -15) {
         // Check if the platform is within the radius of any of the next locations
         [self checkLocation];
     }
@@ -435,7 +435,7 @@ CGPoint touchedFrom;
  */
 - (void)checkLocation
 {
-    CLLocationDistance nearest = 0;
+    CLLocationDistance nearest = 999999999999999;
     Link *nearestLink = nil;
     
     // Loop through all the next locations
@@ -455,6 +455,8 @@ CGPoint touchedFrom;
                 nearest = distance;
             }
         }
+        if (distance < nearest)
+            nearest = distance;
     }
     
     // If the platform is within the radius of any location, start the queue of the nearest location

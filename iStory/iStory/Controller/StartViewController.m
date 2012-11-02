@@ -250,7 +250,7 @@
  */
 - (IBAction)buttonPressed:(id)sender
 {
-    storyViewController = [[StoryViewController alloc] initWithStory:[stories objectAtIndex:((UIButton *)sender).tag]];
+    storyViewController = [[StoryViewController alloc] initWithStory:[stories objectAtIndex:((UIButton *)sender).tag] folder:documentsDir];
     [self.navigationController pushViewController:storyViewController animated:YES];
 }
 
