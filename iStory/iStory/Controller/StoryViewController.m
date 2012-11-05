@@ -419,6 +419,7 @@ BOOL debugMode = NO;
         // Set the variables to (again) make it possible to start another queue
         showingQueue = NO;
         indicatorView.hidden = YES;
+        background.image = [UIImage imageNamed:@"history_background.png"];
         background.hidden = NO;
     } else {
         // Show next queue item
