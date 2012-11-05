@@ -9,6 +9,7 @@
 @property (nonatomic, retain) IBOutlet UIView *indicatorView;
 @property (nonatomic, retain) IBOutlet UIView *historyMenu;
 @property (nonatomic, retain) IBOutlet UITableView *historyTable;
+@property (nonatomic, retain) IBOutlet UILabel *debug;
 @property (nonatomic, retain) NSString *documentsDir;
 @property (nonatomic, retain) MPMoviePlayerController *moviePlayer;
 @property (nonatomic, retain) UIImageView *imageView;

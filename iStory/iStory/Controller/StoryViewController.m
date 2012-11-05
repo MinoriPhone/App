@@ -13,14 +13,17 @@
 
 @implementation StoryViewController
 
-@synthesize background, indicatorView, historyMenu, historyTable, documentsDir, moviePlayer, imageView, message, locationManager, story, startLinks, currentLink, history, timer, timerStarted;
+@synthesize background, indicatorView, historyMenu, historyTable, documentsDir, moviePlayer, imageView, message, locationManager, story, startLinks, currentLink, history, timer, timerStarted, debug;
 
 CGRect historyMenuFrame;
 CGPoint touchedFrom;
 NSInteger currentQueueIndex;
+CLLocation *currentLocation;
+NSInteger locationCheck;
 BOOL started;
 BOOL ended;
 BOOL showingQueue;
+BOOL debugMode = NO;
 
 - (id)initWithStory:(Story *)newStory folder:(NSString *)folder
 {
@@ -33,6 +36,13 @@ BOOL showingQueue;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // If the app is not running in debug mode, hide the debug label, else, set variable needed for debugging
+    if (!debugMode) {
+        debug.hidden = YES;
+    } else {
+        locationCheck = 0;
+    }
     
     // Define variables needed to detect the start and end of the story
     started = NO;
@@ -60,7 +70,7 @@ BOOL showingQueue;
     locationManager.delegate = self;
     
     // Check whether it is possible to obtain the GPS location. If not possible, show an alert
-    if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
+    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"GPS cannot be used" message:@"Check your preferences of location services is enabled for iStory" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         alert.tag = 999;
         [alert show];
@@ -419,10 +429,14 @@ BOOL showingQueue;
 /*
  * This method is called when the GPS location is different from the previous location (which means that the user moved the platform)
  */
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)currentLocation fromLocation:(CLLocation *)oldLocation
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
+    if([newLocation.timestamp timeIntervalSinceNow] > -15) {
+        currentLocation = newLocation;
+    }
+    
     // Check if it is possible to show a queue
-    if (!showingQueue && [currentLocation.timestamp timeIntervalSinceNow] > -15) {
+    if (!showingQueue){
         // Check if the platform is within the radius of any of the next locations
         [self checkLocation];
     }
@@ -435,28 +449,34 @@ BOOL showingQueue;
  */
 - (void)checkLocation
 {
-    CLLocationDistance nearest = 999999999999999;
+    CLLocationDistance nearest = CLLocationDistanceMax;
     Link *nearestLink = nil;
     
     // Loop through all the next locations
     for (Link *link in started ? currentLink.next : startLinks) {
         // Calculate the distance between the platform and the location
-        CLLocationDistance distance = [link.to.location distanceFromLocation:locationManager.location];
+        CLLocationDistance distance = [link.to.location distanceFromLocation:currentLocation];
         float radius = [link.to.radius floatValue];
         
         // Check if the GPS signal is very bad. If true, increase the radius of the location
-        if (locationManager.location.horizontalAccuracy > 20 && radius < 20)
+        if (currentLocation.horizontalAccuracy > 20 && radius < 20)
             radius = (radius*1.5) > 20 ? 20 : (radius*1.5);
         
         // Check if the platform is within the radius of the location
-        if (distance < radius) {
+        if (distance < radius && distance > 0) {
             if (nearestLink == nil || distance < nearest) {
                 nearestLink = link;
                 nearest = distance;
             }
         }
-        if (distance < nearest)
+        if (distance < nearest && distance > 0)
             nearest = distance;
+    }
+    
+    // If the app is running in debug mode, update the debug label
+    if (debugMode) {
+        locationCheck++;
+        debug.text = [NSString stringWithFormat:@"%d: %f", locationCheck, nearest];
     }
     
     // If the platform is within the radius of any location, start the queue of the nearest location
